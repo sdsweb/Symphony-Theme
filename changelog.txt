@@ -1,0 +1,30 @@
+==========================================
+Theme: Symphony
+Author: Slocum Themes/Slocum Design Studio
+Author URI: https://slocumthemes.com/
+Current Version: 1.0.2
+==========================================
+
+
+1.0.2 // February 16 2015
+-------------------------
+- Added full version of FontAwesome CSS
+- Added TGM Activation attribution
+- Remove theme activation notice
+- Fixed text domain in SDS Core
+- Added translation-ready tag
+- Added text domain to style.css header
+- Updated SDS Core
+
+1.0.1 // February 16 2015
+-------------------------
+- Fixed fatal error in Customizer
+- Fixed fatal error on single post template
+- Fixed missing settings in Customizer
+- Added theme support slug for font sizes/families in Customizer
+- Adjusted Customizer CSS
+- Added missing theme option defaults
+
+1.0.0 // February 12 2015
+-------------------------
+- Initial Release
