@@ -6,7 +6,7 @@ class Symphony {
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.2';
+	public $version = '1.0.3';
 
 	/**
 	 * @var string, Slug for Slocum Theme support
