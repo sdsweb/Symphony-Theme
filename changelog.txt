@@ -2,8 +2,15 @@
 Theme: Symphony
 Author: Slocum Themes/Slocum Design Studio
 Author URI: https://slocumthemes.com/
-Current Version: 1.0.3
+Current Version: 1.0.4
 ==========================================
+
+1.0.4 // March 20 2015
+----------------------
+- Added HTML5 shiv
+- Fixed missing text domains
+- Adjusted Twitter and YouTube links in Theme Options
+- Updated pro link functionality
 
 1.0.3 // March 03 2015
 ----------------------

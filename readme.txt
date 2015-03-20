@@ -65,3 +65,9 @@
  * License: GPL2
  * Copyright: Thomas Griffin, https://thomasgriffin.io/
  */
+
+/**
+ * HTML5 Shiv - https://code.google.com/p/html5shiv/
+ * License: Dual licensed under the MIT or GPL Version 2 licenses
+ * Copyright: Alexander Farkas, http://protofunc.com/
+ */

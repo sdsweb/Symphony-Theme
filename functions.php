@@ -280,8 +280,8 @@ if ( ! function_exists( 'sds_theme_options_upgrade_cta' ) ) {
 	}
 }
 
-function sds_get_pro_link( $content ) {
-	return esc_url( 'https://slocumthemes.com/wordpress-themes/symphony-pro/?utm_source=symphony&utm_medium=link&utm_content=' . urlencode( sanitize_title_with_dashes( $content ) ) . '&utm_campaign=pro#purchase-theme' );
+function sds_get_pro_link( $content = '' ) {
+	return esc_url( 'https://slocumthemes.com/wordpress-themes/symphony-pro/#purchase-theme' );
 }
 
 if ( ! function_exists( 'sds_theme_options_help_support_tab_content' ) ) {

@@ -827,7 +827,7 @@ if ( ! function_exists( '_wp_render_title_tag' ) ) {
 add_action( 'wp_head', 'sds_wp_head' );
 
 function sds_wp_head() {
-	global $sds_theme_options, $is_IE;
+	global $sds_theme_options;
 
 	// Web Fonts
 	if ( function_exists( 'sds_web_fonts' ) && ! empty( $sds_theme_options['web_font'] ) ) :
@@ -844,10 +844,6 @@ function sds_wp_head() {
 		<?php
 		endif;
 	endif;
-
-	// HTML5 Shiv (IE only, conditionally for less than IE9)
-	if ( $is_IE )
-		echo '<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
 }
 
 /**

@@ -752,12 +752,10 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 				<div id="sds-theme-options-ads" class="sidebar">
 					<div class="sds-theme-options-ad">
 						<div class="yt-subscribe">
-							<div class="g-ytsubscribe" data-channel="slocumstudio" data-layout="default"></div>
-							<script src="https://apis.google.com/js/plusone.js"></script>
+							<a href="https://www.youtube.com/user/slocumstudio/" class="youtube-follow-button" target="_blank">Slocum Studio YouTube Channel</a>
 						</div>
 
-						<a href="https://twitter.com/slocumstudio/" class="twitter-follow-button" data-show-count="false" data-size="large" data-dnt="true">Follow @slocumstudio</a>
-						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+						<a href="https://twitter.com/slocumstudio/" class="twitter-follow-button" target="_blank">Follow @slocumstudio</a>
 
 						<br />
 						<br />

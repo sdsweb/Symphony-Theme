@@ -6,7 +6,7 @@ class Symphony {
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.3';
+	public $version = '1.0.4';
 
 	/**
 	 * @var string, Slug for Slocum Theme support
@@ -472,7 +472,7 @@ class Symphony {
 	function symphony_us_metabox( $post ) {
 		// Get the post type label
 		$post_type = get_post_type_object( $post->post_type );
-		$label = ( isset( $post_type->labels->singular_name ) ) ? $post_type->labels->singular_name : __( 'Post' );
+		$label = ( isset( $post_type->labels->singular_name ) ) ? $post_type->labels->singular_name : __( 'Post', 'symphony' );
 
 		echo '<p class="howto">';
 		printf(
@@ -635,7 +635,7 @@ class Symphony {
 	 * This function enqueues all styles and scripts (Main Stylesheet, Fonts, etc...). Stylesheets can be conditionally included if needed.
 	 */
 	function wp_enqueue_scripts() {
-		global $sds_theme_options;
+		global $sds_theme_options, $is_IE;
 
 		$protocol = is_ssl() ? 'https' : 'http'; // Determine current protocol
 
@@ -655,6 +655,10 @@ class Symphony {
 
 		// Fitvids
 		wp_enqueue_script( 'fitvids', get_template_directory_uri() . '/js/fitvids.js', array( 'jquery' ), $this->version );
+
+		// HTML5 Shiv (IE only, conditionally for less than IE9)
+		if ( $is_IE )
+			wp_enqueue_script( 'html5-shim', get_template_directory_uri() . '/js/html5.js', false, $this->version );
 	}
 
 	/**
@@ -733,7 +737,7 @@ class Symphony {
 	 * This function renders the Customizer section within Symphony Theme Options.
 	 */
 	function sds_theme_options_customizer_section() {
-		printf( __( 'Welcome to Symphony. Symphony offers many more options in the <a href="%1$s">Customizer</a>. <a href="%2$s">Symphony Pro</a> offers even more Customizer options and also works great with our <a href="%3$s" target="_blank">Conductor</a> plugin!', 'symphony' ), wp_customize_url(), sds_get_pro_link( 'theme-options-customizer' ), esc_url( 'http://conductorplugin.com/?utm_source=symphony&utm_medium=link&utm_content=conductor-symphony&utm_campaign=conductor' ) );
+		printf( __( 'Welcome to Symphony. Symphony offers many more options in the <a href="%1$s">Customizer</a>. <a href="%2$s">Symphony Pro</a> offers even more Customizer options and also works great with our <a href="%3$s" target="_blank">Conductor</a> plugin!', 'symphony' ), wp_customize_url(), sds_get_pro_link( 'theme-options-customizer' ), esc_url( 'http://conductorplugin.com/' ) );
 	}
 
 	/**

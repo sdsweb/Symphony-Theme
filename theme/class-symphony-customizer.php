@@ -338,9 +338,9 @@ class Symphony_Customizer {
 						'priority' => 20,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						)
 					)
 				)
@@ -642,10 +642,10 @@ class Symphony_Customizer {
 						'priority' => 30,
 						'type' => 'radio',
 						'choices' => array(
-							'no-repeat' => __( 'No Repeat' ),
-							'repeat' => __( 'Tile' ),
-							'repeat-x' => __( 'Tile Horizontally' ),
-							'repeat-y' => __( 'Tile Vertically' )
+							'no-repeat' => __( 'No Repeat', 'symphony' ),
+							'repeat' => __( 'Tile', 'symphony' ),
+							'repeat-x' => __( 'Tile Horizontally', 'symphony' ),
+							'repeat-y' => __( 'Tile Vertically', 'symphony' )
 						),
 						'active_callback' => array( $this, 'symphony_is_symphony_fixed_width_background_image' )
 					)
@@ -676,9 +676,9 @@ class Symphony_Customizer {
 						'priority' => 40,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						),
 						'active_callback' => array( $this, 'symphony_is_symphony_fixed_width_background_image' )
 					)
@@ -709,8 +709,8 @@ class Symphony_Customizer {
 						'priority' => 50,
 						'type' => 'radio',
 						'choices' => array(
-							'scroll' => __( 'Scroll' ),
-							'fixed' => __( 'Fixed' )
+							'scroll' => __( 'Scroll', 'symphony' ),
+							'fixed' => __( 'Fixed', 'symphony' )
 						),
 						'active_callback' => array( $this, 'symphony_is_symphony_fixed_width_background_image' )
 					)
@@ -807,10 +807,10 @@ class Symphony_Customizer {
 						'priority' => 30,
 						'type' => 'radio',
 						'choices' => array(
-							'no-repeat' => __( 'No Repeat' ),
-							'repeat' => __( 'Tile' ),
-							'repeat-x' => __( 'Tile Horizontally' ),
-							'repeat-y' => __( 'Tile Vertically' )
+							'no-repeat' => __( 'No Repeat', 'symphony' ),
+							'repeat' => __( 'Tile', 'symphony' ),
+							'repeat-x' => __( 'Tile Horizontally', 'symphony' ),
+							'repeat-y' => __( 'Tile Vertically', 'symphony' )
 						),
 						'active_callback' => array( $this, 'symphony_is_symphony_fluid_width_background_image' )
 					)
@@ -841,9 +841,9 @@ class Symphony_Customizer {
 						'priority' => 40,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						),
 						'active_callback' => array( $this, 'symphony_is_symphony_fluid_width_background_image' )
 					)
@@ -874,8 +874,8 @@ class Symphony_Customizer {
 						'priority' => 50,
 						'type' => 'radio',
 						'choices' => array(
-							'scroll' => __( 'Scroll' ),
-							'fixed' => __( 'Fixed' )
+							'scroll' => __( 'Scroll', 'symphony' ),
+							'fixed' => __( 'Fixed', 'symphony' )
 						),
 						'active_callback' => array( $this, 'symphony_is_symphony_fluid_width_background_image' )
 					)
@@ -930,7 +930,7 @@ class Symphony_Customizer {
 						'priority' => 10,
 						'type' => 'select',
 						'choices' => array(
-							'' => __( '&mdash; Select &mdash;' ),
+							'' => __( '&mdash; Select &mdash;', 'symphony' ),
 							'traditional' => __( 'Traditional', 'symphony' ),
 							'centered' => __( 'Centered', 'symphony' ),
 							'flipped' => __( 'Flipped', 'symphony' )
@@ -1171,10 +1171,10 @@ class Symphony_Customizer {
 						'priority' => 30,
 						'type' => 'radio',
 						'choices' => array(
-							'no-repeat' => __( 'No Repeat' ),
-							'repeat' => __( 'Tile' ),
-							'repeat-x' => __( 'Tile Horizontally' ),
-							'repeat-y' => __( 'Tile Vertically' )
+							'no-repeat' => __( 'No Repeat', 'symphony' ),
+							'repeat' => __( 'Tile', 'symphony' ),
+							'repeat-x' => __( 'Tile Horizontally', 'symphony' ),
+							'repeat-y' => __( 'Tile Vertically', 'symphony' )
 						)
 					)
 				)
@@ -1204,9 +1204,9 @@ class Symphony_Customizer {
 						'priority' => 40,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						)
 					)
 				)
@@ -1236,8 +1236,8 @@ class Symphony_Customizer {
 						'priority' => 50,
 						'type' => 'radio',
 						'choices' => array(
-							'scroll' => __( 'Scroll' ),
-							'fixed' => __( 'Fixed' )
+							'scroll' => __( 'Scroll', 'symphony' ),
+							'fixed' => __( 'Fixed', 'symphony' )
 						)
 					)
 				)
@@ -1290,7 +1290,7 @@ class Symphony_Customizer {
 						'priority' => 10,
 						'type' => 'select',
 						'choices' => array(
-							'' => __( '&mdash; Select &mdash;' ),
+							'' => __( '&mdash; Select &mdash;', 'symphony' ),
 							'traditional' => __( 'Traditional', 'symphony' ),
 							'centered' => __( 'Centered', 'symphony' ),
 							'flipped' => __( 'Flipped', 'symphony' ),
@@ -1611,10 +1611,10 @@ class Symphony_Customizer {
 						'priority' => 30,
 						'type' => 'radio',
 						'choices' => array(
-							'no-repeat' => __( 'No Repeat' ),
-							'repeat' => __( 'Tile' ),
-							'repeat-x' => __( 'Tile Horizontally' ),
-							'repeat-y' => __( 'Tile Vertically' )
+							'no-repeat' => __( 'No Repeat', 'symphony' ),
+							'repeat' => __( 'Tile', 'symphony' ),
+							'repeat-x' => __( 'Tile Horizontally', 'symphony' ),
+							'repeat-y' => __( 'Tile Vertically', 'symphony' )
 						)
 					)
 				)
@@ -1644,9 +1644,9 @@ class Symphony_Customizer {
 						'priority' => 40,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						)
 					)
 				)
@@ -1676,8 +1676,8 @@ class Symphony_Customizer {
 						'priority' => 50,
 						'type' => 'radio',
 						'choices' => array(
-							'scroll' => __( 'Scroll' ),
-							'fixed' => __( 'Fixed' )
+							'scroll' => __( 'Scroll', 'symphony' ),
+							'fixed' => __( 'Fixed', 'symphony' )
 						)
 					)
 				)
@@ -1729,7 +1729,7 @@ class Symphony_Customizer {
 						'priority' => 10,
 						'type' => 'select',
 						'choices' => array(
-							'' => __( '&mdash; Select &mdash;' ),
+							'' => __( '&mdash; Select &mdash;', 'symphony' ),
 							'traditional' => __( 'Traditional', 'symphony' ),
 							'centered' => __( 'Centered', 'symphony' ),
 							'flipped' => __( 'Flipped', 'symphony' )
@@ -1972,10 +1972,10 @@ class Symphony_Customizer {
 						'priority' => 30,
 						'type' => 'radio',
 						'choices' => array(
-							'no-repeat' => __( 'No Repeat' ),
-							'repeat' => __( 'Tile' ),
-							'repeat-x' => __( 'Tile Horizontally' ),
-							'repeat-y' => __( 'Tile Vertically' )
+							'no-repeat' => __( 'No Repeat', 'symphony' ),
+							'repeat' => __( 'Tile', 'symphony' ),
+							'repeat-x' => __( 'Tile Horizontally', 'symphony' ),
+							'repeat-y' => __( 'Tile Vertically', 'symphony' )
 						)
 					)
 				)
@@ -2005,9 +2005,9 @@ class Symphony_Customizer {
 						'priority' => 40,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						)
 					)
 				)
@@ -2037,8 +2037,8 @@ class Symphony_Customizer {
 						'priority' => 50,
 						'type' => 'radio',
 						'choices' => array(
-							'scroll' => __( 'Scroll' ),
-							'fixed' => __( 'Fixed' )
+							'scroll' => __( 'Scroll', 'symphony' ),
+							'fixed' => __( 'Fixed', 'symphony' )
 						)
 					)
 				)
@@ -2623,10 +2623,10 @@ class Symphony_Customizer {
 						'priority' => 30,
 						'type' => 'radio',
 						'choices' => array(
-							'no-repeat' => __( 'No Repeat' ),
-							'repeat' => __( 'Tile' ),
-							'repeat-x' => __( 'Tile Horizontally' ),
-							'repeat-y' => __( 'Tile Vertically' )
+							'no-repeat' => __( 'No Repeat', 'symphony' ),
+							'repeat' => __( 'Tile', 'symphony' ),
+							'repeat-x' => __( 'Tile Horizontally', 'symphony' ),
+							'repeat-y' => __( 'Tile Vertically', 'symphony' )
 						)
 					)
 				)
@@ -2656,9 +2656,9 @@ class Symphony_Customizer {
 						'priority' => 40,
 						'type' => 'radio',
 						'choices' => array(
-							'left' => __( 'Left' ),
-							'center' => __( 'Center' ),
-							'right' => __( 'Right' )
+							'left' => __( 'Left', 'symphony' ),
+							'center' => __( 'Center', 'symphony' ),
+							'right' => __( 'Right', 'symphony' )
 						)
 					)
 				)
@@ -2688,8 +2688,8 @@ class Symphony_Customizer {
 						'priority' => 50,
 						'type' => 'radio',
 						'choices' => array(
-							'scroll' => __( 'Scroll' ),
-							'fixed' => __( 'Fixed' )
+							'scroll' => __( 'Scroll', 'symphony' ),
+							'fixed' => __( 'Fixed', 'symphony' )
 						)
 					)
 				)
