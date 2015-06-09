@@ -751,15 +751,6 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 
 				<div id="sds-theme-options-ads" class="sidebar">
 					<div class="sds-theme-options-ad">
-						<div class="yt-subscribe">
-							<a href="https://www.youtube.com/user/slocumstudio/" class="youtube-follow-button" target="_blank">Slocum Studio YouTube Channel</a>
-						</div>
-
-						<a href="https://twitter.com/slocumstudio/" class="twitter-follow-button" target="_blank">Follow @slocumstudio</a>
-
-						<br />
-						<br />
-
 						<div class="slocum-themes">
 							<?php printf( __( '<a href="%1$s" target="_blank"><strong>How to setup the perfect WordPress website</strong></a>', 'symphony' ), 'http://slocumthemes.com/build-perfect-wordpress-website/' ); ?>
 						</div>

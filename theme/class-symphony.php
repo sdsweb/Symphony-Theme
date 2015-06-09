@@ -6,7 +6,7 @@ class Symphony {
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.4';
+	public $version = '1.0.6';
 
 	/**
 	 * @var string, Slug for Slocum Theme support
@@ -377,6 +377,15 @@ class Symphony {
 			// Make sure widgets don't get added to the Top, Primary Nav, or Secondary Header Sidebars
 			$this->wp_sidebars_changed();
 		}
+
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+	}
+
+	/**
+	 * This function outputs admin notices.
+	 */
+	function admin_notices() {
+		printf( __( '<div class="updated"><p>Welcome to Symphony! Get started by visiting the <a href="%1$s">Customizer</a>!</p></div>', 'symphony' ), esc_url( wp_customize_url() ) );
 	}
 
 	/**

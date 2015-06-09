@@ -2,8 +2,21 @@
 Theme: Symphony
 Author: Slocum Themes/Slocum Design Studio
 Author URI: https://slocumthemes.com/
-Current Version: 1.0.4
+Current Version: 1.0.6
 ==========================================
+
+
+1.0.6  // June 09 2015
+---------------------
+- Fixed PHP notice for missing 'title' attribute value in Symphony_Customizer_Font_Size_Control
+- Fixed CSS display issue of Select2 elements
+- Fixed bug where first letter in default font families were output in Customizer <style>
+  blocks due to theme mod logic representing a string instead of an array in some cases
+
+1.0.5 // April 3 2015
+---------------------
+- Fixed issue with PHP variable in translation string
+- Added activation notice
 
 1.0.4 // March 20 2015
 ----------------------

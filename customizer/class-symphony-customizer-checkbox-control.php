@@ -69,7 +69,7 @@ class Symphony_Customizer_Checkbox_Control extends WP_Customize_Control {
 				?>
 			</style>
 
-			<div class="checkbox sds-theme-options-checkbox checkbox-show-hide <?php echo $this->css_class; ?>" data-label-left="<?php esc_attr_e( sprintf( '%1$s', $this->unchecked_label ), 'symphony' ); ?>" data-label-right="<?php esc_attr_e( sprintf( '%1$s', $this->checked_label ), 'symphony' ); ?>">
+			<div class="checkbox sds-theme-options-checkbox checkbox-show-hide <?php echo $this->css_class; ?>" data-label-left="<?php echo esc_attr( $this->unchecked_label ); ?>" data-label-right="<?php echo esc_attr( $this->checked_label ); ?>">
 				<input type="checkbox" id="<?php echo $this->css_id; ?>" name="<?php echo $this->id; ?>" <?php ( ! $this->value() ) ? checked( false ) : checked( true ); ?> <?php echo $this->get_link(); ?> />
 				<label for="<?php echo $this->css_id; ?>">| | |</label>
 			</div>
