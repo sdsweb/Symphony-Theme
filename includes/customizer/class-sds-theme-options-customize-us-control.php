@@ -4,10 +4,11 @@ if ( ! class_exists( 'WP_Customize_Control' ) )
 	return;
 
 /**
- * This class is a custom controller for the Theme Customizer API.
+ * This class is a custom controller for the Customizer API for Slocum Themes
+ * which extends the WP_Customize_Control class provided by WordPress.
  */
 if ( ! class_exists( 'WP_Customize_US_Control' ) ) {
-	class WP_Customize_US_Control extends WP_Customize_Control {
+	class SDS_Theme_Options_Customize_US_Control extends WP_Customize_Control {
 		public $content = '';
 
 		/**

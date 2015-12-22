@@ -2,12 +2,18 @@
 Theme: Symphony
 Author: Slocum Themes/Slocum Design Studio
 Author URI: https://slocumthemes.com/
-Current Version: 1.0.6
+Current Version: 1.0.7
 ==========================================
 
+1.0.7 // December 22 2015
+-------------------------
+- Fixed PHP fatal error in Customizer
+- Ported various settings to the Customizer that previously appeared in Theme Options
+- Updated to SDS Core 1.4.2
+- Added POT file for translations
 
-1.0.6  // June 09 2015
----------------------
+1.0.6 // June 09 2015
+----------------------
 - Fixed PHP notice for missing 'title' attribute value in Symphony_Customizer_Font_Size_Control
 - Fixed CSS display issue of Select2 elements
 - Fixed bug where first letter in default font families were output in Customizer <style>

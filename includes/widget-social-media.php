@@ -1,14 +1,15 @@
 <?php
 
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+// Bail if accessed directly
+if ( ! defined( 'ABSPATH' ) )
+	exit;
 
 /**
  * SDS Social Media Widget
  *
  * Description: This Class extends WP_Widget to create a social media widget for display in sidebars.
  *
- * @version 1.0
+ * @version 1.4.1
  */
 if ( ! class_exists( 'SDS_Social_Media_Widget' ) ) {
 	class SDS_Social_Media_Widget extends WP_Widget {
@@ -16,8 +17,8 @@ if ( ! class_exists( 'SDS_Social_Media_Widget' ) ) {
 		 * These functions calls and hooks are added on new instance.
 		 */
 		function __construct() {
-			$widget_ops = array( 'classname' => 'widget-sds-social-media sds-social-media-widget', 'description' => 'Display social media icons linking to your networks specified in Theme Options.' );
-			$this->WP_Widget( 'sds-social-media-widget', 'Social Media Widget', $widget_ops );
+			$widget_ops = array( 'classname' => 'widget-sds-social-media sds-social-media-widget', 'description' => __( 'Display social media icons linking to your networks specified in Theme Options.', 'symphony' ) );
+			parent::__construct( 'sds-social-media-widget', __( 'Social Media Widget', 'symphony' ), $widget_ops );
 		}
 
 		/**
@@ -27,7 +28,7 @@ if ( ! class_exists( 'SDS_Social_Media_Widget' ) ) {
 			$instance = wp_parse_args( $instance, array( 'title' => '' ) );
 		?>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:</label>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'symphony' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
 			</p>
 		<?php

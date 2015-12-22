@@ -1,6 +1,10 @@
+/**
+ * SDS Theme Options Customizer Logo
+ */
+
 window.wp = window.wp || {};
 
-( function( exports, $ ) {
+( function( $, wp ) {
 	"use strict";
 
 	var api = wp.customize;
@@ -96,6 +100,8 @@ window.wp = window.wp || {};
 		}
 	} );
 
-	// Add custom SDS Theme Options Logo control to control constructor
-	api.controlConstructor.sds_theme_options_logo = api.SDSThemeOptionsLogoControl;
-} )( wp, jQuery );
+	// Add custom SDS Theme Options Logo control to control constructor (extending what is already there)
+	$.extend( api.controlConstructor, {
+		sds_theme_options_logo: api.SDSThemeOptionsLogoControl
+	} );
+} )( jQuery, wp );
