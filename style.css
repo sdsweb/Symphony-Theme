@@ -203,13 +203,13 @@ a img.aligncenter {
 	color: #21759b;
 	display: block;
 	font-size: 14px;
-	font-size: 0.875rem;
 	font-weight: bold;
 	height: auto;
 	left: 5px;
 	line-height: normal;
 	padding: 15px 23px 14px;
 	text-decoration: none;
+    text-transform: none;
 	top: 5px;
 	width: auto;
 	z-index: 100000; /* Above WP toolbar. */

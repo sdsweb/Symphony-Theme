@@ -71,3 +71,9 @@
  * License: Dual licensed under the MIT or GPL Version 2 licenses
  * Copyright: Alexander Farkas, http://protofunc.com/
  */
+
+/**
+ * SDS Core - /includes/
+ * License: GPL2
+ * Copyright: Slocum Design Studio, http://slocumstudio.com/
+ */
