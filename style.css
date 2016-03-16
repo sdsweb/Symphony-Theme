@@ -1767,8 +1767,8 @@ aside.sidebar section.text-widget{
 	font-family: 'Open Sans', sans-serif;
 }
 
-section.social-media-widgets {
-    font-size: 28px;
+.no-widgets .social-media-icons {
+	font-size: 28px;
 }
 
 .widget .social-media-icons {

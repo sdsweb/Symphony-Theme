@@ -147,6 +147,7 @@ class Symphony_Customizer {
 	 * This function registers various Customizer options for this theme.
 	 */
 	function customize_register( $wp_customize ) {
+    
 		// Load custom Customizer API assets
 		include_once get_template_directory() . '/customizer/class-symphony-customizer-checkbox-control.php'; // Checkbox Controller
 		include_once get_template_directory() . '/customizer/class-symphony-customizer-font-size-control.php'; // Symphony Customizer Font Size Control
@@ -170,26 +171,26 @@ class Symphony_Customizer {
 			/**
 			 * Logo/Site Title & Tagline Section
 			 */
-			$title_tagline_section = $wp_customize->get_section( 'title_tagline' ); // Get Section
-			$title_tagline_section->panel = 'symphony_general_design'; // Add panel
-			$title_tagline_section->priority = 10; // Adjust Priority
-
+			if ( $title_tagline_section = $wp_customize->get_section( 'title_tagline' ) ) { // Get Section
+                $title_tagline_section->panel = 'symphony_general_design'; // Add panel
+                $title_tagline_section->priority = 10; // Adjust Priority
+            }
 
 			/**
 			 * Static Front Page Section
 			 */
-			$static_front_page_section = $wp_customize->get_section( 'static_front_page' ); // Get Section
-			$static_front_page_section->panel = 'symphony_general_design'; // Add panel
-			$static_front_page_section->priority = 20; // Adjust Priority
-
-
+			if ( $static_front_page_section = $wp_customize->get_section( 'static_front_page' ) ) { // Get Section
+                $static_front_page_section->panel = 'symphony_general_design'; // Add panel
+                $static_front_page_section->priority = 20; // Adjust Priority
+            }
+            
 			/**
 			 * Nav Section
 			 */
-			$static_front_page_section = $wp_customize->get_section( 'nav' ); // Get Section
-			$static_front_page_section->panel = 'symphony_general_design'; // Add panel
-			$static_front_page_section->priority = 30; // Adjust Priority
-
+			if ( $static_front_page_section = $wp_customize->get_section( 'nav' ) ) { // Get Section
+                $static_front_page_section->panel = 'symphony_general_design'; // Add panel
+                $static_front_page_section->priority = 30; // Adjust Priority
+            }
 
 			/**
 			 * Site Layout Section
@@ -550,44 +551,48 @@ class Symphony_Customizer {
 			/**
 			 * Background Color
 			 */
-			$background_color_control = $wp_customize->get_control( 'background_color' ); // Get Control
-			$background_color_control->section = 'symphony_background_body'; // Adjust Section
-			$background_color_control->priority = 10; // Adjust Priority
-			$background_color_control->active_callback = 'symphony_is_fixed_width'; // Adjust active callback
+			if ( $background_color_control = $wp_customize->get_control( 'background_color' ) ) { // Get Control
+                $background_color_control->section = 'symphony_background_body'; // Adjust Section
+                $background_color_control->priority = 10; // Adjust Priority
+                $background_color_control->active_callback = 'symphony_is_fixed_width'; // Adjust active callback
+            }
 
 			/**
 			 * Background Image
 			 */
-			$background_image_control = $wp_customize->get_control( 'background_image' ); // Get Control
-			$background_image_control->section = 'symphony_background_body'; // Adjust Section
-			$background_image_control->priority = 20; // Adjust Priority
-			$background_image_control->active_callback = 'symphony_is_fixed_width'; // Adjust active callback
-			$wp_customize->remove_section( 'background_image' ); // Remove Section
+			if ( $background_image_control = $wp_customize->get_control( 'background_image' ) ) { // Get Control
+                $background_image_control->section = 'symphony_background_body'; // Adjust Section
+                $background_image_control->priority = 20; // Adjust Priority
+                $background_image_control->active_callback = 'symphony_is_fixed_width'; // Adjust active callback
+                $wp_customize->remove_section( 'background_image' ); // Remove Section
+            }
 
 			/**
 			 * Background Repeat
 			 */
-			$background_repeat_control = $wp_customize->get_control( 'background_repeat' ); // Get Control
-			$background_repeat_control->section = 'symphony_background_body'; // Adjust Section
-			$background_repeat_control->priority = 30; // Adjust Priority
-			$background_repeat_control->active_callback = array( $this, 'symphony_is_symphony_fixed_width_background_image' ); // Adjust active callback
+			if ( $background_repeat_control = $wp_customize->get_control( 'background_repeat' ) ) { // Get Control
+                $background_repeat_control->section = 'symphony_background_body'; // Adjust Section
+                $background_repeat_control->priority = 30; // Adjust Priority
+                $background_repeat_control->active_callback = array( $this, 'symphony_is_symphony_fixed_width_background_image' ); // Adjust active callback
+            }
 
 			/**
 			 * Background Position X
 			 */
-			$background_position_x_control = $wp_customize->get_control( 'background_position_x' ); // Get Control
-			$background_position_x_control->section = 'symphony_background_body'; // Adjust Section
-			$background_position_x_control->priority = 40; // Adjust Priority
-			$background_position_x_control->active_callback = array( $this, 'symphony_is_symphony_fixed_width_background_image' ); // Adjust active callback
+			if ( $background_position_x_control = $wp_customize->get_control( 'background_position_x' ) ) { // Get Control
+                $background_position_x_control->section = 'symphony_background_body'; // Adjust Section
+                $background_position_x_control->priority = 40; // Adjust Priority
+                $background_position_x_control->active_callback = array( $this, 'symphony_is_symphony_fixed_width_background_image' ); // Adjust active callback
+            }
 
 			/**
 			 * Background Attachment
 			 */
-			$background_attachment_control = $wp_customize->get_control( 'background_attachment' ); // Get Control
-			$background_attachment_control->section = 'symphony_background_body'; // Adjust Section
-			$background_attachment_control->priority = 50; // Adjust Priority
-			$background_attachment_control->active_callback = array( $this, 'symphony_is_symphony_fixed_width_background_image' ); // Adjust active callback
-
+			if ( $background_attachment_control = $wp_customize->get_control( 'background_attachment' ) ) { // Get Control
+                $background_attachment_control->section = 'symphony_background_body'; // Adjust Section
+                $background_attachment_control->priority = 50; // Adjust Priority
+                $background_attachment_control->active_callback = array( $this, 'symphony_is_symphony_fixed_width_background_image' ); // Adjust active callback
+            }
 
 			/**
 			 * Fixed Width Background Section
@@ -920,7 +925,6 @@ class Symphony_Customizer {
 			);
 		}
 
-
 		/**
 		 * Top Header Panel
 		 */
@@ -1070,20 +1074,21 @@ class Symphony_Customizer {
 			/**
 			 * Top Header Navigation Font Size
 			 */
-			$top_nav_font_size_control = $wp_customize->get_control( 'symphony_navigation_top_nav_font_size' ); // Get Control
-			$top_nav_font_size_control->section = 'symphony_top_header_navigation'; // Adjust Section
-			$top_nav_font_size_control->label = __( 'Font Size', 'symphony' ); // Adjust Label
-			$top_nav_font_size_control->priority = 40; // Adjust Priority
-
+			if ( $top_nav_font_size_control = $wp_customize->get_control( 'symphony_navigation_top_nav_font_size' ) ) { // Get Control
+                $top_nav_font_size_control->section = 'symphony_top_header_navigation'; // Adjust Section
+                $top_nav_font_size_control->label = __( 'Font Size', 'symphony' ); // Adjust Label
+                $top_nav_font_size_control->priority = 40; // Adjust Priority
+            }
+        
 			/**
 			 * Top Header Navigation Font Family
 			 */
-			$top_nav_font_family_control = $wp_customize->get_control( 'symphony_navigation_top_nav_font_family' ); // Get Control
-			$top_nav_font_family_control->section = 'symphony_top_header_navigation'; // Adjust Section
-			$top_nav_font_family_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
-			$top_nav_font_family_control->priority = 50; // Adjust Priority
-
-
+			if ( $top_nav_font_family_control = $wp_customize->get_control( 'symphony_navigation_top_nav_font_family' ) ) { // Get Control
+                $top_nav_font_family_control->section = 'symphony_top_header_navigation'; // Adjust Section
+                $top_nav_font_family_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
+                $top_nav_font_family_control->priority = 50; // Adjust Priority
+            }
+        
 			/**
 			 * Top Header Color Section
 			 */
@@ -1120,8 +1125,7 @@ class Symphony_Customizer {
 					)
 				)
 			);*/
-
-
+        
 			/**
 			 * Top Header Background Color Section
 			 */
@@ -1130,7 +1134,7 @@ class Symphony_Customizer {
 				'title' => __( 'Background', 'symphony' ),
 				'panel' => 'symphony_top_header'
 			) );
-
+        
 			/**
 			 * Top Header Background Color
 			 */
@@ -1142,8 +1146,8 @@ class Symphony_Customizer {
 					'sanitize_callback' => 'sanitize_hex_color',
 					'sanitize_js_callback' => 'maybe_hash_hex_color'
 				)
-			);
-
+            );
+    
 			// Control
 			$wp_customize->add_control(
 				new WP_Customize_Color_Control(
@@ -1157,7 +1161,7 @@ class Symphony_Customizer {
 					)
 				)
 			);
-
+            
 			/**
 			 * Top Header Background Image
 			 */
@@ -1183,7 +1187,7 @@ class Symphony_Customizer {
 					)
 				)
 			);
-
+            
 			/**
 			 * Top Header Background Image Repeat
 			 */
@@ -1216,7 +1220,7 @@ class Symphony_Customizer {
 					)
 				)
 			);
-
+            
 			/**
 			 * Top Header Background Image Position X
 			 */
@@ -1280,7 +1284,6 @@ class Symphony_Customizer {
 				)
 			);
 		}
-
 
 		/**
 		 * Main Header Panel
@@ -1392,16 +1395,18 @@ class Symphony_Customizer {
 			/**
 			 * Site Title Font Size
 			 */
-			$site_title_font_size_control = $wp_customize->get_control( 'symphony_site_title_font_size' ); // Get Control
-			$site_title_font_size_control->section = 'symphony_main_header_site_title'; // Adjust Section
-			$site_title_font_size_control->priority = 20; // Adjust Priority
+			if ( $site_title_font_size_control = $wp_customize->get_control( 'symphony_site_title_font_size' ) ) { // Get Control
+                $site_title_font_size_control->section = 'symphony_main_header_site_title'; // Adjust Section
+                $site_title_font_size_control->priority = 20; // Adjust Priority
+            }
 
 			/**
 			 * Site Title Font Family
 			 */
-			$site_title_font_family_control = $wp_customize->get_control( 'symphony_site_title_font_family' ); // Get Control
-			$site_title_font_family_control->section = 'symphony_main_header_site_title'; // Adjust Section
-			$site_title_font_family_control->priority = 30; // Adjust Priority
+			if ( $site_title_font_family_control = $wp_customize->get_control( 'symphony_site_title_font_family' ) ) { // Get Control
+                $site_title_font_family_control->section = 'symphony_main_header_site_title'; // Adjust Section
+                $site_title_font_family_control->priority = 30; // Adjust Priority
+            }
 
 
 			/**
@@ -1443,17 +1448,18 @@ class Symphony_Customizer {
 			/**
 			 * Tagline Font Size
 			 */
-			$tagline_font_size_control = $wp_customize->get_control( 'symphony_tagline_font_size' ); // Get Control
-			$tagline_font_size_control->section = 'symphony_main_header_tagline'; // Adjust Section
-			$tagline_font_size_control->priority = 20; // Adjust Priority
+			if ( $tagline_font_size_control = $wp_customize->get_control( 'symphony_tagline_font_size' ) ) { // Get Control
+                $tagline_font_size_control->section = 'symphony_main_header_tagline'; // Adjust Section
+                $tagline_font_size_control->priority = 20; // Adjust Priority
+            }
 
 			/**
 			 * Tagline Font Family
 			 */
-			$tagline_font_family_control = $wp_customize->get_control( 'symphony_tagline_font_family' ); // Get Control
-			$tagline_font_family_control->section = 'symphony_main_header_tagline'; // Adjust Section
-			$tagline_font_family_control->priority = 30; // Adjust Priority
-
+			if ( $tagline_font_family_control = $wp_customize->get_control( 'symphony_tagline_font_family' ) ) { // Get Control
+                $tagline_font_family_control->section = 'symphony_main_header_tagline'; // Adjust Section
+                $tagline_font_family_control->priority = 30; // Adjust Priority
+            }
 
 			/**
 			 * Main Header Navigation Section
@@ -1548,18 +1554,20 @@ class Symphony_Customizer {
 			/**
 			 * Primary Navigation Font Size
 			 */
-			$primary_nav_font_size_control = $wp_customize->get_control( 'symphony_navigation_primary_nav_font_size' ); // Get Control
-			$primary_nav_font_size_control->section = 'symphony_main_header_navigation'; // Adjust Section
-			$primary_nav_font_size_control->label = __( 'Font Size', 'symphony' ); // Adjust Label
-			$primary_nav_font_size_control->priority = 40; // Adjust Priority
+			if ( $primary_nav_font_size_control = $wp_customize->get_control( 'symphony_navigation_primary_nav_font_size' ) ) { // Get Control
+                $primary_nav_font_size_control->section = 'symphony_main_header_navigation'; // Adjust Section
+                $primary_nav_font_size_control->label = __( 'Font Size', 'symphony' ); // Adjust Label
+                $primary_nav_font_size_control->priority = 40; // Adjust Priority
+            }
 
 			/**
 			 * Primary Navigation Font Family
 			 */
-			$primary_nav_font_family_control = $wp_customize->get_control( 'symphony_navigation_primary_nav_font_family' ); // Get Control
-			$primary_nav_font_family_control->section = 'symphony_main_header_navigation'; // Adjust Section
-			$primary_nav_font_family_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
-			$primary_nav_font_family_control->priority = 50; // Adjust Priority
+			if ( $primary_nav_font_family_control = $wp_customize->get_control( 'symphony_navigation_primary_nav_font_family' ) ) { // Get Control
+                $primary_nav_font_family_control->section = 'symphony_main_header_navigation'; // Adjust Section
+                $primary_nav_font_family_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
+                $primary_nav_font_family_control->priority = 50; // Adjust Priority
+            }
 
 
 			/**
@@ -1871,18 +1879,20 @@ class Symphony_Customizer {
 			/**
 			 * Secondary Navigation Font Size
 			 */
-			$secondary_nav_font_size_control = $wp_customize->get_control( 'symphony_navigation_secondary_nav_font_size' ); // Get Control
-			$secondary_nav_font_size_control->section = 'symphony_secondary_header_navigation'; // Adjust Section
-			$secondary_nav_font_size_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
-			$secondary_nav_font_size_control->priority = 40; // Adjust Priority
+			if ( $secondary_nav_font_size_control = $wp_customize->get_control( 'symphony_navigation_secondary_nav_font_size' ) ) { // Get Control
+                $secondary_nav_font_size_control->section = 'symphony_secondary_header_navigation'; // Adjust Section
+                $secondary_nav_font_size_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
+                $secondary_nav_font_size_control->priority = 40; // Adjust Priority
+            }
 
 			/**
 			 * Secondary Navigation Font Family
 			 */
-			$secondary_nav_font_family_control = $wp_customize->get_control( 'symphony_navigation_secondary_nav_font_family' ); // Get Control
-			$secondary_nav_font_family_control->section = 'symphony_secondary_header_navigation'; // Adjust Section
-			$secondary_nav_font_family_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
-			$secondary_nav_font_family_control->priority = 50; // Adjust Priority
+			if ( $secondary_nav_font_family_control = $wp_customize->get_control( 'symphony_navigation_secondary_nav_font_family' ) ) { // Get Control
+                $secondary_nav_font_family_control->section = 'symphony_secondary_header_navigation'; // Adjust Section
+                $secondary_nav_font_family_control->label = __( 'Font Family', 'symphony' ); // Adjust Label
+                $secondary_nav_font_family_control->priority = 50; // Adjust Priority
+            }
 
 
 			/**
@@ -2160,10 +2170,11 @@ class Symphony_Customizer {
 			/**
 			 * Content Color (registered in SDS Core)
 			 */
-			$content_color_control = $wp_customize->get_control( 'content_color' ); // Get Control
-			$content_color_control->section = 'symphony_content_colors'; // Adjust Section
-			$content_color_control->label = __( 'Content', 'symphony' ); // Adjust Label
-			$content_color_control->priority = 30; // Adjust Priority
+			if ( $content_color_control = $wp_customize->get_control( 'content_color' ) ) { // Get Control
+                $content_color_control->section = 'symphony_content_colors'; // Adjust Section
+                $content_color_control->label = __( 'Content', 'symphony' ); // Adjust Label
+                $content_color_control->priority = 30; // Adjust Priority
+            }
 
 			/**
 			 * Link Color
@@ -2259,74 +2270,86 @@ class Symphony_Customizer {
 			/**
 			 * Heading 1 Font Size
 			 */
-			$heading_1_font_size_control = $wp_customize->get_control( 'symphony_h1_font_size' ); // Get Control
-			$heading_1_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_1_font_size_control = $wp_customize->get_control( 'symphony_h1_font_size' ) ) { // Get Control
+                $heading_1_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 1 Font Family
 			 */
-			$heading_1_font_family_control = $wp_customize->get_control( 'symphony_h1_font_family' ); // Get Control
-			$heading_1_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_1_font_family_control = $wp_customize->get_control( 'symphony_h1_font_family' ) ) { // Get Control
+                $heading_1_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 2 Font Size
 			 */
-			$heading_2_font_size_control = $wp_customize->get_control( 'symphony_h2_font_size' ); // Get Control
-			$heading_2_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_2_font_size_control = $wp_customize->get_control( 'symphony_h2_font_size' ) ) { // Get Control
+                $heading_2_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 2 Font Family
 			 */
-			$heading_2_font_family_control = $wp_customize->get_control( 'symphony_h2_font_family' ); // Get Control
-			$heading_2_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_2_font_family_control = $wp_customize->get_control( 'symphony_h2_font_family' ) ) { // Get Control
+                $heading_2_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 3 Font Size
 			 */
-			$heading_3_font_size_control = $wp_customize->get_control( 'symphony_h3_font_size' ); // Get Control
-			$heading_3_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_3_font_size_control = $wp_customize->get_control( 'symphony_h3_font_size' ) ) { // Get Control
+                $heading_3_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 3 Font Family
 			 */
-			$heading_3_font_family_control = $wp_customize->get_control( 'symphony_h3_font_family' ); // Get Control
-			$heading_3_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_3_font_family_control = $wp_customize->get_control( 'symphony_h3_font_family' ) ) { // Get Control
+                $heading_3_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 4 Font Size
 			 */
-			$heading_4_font_size_control = $wp_customize->get_control( 'symphony_h4_font_size' ); // Get Control
-			$heading_4_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_4_font_size_control = $wp_customize->get_control( 'symphony_h4_font_size' ) ) { // Get Control
+                $heading_4_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 4 Font Family
 			 */
-			$heading_4_font_family_control = $wp_customize->get_control( 'symphony_h4_font_family' ); // Get Control
-			$heading_4_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_4_font_family_control = $wp_customize->get_control( 'symphony_h4_font_family' ) ) { // Get Control
+                $heading_4_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 5 Font Size
 			 */
-			$heading_5_font_size_control = $wp_customize->get_control( 'symphony_h5_font_size' ); // Get Control
-			$heading_5_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_5_font_size_control = $wp_customize->get_control( 'symphony_h5_font_size' ) ) { // Get Control
+                $heading_5_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 5 Font Family
 			 */
-			$heading_5_font_family_control = $wp_customize->get_control( 'symphony_h5_font_family' ); // Get Control
-			$heading_5_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_5_font_family_control = $wp_customize->get_control( 'symphony_h5_font_family' ) ) { // Get Control
+                $heading_5_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 6 Font Size
 			 */
-			$heading_6_font_size_control = $wp_customize->get_control( 'symphony_h6_font_size' ); // Get Control
-			$heading_6_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_6_font_size_control = $wp_customize->get_control( 'symphony_h6_font_size' ) ) { // Get Control
+                $heading_6_font_size_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 			/**
 			 * Heading 6 Font Family
 			 */
-			$heading_6_font_family_control = $wp_customize->get_control( 'symphony_h6_font_family' ); // Get Control
-			$heading_6_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+			if ( $heading_6_font_family_control = $wp_customize->get_control( 'symphony_h6_font_family' ) ) { // Get Control
+                $heading_6_font_family_control->section = 'symphony_content_headings'; // Adjust Section
+            }
 
 
 			/**
@@ -2341,20 +2364,23 @@ class Symphony_Customizer {
 			/**
 			 * Body (Content) Font Size
 			 */
-			$body_font_size_control = $wp_customize->get_control( 'symphony_body_font_size' ); // Get Control
-			$body_font_size_control->section = 'symphony_content_body'; // Adjust Section
+			if ( $body_font_size_control = $wp_customize->get_control( 'symphony_body_font_size' ) ) { // Get Control
+                $body_font_size_control->section = 'symphony_content_body'; // Adjust Section
+            }
 
 			/**
-			 * Body (Content) Font Size
+			 * Body (Content) Line Height
 			 */
-			$body_line_height_control = $wp_customize->get_control( 'symphony_body_line_height' ); // Get Control
-			$body_line_height_control->section = 'symphony_content_body'; // Adjust Section
+			if ( $body_line_height_control = $wp_customize->get_control( 'symphony_body_line_height' ) ) { // Get Control
+                $body_line_height_control->section = 'symphony_content_body'; // Adjust Section
+            }
 
 			/**
 			 * Body (Content) Font Family
 			 */
-			$body_font_family_control = $wp_customize->get_control( 'symphony_body_font_family' ); // Get Control
-			$body_font_family_control->section = 'symphony_content_body'; // Adjust Section
+			if ( $body_font_family_control = $wp_customize->get_control( 'symphony_body_font_family' ) ) { // Get Control
+                $body_font_family_control->section = 'symphony_content_body'; // Adjust Section
+            }
 
 
 			/**
@@ -2733,44 +2759,45 @@ class Symphony_Customizer {
 			);
 		}
 
-
 		/*
 		 * Navigation Menus
 		 */
 		if ( $this->version_compare( '4.0' ) ) {
-			$locations = get_registered_nav_menus();
-			$menus = wp_get_nav_menus();
+			if ( $locations = get_registered_nav_menus() ) {
+                $menus = wp_get_nav_menus();
 
-			// If we have menus
-			if ( $menus ) {
-				foreach ( $locations as $location => $description ) {
-					$nav_location_control = $wp_customize->get_control( 'nav_menu_locations[' . $location . ']' ); // Get Control
+                // If we have menus
+                if ( $menus ) {
+                    foreach ( $locations as $location => $description ) {
+                        if ( $nav_location_control = $wp_customize->get_control( 'nav_menu_locations[' . $location . ']' ) ) { // Get Control
 
-					switch( $location ) {
-						// Top Navigation
-						case 'top_nav':
-							$nav_location_control->section = 'symphony_top_header_navigation'; // Adjust Section
-						break;
-						// Primary Navigation
-						case 'primary_nav':
-							$nav_location_control->section = 'symphony_main_header_navigation'; // Adjust Section
-						break;
-						// Secondary Navigation
-						case 'secondary_nav':
-							$nav_location_control->section = 'symphony_secondary_header_navigation'; // Adjust Section
-						break;
-					}
+                            switch( $location ) {
+                                // Top Navigation
+                                case 'top_nav':
+                                    $nav_location_control->section = 'symphony_top_header_navigation'; // Adjust Section
+                                break;
+                                // Primary Navigation
+                                case 'primary_nav':
+                                    $nav_location_control->section = 'symphony_main_header_navigation'; // Adjust Section
+                                break;
+                                // Secondary Navigation
+                                case 'secondary_nav':
+                                    $nav_location_control->section = 'symphony_secondary_header_navigation'; // Adjust Section
+                                break;
+                            }
 
-					$nav_location_control->priority = 5; // Adjust Priority (top)
-				}
+                            $nav_location_control->priority = 5; // Adjust Priority (top)
+                        }
+                    }
 
-				// Navigation Section
-				$wp_customize->remove_section( 'nav' ); // Remove Section
-			}
-		}
+                    // Navigation Section
+                    $wp_customize->remove_section( 'nav' ); // Remove Section
+                }
+            }
+        }
 
 		// TODO: below 4.0 support
-	}
+    }
 
 	/**
 	 * This function enqueues scripts and styles on the Customizer.
@@ -3613,7 +3640,6 @@ class Symphony_Customizer {
 		// Get Customizer CSS
 		echo $this->get_customizer_css();
 	}
-
 
 	/**********************
 	 * Internal Functions *
