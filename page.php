@@ -10,7 +10,7 @@ get_header();
 			<div class="in">
 		<?php endif; ?>
 
-		<article class="content">
+		<article id="content-container" class="content">
 
 			<?php get_template_part( 'yoast', 'breadcrumbs' ); // Yoast Breadcrumbs ?>
 
