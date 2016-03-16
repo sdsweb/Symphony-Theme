@@ -1712,6 +1712,12 @@ aside.sidebar{
 	font-size: 16px;
 }
 
+aside.sidebar.no-widgets {
+    padding-top: 10px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
 aside.sidebar .widget{
 	float: left;
 	width: 100%;
@@ -1759,6 +1765,10 @@ aside.sidebar section.text-widget{
 	color: #363636;
 	font-size: 18px;
 	font-family: 'Open Sans', sans-serif;
+}
+
+section.social-media-widgets {
+    font-size: 28px;
 }
 
 .widget .social-media-icons {
