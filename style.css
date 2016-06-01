@@ -71,7 +71,8 @@ q:before, q:after {
 }
 
 ul {
-	list-style: none;
+	/*list-style: none;*/
+	margin-left: 2em;
 }
 
 mark{
@@ -591,8 +592,13 @@ td {
 
 .content ul, .comment-content ul {
 	padding-left: 2.5em;
+	margin-left: 0;
 	margin-bottom: 1em;
 	list-style: disc;
+}
+
+.content ul li ul, .content ol ul, .content ul ul, .comment-content ol ul, .comment-content ul ul {
+    margin-bottom: 0;
 }
 
 .content dd {
@@ -1016,6 +1022,14 @@ aside.primary-nav-sidebar {
 	float: right;
 }
 
+nav.top-nav ul,
+.top-sidebar .widget.widget_nav_menu ul,
+nav.primary-nav-container .primary-nav ul,
+nav.portfolio-nav-container ul,
+.secondary-header-sidebar .widget.widget_nav_menu ul {
+	margin: 0;
+}
+
 nav.top-nav li,
 .top-sidebar .widget.widget_nav_menu li,
 nav.primary-nav-container .primary-nav li,
@@ -1024,6 +1038,8 @@ nav.portfolio-nav-container li,
 	float: left;
 	position: relative;
 	padding-bottom: 20px;
+	margin: 0;
+	list-style: none;
 }
 
 nav.top-nav li,
@@ -1743,6 +1759,10 @@ aside.sidebar section.text-widget{
 	-ms-transition: all .3s ease-in-out;
 	-o-transition: all .3s ease-in-out;
 	transition: all .3s ease-in-out;
+}
+
+section.widget ol {
+    padding-left: 30px;
 }
 
 .widget-title {
