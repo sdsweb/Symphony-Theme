@@ -172,25 +172,25 @@ class Symphony_Customizer {
 			 * Logo/Site Title & Tagline Section
 			 */
 			if ( $title_tagline_section = $wp_customize->get_section( 'title_tagline' ) ) { // Get Section
-                $title_tagline_section->panel = 'symphony_general_design'; // Add panel
-                $title_tagline_section->priority = 10; // Adjust Priority
-            }
+				$title_tagline_section->panel = 'symphony_general_design'; // Add panel
+				$title_tagline_section->priority = 10; // Adjust Priority
+			}
 
 			/**
 			 * Static Front Page Section
 			 */
 			if ( $static_front_page_section = $wp_customize->get_section( 'static_front_page' ) ) { // Get Section
-                $static_front_page_section->panel = 'symphony_general_design'; // Add panel
-                $static_front_page_section->priority = 20; // Adjust Priority
-            }
+				$static_front_page_section->panel = 'symphony_general_design'; // Add panel
+				$static_front_page_section->priority = 20; // Adjust Priority
+			}
             
 			/**
 			 * Nav Section
 			 */
-			if ( $static_front_page_section = $wp_customize->get_section( 'nav' ) ) { // Get Section
-                $static_front_page_section->panel = 'symphony_general_design'; // Add panel
-                $static_front_page_section->priority = 30; // Adjust Priority
-            }
+			if ( $static_nav_section = $wp_customize->get_section( 'nav' ) ) { // Get Section
+				$static_nav_section->panel = 'symphony_general_design'; // Add panel
+				$static_nav_section->priority = 30; // Adjust Priority
+			}
 
 			/**
 			 * Site Layout Section
