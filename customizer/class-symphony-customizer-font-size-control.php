@@ -84,7 +84,7 @@ final class Symphony_Customizer_Font_Size_Control extends WP_Customize_Control {
 			<?php endif; ?>
 			<input type="<?php echo esc_attr( $this->type ); ?>" <?php $this->input_attrs(); ?> value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); ?> />
 			<?php if ( ! empty( $this->units ) ) : ?>
-				<span class="units" title="<?php echo esc_attr( $this->units['title'] ); ?>"><?php echo $this->unit; ?></span>
+				<span class="units" title="<?php echo ( isset( $this->units['title'] ) ) ? esc_attr( $this->units['title'] ) : false; ?>"><?php echo $this->unit; ?></span>
 			<?php endif; ?>
 		</label>
 	<?php

@@ -1,7 +1,8 @@
 <?php
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Bail if accessed directly
+if ( ! defined( 'ABSPATH' ) )
+	exit;
 
 
 /**
@@ -9,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Description: This file contains functions for utilizing options within themes (displaying site logo, tagline, etc...)
  *
- * @version 1.2.9
+ * @version 1.4.2
  */
 
 
@@ -22,7 +23,7 @@ $sds_theme_options = SDS_Theme_Options::get_sds_theme_options();
  ***********************/
 
 /**
- * This function displays either a logo, or the site title depending on options.
+ * This function displays either a logo or the site title depending on options.
  *
  * @uses site_url()
  * @uses get_bloginfo()
@@ -96,10 +97,23 @@ if ( ! function_exists( 'sds_featured_image' ) ) {
 
 		$featured_image_size = apply_filters( 'sds_featured_image_size', $featured_image_size, $link_image );
 
+		// CSS classes
+		$css_classes = array(
+			'post-image',
+			'featured-image',
+			'post-thumbnail',
+			$featured_image_size . '-featured-image ',
+			$featured_image_size . '-post-image',
+			( $link_image ) ? 'has-link' : 'no-link'
+		);
+
+		// Sanitize CSS classes
+		$css_classes = array_filter( $css_classes, 'sanitize_html_class' );
+
 		// Featured Image
 		if ( has_post_thumbnail() && $link_image ) :
 	?>
-		<figure class="post-image <?php echo $featured_image_size . '-featured-image ' . $featured_image_size . '-post-image'; ?>">
+		<figure class="<?php echo esc_attr( implode( ' ', $css_classes ) ); ?>">
 			<a href="<?php the_permalink(); ?>">
 				<?php the_post_thumbnail( $featured_image_size ); ?>
 			</a>
@@ -107,7 +121,7 @@ if ( ! function_exists( 'sds_featured_image' ) ) {
 	<?php
 		elseif ( has_post_thumbnail() ) :
 	?>
-		<figure class="post-image <?php echo $featured_image_size . '-featured-image ' . $featured_image_size . '-post-image'; ?>">
+		<figure class="<?php echo esc_attr( implode( ' ', $css_classes ) ); ?>">
 			<?php the_post_thumbnail( $featured_image_size ); ?>
 		</figure>
 	<?php
@@ -151,7 +165,7 @@ if ( ! function_exists( 'sds_primary_menu_fallback' ) ) {
 if ( ! function_exists( 'sds_sitemap' ) ) {
 	function sds_sitemap() {
 		global $post;
-		?>
+	?>
 		<div class="sds-sitemap sitemap">
 			<?php if ( apply_filters( 'sds_sitemap_show_pages', true ) ) : // Allow pages to not be displayed ?>
 				<div class="sitemap-pages page-list">
@@ -182,40 +196,40 @@ if ( ! function_exists( 'sds_sitemap' ) ) {
 
 
 			<?php
-			// Allow post types to be filtered
-			$public_post_types = apply_filters( 'sds_sitemap_public_post_types', get_post_types( array( 'public' => true ) ) );
+				// Allow post types to be filtered
+				$public_post_types = apply_filters( 'sds_sitemap_public_post_types', get_post_types( array( 'public' => true ) ) );
 
-			// Output all public post types except attachments and pages (see above for pages)
-			if ( ! empty( $public_post_types ) )
-				foreach( $public_post_types as $post_type ) :
-					// Skip attachments and pages
-					if ( ! in_array( $post_type, array( 'attachment', 'page' ) ) ) :
-						$post_type_object = get_post_type_object( $post_type );
+				// Output all public post types except attachments and pages (see above for pages)
+				if ( ! empty( $public_post_types ) )
+					foreach ( $public_post_types as $post_type ) :
+						// Skip attachments and pages
+						if ( ! in_array( $post_type, array( 'attachment', 'page' ) ) ) :
+							$post_type_object = get_post_type_object( $post_type );
 
-						$query = new WP_Query( array(
-							'post_type' => $post_type,
-							'posts_per_page' => wp_count_posts( $post_type )->publish
-						) );
+							$query = new WP_Query( array(
+								'post_type' => $post_type,
+								'posts_per_page' => wp_count_posts( $post_type )->publish
+							) );
 
-						if( $query->have_posts() ) :
+							if ( $query->have_posts() ) :
 							?>
-							<div class="sitemap-post-type-list sitemap-<?php echo $post_type_object->name; ?>-list post-type-list">
-								<h2 title="<?php echo esc_attr( $post_type_object->labels->name ); ?>">
-									<?php echo $post_type_object->labels->name; ?>
-								</h2>
+								<div class="sitemap-post-type-list sitemap-<?php echo $post_type_object->name; ?>-list post-type-list">
+									<h2 title="<?php echo esc_attr( $post_type_object->labels->name ); ?>">
+										<?php echo $post_type_object->labels->name; ?>
+									</h2>
 
-								<ul>
-									<?php while( $query->have_posts() ) : $query->the_post(); ?>
-										<li id="<?php echo esc_attr( $post_type . '-' . $post->ID ); ?>">
-											<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-										</li>
-									<?php endwhile; ?>
-								</ul>
-							</div>
-						<?php
+									<ul>
+										<?php while( $query->have_posts() ) : $query->the_post(); ?>
+											<li id="<?php echo esc_attr( $post_type . '-' . $post->ID ); ?>">
+												<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+											</li>
+										<?php endwhile; ?>
+									</ul>
+								</div>
+							<?php
+							endif;
 						endif;
-					endif;
-				endforeach;
+					endforeach;
 			?>
 		</div>
 	<?php
@@ -260,7 +274,7 @@ if ( ! function_exists( 'sds_archive_title' ) ) {
 			$css_class = apply_filters( 'sds_archive_title_css_class', $css_class );
 
 			the_archive_title( '<h1 class="' . esc_attr( $css_class ) . '">', '</h1>' );
-		// Otherwise use fallback functionality
+		// Otherwise use fallback functionality TODO: Remove
 		else :
 			// Author
 			if ( is_author() ) :
@@ -352,10 +366,10 @@ if ( ! function_exists( 'sds_single_image_navigation' ) ) {
 	?>
 		<section class="single-post-navigation post-navigation single-image-navigation image-navigation">
 			<section class="previous-posts">
-				<?php previous_image_link( false, '&laquo; Previous Image' ); ?>
+				<?php previous_image_link( false, __( '&laquo; Previous Image', 'symphony' ) ); ?>
 			</section>
 			<section class="next-posts">
-				<?php next_image_link( false, 'Next Image &raquo;' ); ?>
+				<?php next_image_link( false, __( 'Next Image &raquo;', 'symphony' ) ); ?>
 			</section>
 		</section>
 	<?php
@@ -369,10 +383,10 @@ if ( ! function_exists( 'sds_copyright' ) ) {
 	function sds_copyright( $theme_name ) {
 	?>
 		<span class="site-copyright">
-			<?php echo apply_filters( 'sds_copyright', 'Copyright &copy; ' . date( 'Y' ) . ' <a href="' . esc_url( home_url( '/' ) ) . '">' . get_bloginfo( 'name' ) . '</a>. All Rights Reserved.' ); ?>
+			<?php echo apply_filters( 'sds_copyright', sprintf( wp_kses( __( 'Copyright &copy; %1$s <a href="%2$s">%3$s</a>. All Rights Reserved.', 'symphony' ), array( 'a' => array( 'href' => array() ) ) ), date( 'Y' ), esc_url( home_url( '/' ) ), get_bloginfo( 'name' ) ) ); ?>
 		</span>
 		<span class="slocum-credit">
-			<?php echo apply_filters( 'sds_copyright_branding', '<a href="http://slocumthemes.com/" target="_blank">' . $theme_name . ' by Slocum Studio</a>', $theme_name ); ?>
+			<?php echo apply_filters( 'sds_copyright_branding', sprintf( __( '<a href="%1$s" target="_blank">%2$s by Slocum Studio</a>', 'symphony' ), esc_url( 'http://slocumthemes.com/' ), $theme_name ), $theme_name ); ?>
 		</span>
 	<?php
 	}
@@ -406,21 +420,21 @@ if ( ! function_exists( 'sds_social_media' ) ) {
 		?>
 			<section class="social-media-icons">
 			<?php
-				foreach( $sds_theme_options['social_media'] as $key => $url ) :
+				foreach ( $sds_theme_options['social_media'] as $key => $url ) :
 					// RSS (use site RSS feed, $url is Boolean this case)
 					if ( $key === 'rss_url_use_site_feed' && $url ) :
 					?>
-						<a href="<?php bloginfo( 'rss2_url' ); ?>" class="rss_url <?php echo $social_font_map['rss_url']; ?>" target="_blank"></a>
+						<a href="<?php bloginfo( 'rss2_url' ); ?>" class="<?php echo esc_attr( 'rss_url ' . $social_font_map['rss_url'] ); ?>" target="_blank"></a>
 					<?php
 					// RSS (use custom RSS feed)
 					elseif ( $key === 'rss_url' && ! $sds_theme_options['social_media']['rss_url_use_site_feed'] && ! empty( $url ) ) :
 					?>
-						<a href="<?php echo esc_attr( $url ); ?>" class="rss_url <?php echo $social_font_map['rss_url']; ?>" target="_blank"></a>
+						<a href="<?php echo esc_attr( $url ); ?>" class="<?php echo esc_attr( 'rss_url ' . $social_font_map['rss_url'] ); ?>" target="_blank"></a>
 					<?php
 					// All other networks
 					elseif ( $key !== 'rss_url_use_site_feed' && $key !== 'rss_url' && ! empty( $url ) ) :
 					?>
-						<a href="<?php echo esc_url( $url ); ?>" class="<?php echo $key; ?> <?php echo $social_font_map[$key]; ?>" target="_blank" rel="me"></a>
+						<a href="<?php echo esc_url( $url ); ?>" class="<?php echo esc_attr(  $key . ' ' . $social_font_map[$key] ); ?>" target="_blank" rel="me"></a>
 					<?php
 					endif;
 				endforeach;
@@ -442,7 +456,7 @@ if ( ! function_exists( 'sds_post_meta' ) ) {
 		// Categories and tags
 		if ( $cats && $tags ):
 		?>
-			<p>
+			<p class="post-meta has-categories has-tags">
 			<?php
 				printf( __( 'This entry was posted in %1$s and tagged in %2$s.', 'symphony' ),
 				get_the_category_list( ', ', 'single' ),
@@ -453,7 +467,7 @@ if ( ! function_exists( 'sds_post_meta' ) ) {
 		// Categories and no tags
 		elseif ( $cats && ! $tags ) :
 		?>
-			<p>
+			<p class="post-meta has-categories no-tags">
 			<?php
 				printf( __( 'This entry was posted in %1$s.', 'symphony' ),
 				get_the_category_list( ', ', 'single' ) );
@@ -463,7 +477,7 @@ if ( ! function_exists( 'sds_post_meta' ) ) {
 		// Tags and no categories
 		elseif ( $tags && ! $cats ) :
 		?>
-			<p>
+			<p class="post-meta no-categories has-tags">
 			<?php
 				printf( __( 'This entry was tagged in %1$s.', 'symphony' ),
 				get_the_tag_list( '', ', ' ) );
@@ -476,7 +490,7 @@ if ( ! function_exists( 'sds_post_meta' ) ) {
 
 
 /**
- * This function displays pagination links based on arguments
+ * This function displays pagination links based on arguments.
  * @uses paginate_links for output
  */
 if ( ! function_exists( 'sds_post_navigation' ) ) {
@@ -488,12 +502,12 @@ if ( ! function_exists( 'sds_post_navigation' ) ) {
 			'format' => ( ( get_option( 'permalink_structure' ) && ! $wp_query->is_search ) || ( is_home() && get_option( 'show_on_front' ) !== 'page' && ! get_option( 'page_on_front' ) ) ) ? '?paged=%#%' : '&paged=%#%', // %#% will be replaced with page number
 			'current' => max( 1, get_query_var( 'paged' ) ), // Get whichever is the max out of 1 and the current page count
 			'total' => $wp_query->max_num_pages, // Get total number of pages in current query
-			'next_text' => 'Next &#8594;',
-			'prev_text' => '&#8592; Previous',
+			'next_text' => __( 'Next &#8594;', 'symphony' ),
+			'prev_text' => __( '&#8592; Previous', 'symphony' ),
 			'type' => ( $return ) ? 'array' : 'list'  // Output this as an array or unordered list
 		) );
 
-		if( $return )
+		if ( $return )
 			return $pagination_links;
 		else
 			echo $pagination_links;
@@ -572,12 +586,12 @@ if ( ! function_exists( 'sds_comment' ) ) {
 }
 
 
-/********************
- * Theme Customizer *
- ********************/
+/**************
+ * Customizer *
+ **************/
 
 /**
- * This function adds settings, sections, and controls to the Theme Customizer.
+ * This function adds settings, sections, and controls to the Customizer.
  *
  * Each theme handles the output of the styles in the wp_head action (usually in functions.php).
  * Each theme also handles filters in their respected Class Files (/includes/ThemeName.php).
@@ -585,9 +599,15 @@ if ( ! function_exists( 'sds_comment' ) ) {
 add_action( 'customize_register', 'sds_customize_register', 20 );
 
 function sds_customize_register( $wp_customize ) {
-	// Load custom Theme Customizer API assets
-	require( get_template_directory() . '/includes/class-sds-theme-options-customize-logo-control.php' ); // Logo Controller
+	// Load custom Customizer API assets
+	include_once SDS_Theme_Options::sds_core_dir() . '/customizer/class-sds-theme-options-customize-checkbox-control.php'; // Checkbox Controller
+	include_once SDS_Theme_Options::sds_core_dir() . '/customizer/class-sds-theme-options-customize-color-scheme-control.php'; // Color Scheme Controller
+	include_once SDS_Theme_Options::sds_core_dir() . '/customizer/class-sds-theme-options-customize-content-layout-control.php'; // Content Layout Controller
+	include_once SDS_Theme_Options::sds_core_dir() . '/customizer/class-sds-theme-options-customize-logo-control.php'; // Logo Controller
+	include_once SDS_Theme_Options::sds_core_dir() . '/customizer/class-sds-theme-options-customize-web-font-control.php'; // Web Font Controller
+	include_once SDS_Theme_Options::sds_core_dir() . '/customizer/class-sds-theme-options-customize-us-control.php'; // Upsell Controller
 
+	// SDS Theme Options defaults
 	$sds_theme_options_instance = SDS_Theme_Options_Instance();
 	$sds_theme_options_defaults = $sds_theme_options_instance->get_sds_theme_option_defaults();
 
@@ -617,11 +637,87 @@ function sds_customize_register( $wp_customize ) {
 				'label' => __( 'Logo', 'symphony' ),
 				'section'  => 'title_tagline',
 				'settings' => 'sds_theme_options[logo_attachment_id]',
-				'sds_theme_options_instance' => $sds_theme_options_instance,
 				'type' => 'sds_theme_options_logo' // Used in js controller
 			)
 		)
 	);
+
+
+	/**
+	 * Show/Hide Elements
+	 */
+	// Section
+	$wp_customize->add_section( 'sds_theme_options_show_hide', array(
+		'priority' => 30, // After Title & Tagline
+		'title' => __( 'Show or Hide Tagline', 'symphony' ),
+		'description' => __( 'Use this option to show or hide the tagline on your site.', 'symphony' )
+	) );
+
+	/*
+	 * Show/Hide Tagline
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[hide_tagline]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['hide_tagline'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'sds_boolval'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new SDS_Theme_Options_Customize_Checkbox_Control(
+			$wp_customize,
+			'sds_theme_options[hide_tagline]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Tagline', 'symphony' ),
+				'section'  => 'sds_theme_options_show_hide',
+				'settings' => 'sds_theme_options[hide_tagline]',
+				'priority' => 10,
+				'type' => 'checkbox', // Used in js controller
+				'css_class' => 'sds-theme-options-show-hide-tagline',
+				'css_id' => 'sds_theme_options_hide_tagline'
+			)
+		)
+	);
+
+
+	/**
+	 * Color Scheme (if specified by the theme)
+	 */
+	if ( function_exists( 'sds_color_schemes' ) ) {
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[color_scheme]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['color_scheme'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_html_class'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Color_Scheme_Control(
+				$wp_customize,
+				'sds_theme_options[color_scheme]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Color Scheme', 'symphony' ),
+					'description' => __( 'Select a color scheme to use on your site.', 'symphony' ),
+					'section'  => 'colors',
+					'settings' => 'sds_theme_options[color_scheme]',
+					'priority' => 10,
+					'type' => 'radio', // Used in js controller
+					// TODO: Check to see what other Customizer controls we can add here, like background color (if that changes in our themes), etc...
+					'color_controls' => apply_filters( 'sds_color_scheme_customizer_color_controls', array( 'content_color' ), $wp_customize ),
+				)
+			)
+		);
+	}
 
 
 	/**
@@ -632,7 +728,7 @@ function sds_customize_register( $wp_customize ) {
 	$wp_customize->add_setting(
 		'content_color',
 		array(
-			'default'  => apply_filters( 'theme_mod_content_color', '' ),
+			'default' => apply_filters( 'theme_mod_content_color', '' ),
 			'sanitize_callback' => 'sanitize_hex_color',
 			'sanitize_js_callback' => 'maybe_hash_hex_color'
 		)
@@ -644,16 +740,722 @@ function sds_customize_register( $wp_customize ) {
 			$wp_customize,
 			'content_color',
 			array(
-				'label'  => __( 'Content Color', 'symphony' ),
+				'label' => __( 'Content Color', 'symphony' ),
 				'section' => 'colors',
-				'settings' => 'content_color'
+				'settings' => 'content_color',
+				'priority' => 20
+			)
+		)
+	);
+
+
+	/*
+	 * Background Color (change priority)
+	 */
+	$wp_customize->get_control( 'background_color' )->priority = 30; // Move below content_color
+
+
+	/**
+	 * Web Font (if specified by the theme)
+	 */
+	if ( function_exists( 'sds_web_fonts' ) ) {
+		// Section
+		$wp_customize->add_section( 'fonts', array(
+			'priority' => 50, // After Colors
+			'title' => __( 'Fonts', 'symphony' ),
+		) );
+
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[web_font]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['web_font'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Web_Font_Control(
+				$wp_customize,
+				'sds_theme_options[web_font]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Web Fonts', 'symphony' ),
+					'description' => __( 'Select a web font to use on your site.', 'symphony' ),
+					'section'  => 'fonts',
+					'settings' => 'sds_theme_options[web_font]',
+					'priority' => 10,
+					'type' => 'radio' // Used in js controller
+				)
+			)
+		);
+	}
+
+
+	/**
+	 * Content Layouts
+	 */
+	if ( function_exists( 'sds_content_layouts' ) ) {
+		// Section
+		$wp_customize->add_section( 'sds_theme_options_content_layouts', array(
+			'priority' => 70, // After Header Image
+			'title' => __( 'Content Layouts', 'symphony' ),
+			'description' => __( 'Control the layout of the content on your site here. Choose a global layout scheme to be used across your entire site or specify individual content type layout schemes by adjusting the options below.', 'symphony' )
+		) );
+
+
+		/*
+		 * Global Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][global]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['global'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][global]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Global Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied globally on your site. Select more specific content layouts below.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][global]',
+					'priority' => 10,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'global'
+				)
+			)
+		);
+
+
+		/*
+		 * Front Page Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][front_page]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['front_page'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][front_page]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Front Page Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to the front page on your site (if selected in Settings &gt; Reading).', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][front_page]',
+					'priority' => 20,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'front_page',
+					'active_callback' => ( sds_is_front_page_sidebar_registered() ) ? 'sds_is_front_page_sidebar_inactive' : ''
+				)
+			)
+		);
+
+
+		/*
+		 * Home Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][home]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['home'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][home]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Home Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to the blog on your site.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][home]',
+					'priority' => 30,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'home'
+				)
+			)
+		);
+
+
+		/*
+		 * Single Post Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][single]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['single'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][single]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Single Post Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to single posts on your site.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][single]',
+					'priority' => 40,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'single'
+				)
+			)
+		);
+
+
+		/*
+		 * Single Page Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][page]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['page'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][page]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Single Page Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to single pages on your site.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][page]',
+					'priority' => 50,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'page'
+				)
+			)
+		);
+
+
+		/*
+		 * Archive Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][archive]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['archive'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][archive]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Archive Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to archives on your site.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][archive]',
+					'priority' => 60,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'archive'
+				)
+			)
+		);
+
+
+		/*
+		 * Category Archive Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][category]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['category'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][category]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Category Archive Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to category archives on your site.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][category]',
+					'priority' => 70,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'category'
+				)
+			)
+		);
+
+
+		/*
+		 * Tag Archive Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][tag]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['tag'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][tag]', // IDs can have nested array keys
+				array(
+					'label' => __( 'Tag Archive Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to tag archives on your site.', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][tag]',
+					'priority' => 80,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => 'tag'
+				)
+			)
+		);
+
+
+		/*
+		 * 404 Error Content Layout
+		 */
+		// Setting
+		$wp_customize->add_setting(
+			'sds_theme_options[content_layouts][404]', // IDs can have nested array keys
+			array(
+				'default' => $sds_theme_options_defaults['content_layouts']['404'],
+				'type' => 'option',
+				// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+				'sanitize_callback' => 'sanitize_text_field'
+			)
+		);
+
+		// Control
+		$wp_customize->add_control(
+			new SDS_Theme_Options_Customize_Content_Layout_Control(
+				$wp_customize,
+				'sds_theme_options[content_layouts][404]', // IDs can have nested array keys
+				array(
+					'label' => __( '404 Error Content Layout', 'symphony' ),
+					'description' => __( 'Select a content layout that will be applied to the 404 error page on your site. <strong>Please Note: The Customizer does not allow for previewing of 404 error pages.</strong>', 'symphony' ),
+					'section'  => 'sds_theme_options_content_layouts',
+					'settings' => 'sds_theme_options[content_layouts][404]',
+					'priority' => 90,
+					'type' => 'radio', // Used in js controller
+					'content_layout_id' => '404'
+				)
+			)
+		);
+	}
+
+	/**
+	 * Social Media
+	 */
+	// Section
+	$wp_customize->add_section( 'sds_theme_options_social_media', array(
+		'priority' => 75, // After Content Layouts
+		'title' => __( 'Social Media', 'symphony' ),
+		'description' => __( 'Enter your social media links here. This section is used throughout the site to display social media links to visitors. Some themes display social media links automatically, and some only display them within the Social Media widget.', 'symphony' )
+	) );
+
+	/*
+	 * Facebook
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][facebook_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['facebook_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][facebook_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Facebook', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][facebook_url]',
+				'priority' => 10
+			)
+		)
+	);
+
+	/*
+	 * Twitter
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][twitter_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['twitter_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][twitter_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Twitter', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][twitter_url]',
+				'priority' => 20
+			)
+		)
+	);
+
+	/*
+	 * LinkedIn
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][linkedin_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['linkedin_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][linkedin_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'LinkedIn', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][linkedin_url]',
+				'priority' => 30
+			)
+		)
+	);
+
+	/*
+	 * Google+
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][google_plus_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['google_plus_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][google_plus_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Google+', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][google_plus_url]',
+				'priority' => 40
+			)
+		)
+	);
+
+	/*
+	 * YouTube
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][youtube_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['youtube_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][youtube_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'YouTube', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][youtube_url]',
+				'priority' => 50
+			)
+		)
+	);
+
+	/*
+	 * Vimeo
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][vimeo_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['vimeo_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][vimeo_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Vimeo', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][vimeo_url]',
+				'priority' => 60
+			)
+		)
+	);
+
+	/*
+	 * Instagram
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][instagram_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['instagram_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][instagram_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Instagram', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][instagram_url]',
+				'priority' => 70
+			)
+		)
+	);
+
+	/*
+	 * Pinterest
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][pinterest_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['pinterest_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][pinterest_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Pinterest', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][pinterest_url]',
+				'priority' => 80
+			)
+		)
+	);
+
+	/*
+	 * Flickr
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][flickr_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['flickr_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][flickr_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Flickr', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][flickr_url]',
+				'priority' => 90
+			)
+		)
+	);
+
+	/*
+	 * Foursquare
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][foursquare_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['foursquare_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][foursquare_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'Foursquare', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][foursquare_url]',
+				'priority' => 100
+			)
+		)
+	);
+
+	/*
+	 * RSS (Use Site RSS Feed)
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][rss_url_use_site_feed]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['rss_url_use_site_feed'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'sds_boolval'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new SDS_Theme_Options_Customize_Checkbox_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][rss_url_use_site_feed]', // IDs can have nested array keys
+			array(
+				'label' => __( 'RSS - Use Site RSS Feed', 'symphony' ),
+				'description' => __( 'When "yes" is displayed, the RSS feed for your site will be used. Otherwise, you can enter a custom RSS URL to use instead.', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][rss_url_use_site_feed]',
+				'priority' => 110,
+				'type' => 'checkbox', // Used in js controller
+				'css_class' => 'sds-theme-options-rss-url-use-site-feed',
+				'css_id' => 'sds_theme_options_rss_url_use_site_feed',
+				'checked_label' => __( 'Yes', 'symphony' ),
+				'unchecked_label' => __( 'No', 'symphony' ),
+				'style' => array(
+					'before' => 'width: 35%; text-align: center;',
+					'after' => 'right: 0; width: 35%; padding: 0 6px; text-align: center;'
+				),
+				'checkbox_type' => 'reverse'
+			)
+		)
+	);
+
+	/*
+	 * RSS (Custom RSS Feed)
+	 */
+	// Setting
+	$wp_customize->add_setting(
+		'sds_theme_options[social_media][rss_url]', // IDs can have nested array keys
+		array(
+			'default' => $sds_theme_options_defaults['social_media']['rss_url'],
+			'type' => 'option',
+			// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+			'sanitize_callback' => 'esc_url'
+		)
+	);
+
+	// Control
+	$wp_customize->add_control(
+		new WP_Customize_Control(
+			$wp_customize,
+			'sds_theme_options[social_media][rss_url]', // IDs can have nested array keys
+			array(
+				'label' => __( 'RSS - Custom RSS Feed', 'symphony' ),
+				'section'  => 'sds_theme_options_social_media',
+				'settings' => 'sds_theme_options[social_media][rss_url]',
+				'priority' => 120,
+				'active_callback' => 'sds_social_media_use_custom_rss_feed'
 			)
 		)
 	);
 }
 
 /**
- * This function re-initializes theme options to ensure the Theme Customizer preview functions as expected.
+ * This function re-initializes theme options to ensure the Customizer preview functions as expected.
  * It also contains a backwards compatibility check for the Remove Logo option.
  */
 add_action( 'customize_preview_init', 'sds_customize_preview_init' );
@@ -667,7 +1469,7 @@ function sds_customize_preview_init() {
 	 * Remove Logo backwards compatibility check
 	 *
 	 * If 'remove-logo' is set in the options array, we need to remove it here
-	 * to ensure the Theme Customizer will save the logo information correctly.
+	 * to ensure the Customizer will save the logo information correctly.
 	 * This is due to the Theme Options sanitize function running on save of Theme
 	 * Customizer, which checks for 'remove-logo' and nulls the logo_attachment_id
 	 * value if it's set. We're now unset()ing 'remove-logo' if it is set in Theme
@@ -682,12 +1484,16 @@ function sds_customize_preview_init() {
 }
 
 /**
- * This function enqueues scripts and styles on the Theme Customizer only.
+ * This function enqueues scripts and styles on the Customizer only.
  */
 add_action( 'customize_controls_enqueue_scripts', 'sds_customize_controls_enqueue_scripts' );
 
 function sds_customize_controls_enqueue_scripts() {
-	wp_enqueue_style( 'sds-theme-options-customizer', get_template_directory_uri() . '/includes/css/customizer-sds-theme-options.css' );
+	// SDS Theme Options
+	wp_enqueue_style( 'sds-theme-options', SDS_Theme_Options::sds_core_url() . '/css/sds-theme-options.css', false, SDS_Theme_Options::VERSION );
+
+	// Customizer SDS Theme Options (after core SDS Theme Options)
+	wp_enqueue_style( 'sds-theme-options-customizer', SDS_Theme_Options::sds_core_url() . '/css/customizer-sds-theme-options.css', array( 'sds-theme-options' ) );
 }
 
 
@@ -734,7 +1540,7 @@ function sds_after_switch_theme() {
 	}
 
 	// Update the option with new values
-	update_option( SDS_Theme_Options::$option_name, $sds_theme_options );
+	update_option( SDS_Theme_Options::get_option_name(), $sds_theme_options );
 }
 
 /**
@@ -757,9 +1563,9 @@ function sds_tgmpa_register() {
 
 		// Note
 		array(
-			'name'      => 'Note - A live text widget',
-			'slug'      => 'note',
-			'required'  => false
+			'name' => 'Note - A live text widget',
+			'slug' => 'note',
+			'required' => false
 		)
 	);
 
@@ -782,7 +1588,6 @@ function sds_wp_enqueue_scripts() {
 
 	// Web Fonts
 	if ( function_exists( 'sds_web_fonts' ) && ! empty( $sds_theme_options['web_font'] ) ) {
-		$web_fonts = sds_web_fonts();
 		$protocol = is_ssl() ? 'https' : 'http';
 
 		if ( ! empty( $sds_theme_options['web_font'] ) )
@@ -790,6 +1595,7 @@ function sds_wp_enqueue_scripts() {
 	}
 
 	// Theme Option Fonts (Social Media)
+	// TODO: Provide logic to determine if the theme uses sds_social_media() in templates, or if this is active only when the Social Media widget is active
 	if ( ! empty( $sds_theme_options['social_media'] ) ) {
 		$social_networks_active = false;
 
@@ -800,7 +1606,7 @@ function sds_wp_enqueue_scripts() {
 			}
 
 		if ( $social_networks_active )
-			wp_enqueue_style( 'font-awesome-css-min', get_template_directory_uri() . '/includes/css/font-awesome.min.css' );
+			wp_enqueue_style( 'font-awesome-css-min', SDS_Theme_Options::sds_core_url() . '/css/font-awesome.min.css' );
 	}
 
 	// Comment Replies
@@ -827,7 +1633,7 @@ if ( ! function_exists( '_wp_render_title_tag' ) ) {
 add_action( 'wp_head', 'sds_wp_head' );
 
 function sds_wp_head() {
-	global $sds_theme_options;
+	global $sds_theme_options, $is_IE;
 
 	// Web Fonts
 	if ( function_exists( 'sds_web_fonts' ) && ! empty( $sds_theme_options['web_font'] ) ) :
@@ -844,6 +1650,10 @@ function sds_wp_head() {
 		<?php
 		endif;
 	endif;
+
+	// HTML5 Shiv (IE only, conditionally for less than IE9)
+	if ( $is_IE )
+		echo '<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->';
 }
 
 /**
@@ -886,7 +1696,7 @@ function sds_body_class( $classes ) {
 		// Single Page
 		if ( is_page() && ! empty( $sds_theme_options['content_layouts']['page'] ) ) {
 			// Add content layout styles only if a page template is not selected
-			if( empty( $wp_page_template ) || $wp_page_template === 'default' )
+			if ( empty( $wp_page_template ) || $wp_page_template === 'default' )
 				$sds_theme_options['body_class'] = $classes['sds-content-layout'] = $sds_theme_options['content_layouts']['page'];
 		}
 
@@ -922,11 +1732,11 @@ function sds_after_setup_theme() {
 	// Enable Automatic Feed Links
 	add_theme_support( 'automatic-feed-links' );
 
-	// Enable excerpts on Pages
-	add_post_type_support( 'page', 'excerpt' );
-
 	// Enable Title Tag Support (4.1)
 	add_theme_support( 'title-tag' );
+
+	// Enable excerpts on Pages
+	add_post_type_support( 'page', 'excerpt' );
 
 	// Register WordPress Menus
 	register_nav_menus( array(
@@ -971,7 +1781,7 @@ function sds_widgets_init() {
 	register_sidebar( array(
 		'name'          => __( 'Front Page Slider', 'symphony' ),
 		'id'            => 'front-page-slider-sidebar',
-		'description'   => __( '*This widget area is only displayed if a Front Page is selected via Settings > Reading in the Dashboard.* This widget area is displayed above the content on the Front Page.', 'symphony' ),
+		'description'   => __( '*This widget area is only displayed if a Front Page is selected via Settings &gt; Reading in the Dashboard.* This widget area is displayed above the content on the Front Page.', 'symphony' ),
 		'before_widget' => '<section id="front-page-slider-%1$s" class="widget front-page-slider front-page-slider-widget slider %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<h3 class="widgettitle widget-title front-page-slider-title">',
@@ -982,7 +1792,7 @@ function sds_widgets_init() {
 	register_sidebar( array(
 		'name'          => __( 'Front Page', 'symphony' ),
 		'id'            => 'front-page-sidebar',
-		'description'   => __( '*This widget area is only displayed if a Front Page is selected via Settings > Reading in the Dashboard.* This widget area is displayed below the Front Page Slider on the Front Page and will replace the Front Page content.', 'symphony' ),
+		'description'   => __( '*This widget area is only displayed if a Front Page is selected via Settings &gt; Reading in the Dashboard.* This widget area is displayed below the Front Page Slider on the Front Page and will replace the Front Page content.', 'symphony' ),
 		'before_widget' => '<section id="front-page-%1$s" class="widget front-page front-page-sidebar %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<h3 class="widgettitle widget-title front-page-title">',
@@ -993,7 +1803,7 @@ function sds_widgets_init() {
 	register_sidebar( array(
 		'name'          => __( 'Header Call To Action', 'symphony' ),
 		'id'            => 'header-call-to-action-sidebar',
-		'description'   => __( 'This widget area is used to display a call to action in the header', 'symphony' ),
+		'description'   => __( 'This widget area is used to display a call to action in the header.', 'symphony' ),
 		'before_widget' => '<section id="header-call-to-action-%1$s" class="widget header-call-to-action-widget %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<h3 class="widgettitle widget-title header-call-to-action-widget-title">',
@@ -1127,4 +1937,84 @@ function sds_get_color_scheme( $ignore_default = true ) {
 	}
 
 	return apply_filters( 'sds_color_scheme', $r, $ignore_default );
+}
+
+/**
+ * This function determines if a specific theme mod is set, and whether or not
+ * it is set to the default value.
+ *
+ * $color_scheme_properties is an optional array of keys for which to check against in the
+ * theme defaults.
+ */
+function sds_get_theme_mod( $name, $color_scheme_properties = array() ) {
+	$theme_mod = get_theme_mod( $name ); // Get theme mod
+	$selected_color_scheme = sds_get_color_scheme( false ); // Get selected color scheme data
+	$color_scheme_properties = ( ! empty( $color_scheme_properties ) ) ? $color_scheme_properties : array( $name );
+
+	// First make sure the theme mod isn't empty
+	if ( empty( $theme_mod ) )
+		return false;
+
+	// Next we check to make sure the theme mod isn't equal to any one of the color scheme defaults
+	// TODO: If set, this function should return an array of $color_scheme_properties?
+	foreach ( $color_scheme_properties as $property )
+		// If the theme mod is equal to one of the color scheme defaults
+		if ( isset( $selected_color_scheme[$property] ) && $theme_mod === $selected_color_scheme[$property] )
+			return false;
+
+	return $theme_mod;
+}
+
+/**
+ * This function determines if the RSS feed of the site should be used instead of a custom RSS URL. This function
+ * is typically passed as a 'active_callback' for settings/controls within the Customizer.
+ */
+function sds_social_media_use_site_rss_feed() {
+	global $sds_theme_options;
+
+	return $sds_theme_options['social_media']['rss_url_use_site_feed'];
+}
+
+/**
+ * This function determines if a custom RSS feed should be used. It returns the opposite value of
+ * sds_social_media_site_rss_feed(). This function is typically passed as a 'active_callback' for
+ * settings/controls within the Customizer.
+ *
+ * @see sds_social_media_site_rss_feed()
+ */
+function sds_social_media_use_custom_rss_feed() {
+	return ! sds_social_media_use_site_rss_feed();
+}
+
+/**
+ * This function returns the Boolean value of the $var parameter passed. The $wp_customize_setting (optional)
+ * parameter is set to false by default because this function is typically passed as a 'sanitize_callback'
+ * for settings/controls within the Customizer and the 'sanitize_callback' filter logic  passes 2 parameters
+ * to the callback function.
+ */
+function sds_boolval( $value, $wp_customize_setting = false ) {
+	return ( bool ) $value;
+}
+
+/**
+ * This function determines if the Front Page Sidebar is currently registered.
+ */
+function sds_is_front_page_sidebar_registered() {
+	global $wp_registered_sidebars;
+
+	return ( array_key_exists( 'front-page-sidebar', $wp_registered_sidebars ) );
+}
+
+/**
+ * This function determines if the Front Page Sidebar is currently active.
+ */
+function sds_is_front_page_sidebar_active() {
+	return ( is_active_sidebar( 'front-page-sidebar' ) );
+}
+
+/**
+ * This function determines if the Front Page Sidebar is currently inactive.
+ */
+function sds_is_front_page_sidebar_inactive() {
+	return ( ! sds_is_front_page_sidebar_active() );
 }

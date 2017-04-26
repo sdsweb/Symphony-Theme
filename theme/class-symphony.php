@@ -6,7 +6,7 @@ class Symphony {
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.4';
+	public $version = '1.0.7';
 
 	/**
 	 * @var string, Slug for Slocum Theme support
@@ -59,15 +59,11 @@ class Symphony {
 		add_action( 'wp_footer', array( $this, 'wp_footer' ) ); // Responsive navigation functionality
 
 		// Theme Options
-		add_action( 'admin_init', array( $this, 'symphony_admin_init' ), 20 ); // Add settings section above "Upload a Logo"
-		add_action( 'sds_theme_options_navigation_tabs', array( $this, 'sds_theme_options_navigation_tabs' ) ); // Add navigation tabs to Symphony Theme Options
-		add_action( 'sds_theme_options_settings', array( $this, 'sds_theme_options_settings' ) ); // Output settings in Symphony Theme Options
 		add_filter( 'sds_theme_options_defaults', array( $this, 'sds_theme_options_defaults' ) ); //Adjust Symphony Theme Options defaults
-		add_filter( 'sanitize_option_sds_theme_options', array( $this, 'sanitize_option_sds_theme_options' ) ); // Sanitize new Symphony Theme Options
 		add_filter( 'sds_featured_image_size', array( $this, 'sds_featured_image_size' ) ); // Adjust featured image size
 
 		// Gravity Forms
-		add_filter( 'gform_field_input', array( $this, 'gform_field_input' ), 10, 5 ); // Add placholder to newsletter form
+		add_filter( 'gform_field_input', array( $this, 'gform_field_input' ), 10, 5 ); // Add placeholder to newsletter form
 		add_filter( 'gform_confirmation', array( $this, 'gform_confirmation' ), 10, 4 ); // Change confirmation message on newsletter form
 
 		// WooCommerce
@@ -377,6 +373,15 @@ class Symphony {
 			// Make sure widgets don't get added to the Top, Primary Nav, or Secondary Header Sidebars
 			$this->wp_sidebars_changed();
 		}
+
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+	}
+
+	/**
+	 * This function outputs admin notices.
+	 */
+	function admin_notices() {
+		printf( __( '<div class="updated"><p>Welcome to Symphony! Get started by visiting the <a href="%1$s">Customizer</a>!</p></div>', 'symphony' ), esc_url( wp_customize_url() ) );
 	}
 
 	/**
@@ -713,79 +718,6 @@ class Symphony {
 	 *****************/
 
 	/**
-	 * This function adds a settings section above the "Upload a Logo" section in Symphony Theme Options.
-	 */
-	function symphony_admin_init() {
-		global $wp_settings_sections;
-
-		// Customizer Settings Section (insert before logo settings section)
-		$settings_section = array(
-			'id' => 'sds_theme_options_customizer_section',
-			'title' => __( 'Customizer &amp Conductor', 'symphony' ),
-			'callback' => array( $this, 'sds_theme_options_customizer_section' ),
-			'page' => 'sds-theme-options[general]'
-		);
-
-		$wp_settings_sections[$settings_section['page']] = $this->array_insert( 'settings-section', $settings_section, 'before', 'sds_theme_options_logo_section', $wp_settings_sections[$settings_section['page']] );
-
-		// Portfolio Post Type
-		add_settings_section( 'sds_theme_options_portfolio_section', __( 'Portfolio', 'symphony' ), array( $this, 'sds_theme_options_portfolio_section' ), 'sds-theme-options[portfolio]' );
-		add_settings_field( 'sds_theme_options_portfolio_post_type_field', __( 'Portfolio Post Type:', 'symphony' ), array( $this, 'sds_theme_options_portfolio_post_type_field' ), 'sds-theme-options[portfolio]', 'sds_theme_options_portfolio_section' );
-	}
-
-	/**
-	 * This function renders the Customizer section within Symphony Theme Options.
-	 */
-	function sds_theme_options_customizer_section() {
-		printf( __( 'Welcome to Symphony. Symphony offers many more options in the <a href="%1$s">Customizer</a>. <a href="%2$s">Symphony Pro</a> offers even more Customizer options and also works great with our <a href="%3$s" target="_blank">Conductor</a> plugin!', 'symphony' ), wp_customize_url(), sds_get_pro_link( 'theme-options-customizer' ), esc_url( 'http://conductorplugin.com/' ) );
-	}
-
-	/**
-	 * This function renders the Portfolio Post Type settings section within Symphony Theme Options.
-	 */
-	function sds_theme_options_portfolio_section() {
-		printf( __( 'Symphony has built-in support for the <a href="%1$s" target="_blank">Jetpack Portfolio Custom Post Type</a>. If you choose not to use Jetpack, you can select your "Portfolio" post type below. Portfolio posts will inherit select styling on the front-end display of your website.', 'symphony' ), esc_url( 'http://jetpack.me/2014/07/31/jetpack-3-1-portfolio-custom-post-types-a-new-logo-and-much-more/' ) );
-	}
-
-	/**
-	 * This function renders the Portfolio Post Type setting within Symphony Theme Options.
-	 */
-	function sds_theme_options_portfolio_post_type_field() {
-		global $sds_theme_options;
-
-		// If Jetpack is installed and Custom Content Types Module is activated
-		if ( symphony_jetpack_portfolio_active() ) :
-		?>
-			<p><strong><?php printf( __( 'Jetpack Portfolio Post Type is enabled. View your <a href="%1$s">Portfolio Projects</a>.', 'symphony' ), esc_url( get_post_type_archive_link( Jetpack_Portfolio::CUSTOM_POST_TYPE ) ) ); ?></strong></p>
-		<?php
-		// Jetpack not installed or Custom Content Types Module is deactivated
-		else :
-			// Pubic post types with archives
-			$public_post_types = get_post_types( array(
-				'public' => true,
-				'has_archive' => true
-			) );
-			$public_post_types = apply_filters( 'symphony_portfolio_public_post_types', $public_post_types );
-		?>
-			<label class="select-label">
-				<select id="sds_theme_options_portfolio_post_type" name="sds_theme_options[portfolio_post_type]">
-					<option value=""><?php _e( 'Select a Portfolio Post Type', 'symphony' ); ?></option>
-					<?php
-						// Loop through public post types
-						foreach ( $public_post_types as $public_post_type ) :
-							$public_post_type_object = get_post_type_object( $public_post_type );
-					?>
-						<option value="<?php echo esc_attr( $public_post_type ); ?>" <?php if ( isset( $sds_theme_options['portfolio_post_type'] ) ) { selected( $sds_theme_options['portfolio_post_type'], $public_post_type ); } ?>><?php echo ( $public_post_type_object->labels->singular_name !== $public_post_type_object->labels->name ) ? sprintf( _x( '%1$s(s)', 'Possible plural value of post type singular name.', 'conductor' ), $public_post_type_object->labels->singular_name ) : $public_post_type_object->labels->name; ?></option>
-					<?php
-						endforeach;
-					?>
-				</select>
-			</label>
-		<?php
-		endif;
-	}
-
-	/**
 	 * This function adjusts the Symphony Theme Option defaults.
 	 */
 	function sds_theme_options_defaults( $defaults ) {
@@ -810,47 +742,6 @@ class Symphony {
 			$defaults['featured_image_size'] = apply_filters( 'sds_theme_options_default_featured_image_size', '' );
 
 		return $defaults;
-	}
-	/**
-	 * This function sanitizes Symphony Portfolio Theme Options.
-	 */
-	function sanitize_option_sds_theme_options( $input ) {
-		// Portfolio Post Type
-		if ( isset( $input['portfolio_post_type'] ) ) {
-			$input['portfolio_post_type'] = sanitize_text_field( $input['portfolio_post_type'] );
-
-			// Pubic post types with archives
-			$public_post_types = get_post_types( array(
-				'public' => true,
-				'has_archive' => true
-			) );
-
-			// Verify that this is a valid post type
-			if ( ! in_array( $input['portfolio_post_type'], $public_post_types ) )
-				$input['portfolio_post_type'] = false;
-		}
-
-		return $input;
-	}
-
-	/**
-	 * This function adds navigation tabs to Symphony Theme Options.
-	 */
-	function sds_theme_options_navigation_tabs() {
-	?>
-		<a href="#portfolio" id="portfolio-tab" class="nav-tab sds-theme-options-tab"><?php _e( 'Portfolio', 'symphony' ); ?></a>
-	<?php
-	}
-
-	/**
-	 * This function adds settings/sections to Symphony Theme Options.
-	 */
-	public function sds_theme_options_settings() {
-	?>
-		<div id="portfolio-tab-content" class="sds-theme-options-tab-content">
-			<?php do_settings_sections( 'sds-theme-options[portfolio]' ); ?>
-		</div>
-	<?php
 	}
 
 	/**

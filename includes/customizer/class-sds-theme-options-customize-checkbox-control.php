@@ -5,10 +5,16 @@ if ( ! class_exists( 'WP_Customize_Control' ) )
 	return false;
 
 /**
- * This class is a custom controller for the Theme Customizer API for Slocum Themes
+ * This class is a custom controller for the Customizer API for Slocum Themes
  * which extends the WP_Customize_Control class provided by WordPress.
  */
-class Symphony_Customizer_Checkbox_Control extends WP_Customize_Control {
+// TODO: class_exists() check
+class SDS_Theme_Options_Customize_Checkbox_Control extends WP_Customize_Control {
+	/*
+	 * @var string, Type of checkbox control
+	 */
+	public $checkbox_type = 'show-hide';
+
 	/*
 	 * @var string, CSS ID used to target this particular control
 	 */
@@ -38,9 +44,12 @@ class Symphony_Customizer_Checkbox_Control extends WP_Customize_Control {
 	 * Constructor
 	 */
 	function __construct( $manager, $id, $args ) {
+		// i18n
+		$this->checked_label = __( 'Show', 'symphony' );
+		$this->unchecked_label = __( 'Hide', 'symphony' );
+
 		// Actions/ Filters
-		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_controls_enqueue_scripts' ) ); // Enqueue scripts on Theme Customizer
-		add_action( 'customize_controls_print_styles', array( $this, 'customize_controls_print_styles' ) ); // Output styles on Theme Customizer
+		add_action( 'customize_controls_print_styles', array( $this, 'customize_controls_print_styles' ) ); // Output styles in the Customizer
 
 		// Call the parent constructor here
 		parent::__construct( $manager, $id, $args );
@@ -54,24 +63,26 @@ class Symphony_Customizer_Checkbox_Control extends WP_Customize_Control {
 		<div class="customize-checkbox customize-sds-theme-options-checkbox">
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
 
-			<style type="text/css">
-				<?php
-					// Before
-					echo ( isset( $this->style['before'] ) ) ? '.' . $this->css_class .':before { ' . $this->style['before']. ' }' : false;
-				?>
-				<?php
-					// After
-					echo ( isset( $this->style['after'] ) ) ? '.' . $this->css_class .':after { ' . $this->style['after']. ' }' : false;
-				?>
-				<?php
-					// General
-					echo ( isset( $this->style['general'] ) ) ? '.' . $this->css_class .' { ' . $this->style['general']. ' }' : false;
-				?>
-			</style>
+			<?php if ( isset( $this->style['before'] ) || isset( $this->style['after'] ) || isset( $this->style['general'] ) ) : ?>
+				<style type="text/css">
+					<?php
+						// Before
+						echo ( isset( $this->style['before'] ) ) ? '.' . $this->css_class .':before { ' . $this->style['before']. ' }' : false;
+					?>
+					<?php
+						// After
+						echo ( isset( $this->style['after'] ) ) ? '.' . $this->css_class .':after { ' . $this->style['after']. ' }' : false;
+					?>
+					<?php
+						// General
+						echo ( isset( $this->style['general'] ) ) ? '.' . $this->css_class .' { ' . $this->style['general']. ' }' : false;
+					?>
+				</style>
+			<?php endif; ?>
 
-			<div class="checkbox sds-theme-options-checkbox checkbox-show-hide <?php echo $this->css_class; ?>" data-label-left="<?php echo esc_attr( $this->unchecked_label ); ?>" data-label-right="<?php echo esc_attr( $this->checked_label ); ?>">
-				<input type="checkbox" id="<?php echo $this->css_id; ?>" name="<?php echo $this->id; ?>" <?php ( ! $this->value() ) ? checked( false ) : checked( true ); ?> <?php echo $this->get_link(); ?> />
-				<label for="<?php echo $this->css_id; ?>">| | |</label>
+			<div class="checkbox sds-theme-options-checkbox checkbox-<?php echo esc_attr( $this->checkbox_type ); ?> <?php echo esc_attr( $this->css_class ); ?>" data-label-left="<?php echo esc_attr( $this->checked_label ); ?>" data-label-right="<?php echo esc_attr( $this->unchecked_label ); ?>">
+				<input type="checkbox" id="<?php echo esc_attr( $this->css_id ); ?>" name="<?php echo esc_attr( $this->id ); ?>" <?php checked( ( $this->checkbox_type === 'show-hide' ) ? ! $this->value() : $this->value() ); ?> <?php $this->link(); ?> />
+				<label for="<?php echo esc_attr( $this->css_id ); ?>" title="<?php echo esc_attr( $this->label ); ?>">| | |</label>
 			</div>
 
 			<?php if ( ! empty( $this->description ) ) : ?>
@@ -82,14 +93,7 @@ class Symphony_Customizer_Checkbox_Control extends WP_Customize_Control {
 	}
 
 	/**
-	 * This function enqueues scripts and styles on the Theme Customizer only.
-	 */
-	function customize_controls_enqueue_scripts() {
-		wp_enqueue_style( 'sds-theme-options', get_template_directory_uri() . '/includes/css/sds-theme-options.css' );
-	}
-
-	/**
-	 * This function prints styles on the Theme Customizer only.
+	 * This function prints styles on the Customizer only.
 	 */
 	function customize_controls_print_styles() {
 		global $_wp_admin_css_colors;

@@ -118,7 +118,9 @@
 					$select.html( symphony_google_choices ).val( control.setting.get() );
 
 					// Select2
-					setTimeout( function() { $select.select2(); }, 500 );
+					setTimeout( function() {
+						$select.symphony_select2();
+					}, 500 );
 				}
 			} );
 		}

@@ -6,7 +6,7 @@ class Symphony_Customizer {
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.1';
+	public $version = '1.0.8';
 
 	/**
 	 * @var string, Transient name
@@ -43,7 +43,7 @@ class Symphony_Customizer {
 
 		// Customizer
 		add_action( 'customize_register', array( $this, 'customize_register' ), 25 ); // Add settings/sections/controls to Customizer
-		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_controls_enqueue_scripts' ), 20 );
+		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_controls_enqueue_scripts' ), 0 );
 		add_action( 'customize_save_after', array( $this, 'reset_transient' ) ); // Customize Save (reset transients)
 
 		// Color Scheme
@@ -148,9 +148,9 @@ class Symphony_Customizer {
 	 */
 	function customize_register( $wp_customize ) {
 		// Load custom Customizer API assets
-		include_once( get_template_directory() . '/customizer/class-symphony-customizer-checkbox-control.php' ); // Checkbox Controller
-
-		include_once( get_template_directory() . '/customizer/class-symphony-customizer-font-size-control.php' ); // Symphony Customizer Font Size Control
+		include_once get_template_directory() . '/customizer/class-symphony-customizer-checkbox-control.php'; // Checkbox Controller
+		include_once get_template_directory() . '/customizer/class-symphony-customizer-font-size-control.php'; // Symphony Customizer Font Size Control
+		include_once get_template_directory() . '/customizer/class-symphony-customizer-jetpack-portfolio-control.php'; // Symphony Customizer Jetpack Portfolio Control
 
 		$sds_theme_options_instance = SDS_Theme_Options_Instance();
 		$sds_theme_options_defaults = $sds_theme_options_instance->get_sds_theme_option_defaults();
@@ -480,6 +480,43 @@ class Symphony_Customizer {
 						'type' => 'checkbox', // Used in js controller
 						'css_class' => 'sds-theme-options-show-hide-author-meta',
 						'css_id' => 'sds_theme_options_hide_author_meta'
+					)
+				)
+			);
+
+			/**
+			 * Symphony Jetpack Portfolio
+			 */
+			// Section
+			$wp_customize->add_section( 'symphony_jetpack_portfolio', array(
+				'priority' => 70, // After Show or Hide Elements
+				'title' => __( 'Symphony: Jetpack Portfolio', 'symphony' ),
+				'panel' => 'symphony_general_design'
+			) );
+
+			// Setting
+			$wp_customize->add_setting(
+				'sds_theme_options[portfolio_post_type]', // IDs can have nested array keys
+				array(
+					'default' => $sds_theme_options_defaults['portfolio_post_type'],
+					'type' => 'option',
+					// Data is also sanitized upon update_option() call using the sanitize function in $sds_theme_options_instance
+					'sanitize_callback' => array( $this, 'sanitize_symphony_jetpack_portfolio' )
+				)
+			);
+
+			// Control
+			$wp_customize->add_control(
+				new Symphony_Customizer_Jetpack_Portfolio_Control(
+					$wp_customize,
+					'sds_theme_options[portfolio_post_type]', // IDs can have nested array keys
+					array(
+						'label' => __( 'Portfolio Post Type:', 'symphony' ),
+						'description' => sprintf( __( 'Symphony has built-in support for the <a href="%1$s" target="_blank">Jetpack Portfolio Custom Post Type</a>. If you choose not to use Jetpack, you can select your "Portfolio" post type. Portfolio posts will inherit select styling on the front-end display of your website.', 'symphony' ), esc_url( 'http://jetpack.me/2014/07/31/jetpack-3-1-portfolio-custom-post-types-a-new-logo-and-much-more/' ) ),
+						'section'  => 'symphony_jetpack_portfolio',
+						'settings' => 'sds_theme_options[portfolio_post_type]',
+						'priority' => 10,
+						'type' => 'select' // Used in js controller
 					)
 				)
 			);
@@ -2771,9 +2808,16 @@ class Symphony_Customizer {
 		// Symphony Customizer CSS
 		wp_enqueue_style( 'symphony-customizer', get_template_directory_uri() . '/customizer/css/symphony-customizer.css', array( 'sds-theme-options' ) );
 
-		// Select2
-		wp_enqueue_script( 'select2', get_template_directory_uri() . '/customizer/js/select2/select2.min.js', array( 'jquery' ), $this->version );
-		wp_enqueue_style( 'select2', get_template_directory_uri() . '/customizer/js/select2/select2.css' );
+		/*
+		 * Select2
+		 *
+		 * Due to potential conflicts that arise when multiple Select2 versions are enqueued on a page, we have
+		 * to enqueue this script in the <head> element to ensure we can capture the correct jQuery Select2 function.
+		 * This is also why we are hooking into customize_controls_enqueue_scripts with a priority of 0.
+		 */
+		wp_enqueue_script( 'symphony-select2', get_template_directory_uri() . '/customizer/js/select2/select2.min.js', array( 'jquery' ), $this->version );
+		wp_add_inline_script( 'symphony-select2', '( function ( $ ) { $.fn.symphony_select2 = $.fn.select2; }( jQuery ) );' );
+		wp_enqueue_style( 'symphony-select2', get_template_directory_uri() . '/customizer/js/select2/select2.css' );
 	}
 
 	/**
@@ -3826,6 +3870,26 @@ class Symphony_Customizer {
 		}
 
 		return $avail_image_sizes;
+	}
+
+	/**
+	 * This function sanitizes the Symphony Jetpack Portfolio Customizer setting.
+	 */
+	public function sanitize_symphony_jetpack_portfolio( $post_type ) {
+		// Portfolio Post Type
+		$post_type = sanitize_text_field( $post_type );
+
+		// Pubic post types with archives
+		$public_post_types = get_post_types( array(
+			'public' => true,
+			'has_archive' => true
+		) );
+
+		// Verify that this is a valid post type
+		if ( ! in_array( $post_type, $public_post_types ) )
+			$post_type = false;
+
+		return $post_type;
 	}
 }
 

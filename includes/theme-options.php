@@ -1,15 +1,16 @@
 <?php
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Bail if accessed directly
+if ( ! defined( 'ABSPATH' ) )
+	exit;
 
 
 /**
  * SDS Theme Options
  *
- * Description: This Class instantiates the SDS Options Panel providing themes with various options to use.
+ * Description: This Class instantiates SDS Options, providing themes with various options to use.
  *
- * @version 1.2.9
+ * @version 1.4.2
  */
 if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 	global $sds_theme_options;
@@ -18,7 +19,7 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 		/**
 		 * @var string, Constant, Version of the class
 		 */
-		const VERSION = '1.2.9';
+		const VERSION = '1.4.2';
 
 
 		// Private Variables
@@ -27,11 +28,6 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 		 * @var SDS_Theme_Options, Instance of the class
 		 */
 		private static $instance; // Keep track of the instance
-
-		/**
-		 * @var string, Description shown on options panel
-		 */
-		private static $options_page_description = 'Customize your theme to the fullest extent by using the options below.'; // Options Page description shown below title
 
 
 		// Public Variables
@@ -62,512 +58,383 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 		}
 
 		/**
-		 * These functions calls and hooks are added on new instance.
+		 * This function sets up all of the actions and filters on instance as well as properties/data.
 		 */
 		function __construct() {
+			// Setup properties
 			$this->option_defaults = $this->get_sds_theme_option_defaults();
 			$this->theme = $this->get_parent_theme();
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) ); // Enqueue Theme Options Stylesheet
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) ); // Register Appearance Menu Item
-			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 999 ); // Add Theme Options Menu to Toolbar
-			add_action( 'admin_init', array( $this, 'admin_init' ) ); // Register Settings, Settings Sections, and Settings Fields
-			add_filter( 'wp_redirect', array( $this, 'wp_redirect' ) ); // Add "hash" (tab) to URL before re-direct
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) ); // Enqueue CSS/JS
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) ); // Register Menu Item
 		}
-
 
 		/**
 		 * This function enqueues our theme options stylesheet, WordPress media upload scripts, and our custom upload script only on our options page in admin.
 		 */
 		function admin_enqueue_scripts( $hook ) {
-			if ( $hook === 'appearance_page_sds-theme-options' ) {
-				$protocol = is_ssl() ? 'https' : 'http';
+			// SDS Theme Options CSS
+			wp_enqueue_style( 'sds-theme-options', SDS_Theme_Options::sds_core_url() . '/css/sds-theme-options.css', false, self::VERSION );
 
-				wp_enqueue_style( 'sds-theme-options', get_template_directory_uri() . '/includes/css/sds-theme-options.css', false, self::VERSION );
+			// SDS Theme Options JS
+			wp_enqueue_script( 'sds-theme-options', get_template_directory_uri() . '/includes/js/sds-theme-options.js', array( 'jquery' ), self::VERSION );
 
-				wp_enqueue_media(); // Enqueue media scripts
-				wp_enqueue_script( 'sds-theme-options', get_template_directory_uri() . '/includes/js/sds-theme-options.js', array( 'jquery' ), self::VERSION );
-
-				// Web Fonts
-				if ( function_exists( 'sds_web_fonts' ) ) {
-					$google_families = $this->get_google_font_families_list();
-
-					wp_enqueue_style( 'google-web-fonts', $protocol . '://fonts.googleapis.com/css?family=' . $google_families, false, self::VERSION );
-				}
-			}
+			// About Page
+			if ( $hook === 'appearance_page_about-symphony' )
+				// Font Awesome
+				wp_enqueue_style( 'font-awesome-css-min', SDS_Theme_Options::sds_core_url() . '/css/font-awesome.min.css' );
 		}
 
 		/**
 		 * This function adds a menu item under "Appearance" in the Dashboard.
 		 */
 		function admin_menu() {
-			add_theme_page( __( 'Theme Options', 'symphony' ), __( 'Theme Options', 'symphony' ), 'edit_theme_options', 'sds-theme-options', array( $this, 'sds_theme_options_page' ) );
+			// About
+			add_theme_page( sprintf( __( 'About %1$s', 'symphony' ), $this->theme->get( 'Name' ) ), sprintf( __( 'About %1$s', 'symphony' ), $this->theme->get( 'Name' ) ), 'edit_theme_options', 'about-symphony', array( $this, 'sds_about_theme_page' ) );
 		}
 
 		/**
-		 * This function adds a new menu to the Toolbar under the appearance parent group on the front-end.
+		 * This function handles the rendering of the about page.
 		 */
-		function admin_bar_menu( $wp_admin_bar ) {
-			// Make sure we're on the front end and that the current user can either switch_themes or edit_theme_options
-			if ( ! is_admin() && ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) ) ) 
-				$wp_admin_bar->add_menu( array(
-					'parent' => 'appearance',
-					'id'  => 'sds-theme-options',
-					'title' => __( 'Theme Options', 'symphony' ),
-					'href' => admin_url( 'themes.php?page=sds-theme-options' ),
-					'meta' => array(
-						'class' => 'sds-theme-options'
-					)
-				) );
-		}
-
-		/**
-		 * This function registers our setting, settings sections, and settings fields.
-		 */
-		function admin_init() {
-			// Register Setting
-			register_setting( self::$option_name, self::$option_name, array( $this, 'sds_theme_options_sanitize' ) );
-
-
-			/*
-			 * General Settings (belong to the sds-theme-options[general] "page", used during page render to display section in tab format)
-			 */
-
-			// Logo
-			add_settings_section( 'sds_theme_options_logo_section', __( 'Upload A Logo', 'symphony'), array( $this, 'sds_theme_options_logo_section' ), 'sds-theme-options[general]' );
-			add_settings_field( 'sds_theme_options_logo_field', __( 'Logo:', 'symphony'), array( $this, 'sds_theme_options_logo_field' ), 'sds-theme-options[general]', 'sds_theme_options_logo_section' );
-			
-			// Hide Tagline
-			add_settings_section( 'sds_theme_options_hide_tagline_section', __( 'Show/Hide Site Tagline', 'symphony'), array( $this, 'sds_theme_options_hide_tagline_section' ), 'sds-theme-options[general]' );
-			add_settings_field( 'sds_theme_options_hide_tagline_field', __( 'Show or Hide Site Tagline:', 'symphony'), array( $this, 'sds_theme_options_hide_tagline_field' ), 'sds-theme-options[general]', 'sds_theme_options_hide_tagline_section' );
-
-			// Color Schemes (if specified by theme)
-			if ( function_exists( 'sds_color_schemes' ) ) {
-				add_settings_section( 'sds_theme_options_color_schemes_section', __( 'Color Scheme', 'symphony'), array( $this, 'sds_theme_options_color_schemes_section' ), 'sds-theme-options[general]' );
-				add_settings_field( 'sds_theme_options_color_schemes_field', __( 'Select A Color Scheme:', 'symphony'), array( $this, 'sds_theme_options_color_schemes_field' ), 'sds-theme-options[general]', 'sds_theme_options_color_schemes_section' );
-			}
-
-			// Google Web Fonts (if specified by theme)
-			if ( function_exists( 'sds_web_fonts' ) ) {
-				add_settings_section( 'sds_theme_options_web_fonts_section', __( 'Web Fonts', 'symphony'), array( $this, 'sds_theme_options_web_fonts_section' ), 'sds-theme-options[general]' );
-				add_settings_field( 'sds_theme_options_web_fonts_field', __( 'Select A Web Font:', 'symphony'), array( $this, 'sds_theme_options_web_fonts_field' ), 'sds-theme-options[general]', 'sds_theme_options_web_fonts_section' );
-			}
-
-			/*
-			 * Content Layout Settings (belong to the sds-theme-options[content-layout] "page", used during page render to display section in tab format)
-			 */
-
-			if ( function_exists( 'sds_content_layouts' ) ) {
-				add_settings_section( 'sds_theme_options_content_layout_section', __( 'Content Layout', 'symphony'), array( $this, 'sds_theme_options_content_layout_section' ), 'sds-theme-options[content-layout]' );
-				add_settings_field( 'sds_theme_options_content_layout_global_field', __( 'Global', 'symphony'), array( $this, 'sds_theme_options_content_layout_global_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_front_page_field', __( 'Front Page', 'symphony'), array( $this, 'sds_theme_options_content_layout_front_page_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_home_field', __( 'Home (Blog)', 'symphony'), array( $this, 'sds_theme_options_content_layout_home_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_single_field', __( 'Single Post', 'symphony'), array( $this, 'sds_theme_options_content_layout_single_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_page_field', __( 'Single Page', 'symphony'), array( $this, 'sds_theme_options_content_layout_page_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_archive_field', __( 'Archive', 'symphony'), array( $this, 'sds_theme_options_content_layout_archive_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_category_field', __( 'Category', 'symphony'), array( $this, 'sds_theme_options_content_layout_category_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_tag_field', __( 'Tag', 'symphony'), array( $this, 'sds_theme_options_content_layout_tag_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-				add_settings_field( 'sds_theme_options_content_layout_404_field', __( '404 Error', 'symphony'), array( $this, 'sds_theme_options_content_layout_404_field' ), 'sds-theme-options[content-layout]', 'sds_theme_options_content_layout_section' );
-			}
-
-
-			/*
-			 * Social Media Settings (belong to the sds-theme-options[social-media] "page", used during page render to display section in tab format)
-			 */
-
- 			add_settings_section( 'sds_theme_options_social_media_section', __( 'Social Media', 'symphony'), array( $this, 'sds_theme_options_social_media_section' ), 'sds-theme-options[social-media]' );
-			add_settings_field( 'sds_theme_options_social_media_facebook_url_field', __( 'Facebook:', 'symphony'), array( $this, 'sds_theme_options_social_media_facebook_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_twitter_url_field', __( 'Twitter:', 'symphony'), array( $this, 'sds_theme_options_social_media_twitter_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_linkedin_url_field', __( 'LinkedIn:', 'symphony'), array( $this, 'sds_theme_options_social_media_linkedin_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_google_plus_url_field', __( 'Google+:', 'symphony'), array( $this, 'sds_theme_options_social_media_google_plus_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_youtube_url_field', __( 'YouTube:', 'symphony'), array( $this, 'sds_theme_options_social_media_youtube_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_vimeo_url_field', __( 'Vimeo:', 'symphony'), array( $this, 'sds_theme_options_social_media_vimeo_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_instagram_url_field', __( 'Instagram:', 'symphony'), array( $this, 'sds_theme_options_social_media_instagram_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_pinterest_url_field', __( 'Pinterest:', 'symphony'), array( $this, 'sds_theme_options_social_media_pinterest_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_flickr_url_field', __( 'Flickr:', 'symphony'), array( $this, 'sds_theme_options_social_media_flickr_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			//add_settings_field( 'sds_theme_options_social_media_yelp_url_field', __( 'Yelp:', 'symphony'), array( $this, 'sds_theme_options_social_media_yelp_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_foursquare_url_field', __( 'Foursquare:', 'symphony'), array( $this, 'sds_theme_options_social_media_foursquare_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-			add_settings_field( 'sds_theme_options_social_media_rss_url_field', __( 'RSS:', 'symphony'), array( $this, 'sds_theme_options_social_media_rss_url_field' ), 'sds-theme-options[social-media]', 'sds_theme_options_social_media_section' );
-		}
-
-		/**
-		 * This function is the callback for the logo settings section.
-		 */
-		function sds_theme_options_logo_section() {
+		function sds_about_theme_page() {
 		?>
-			<p>
-				<?php
-					$sds_logo_dimensions = apply_filters( 'sds_theme_options_logo_dimensions', '300x100' );
-					printf( __( 'Upload a logo to to replace the site name. Recommended dimensions: %1$s.', 'symphony' ), $sds_logo_dimensions );
-				?>
-			</p>
-		<?php
-		}
+			<div class="wrap about-wrap">
+				<h1><?php printf( __( 'Welcome to %1$s', 'symphony' ), $this->theme->get( 'Name' ) ); ?></h1>
+				<div class="about-text sds-about-text"><?php printf( __( 'Learn more about %1$s on this page.', 'symphony' ), $this->theme->get( 'Name' ) ); ?></div>
 
-		/**
-		 * This function is the callback for the logo settings field.
-		 */
-		function sds_theme_options_logo_field( $customizer = false ) {
-			global $sds_theme_options;
+				<h3 class="nav-tab-wrapper sds-theme-options-nav-tab-wrapper sds-theme-options-tab-wrap">
+					<a href="#getting-started" id="getting-started-tab" class="nav-tab sds-theme-options-tab nav-tab-active"><?php _e( 'Getting Started', 'symphony' ); ?></a>
+					<a href="#free-vs-pro" id="free-vs-pro-tab" class="nav-tab sds-theme-options-tab"><?php _e( 'Free vs. Pro', 'symphony' ); ?></a>
+					<?php do_action( 'sds_about_page_navigation_tabs' ); // Hook for extending tabs ?>
+				</h3>
 
-			// Output logo dimensions on Customizer
-			if ( $customizer ) :
-		?>
-				<p>
+				<div id="sds-about-page">
 					<?php
-						$sds_logo_dimensions = apply_filters( 'sds_theme_options_logo_dimensions', '300x100' );
-						printf( __( 'Upload a logo to to replace the site name. Recommended dimensions: %1$s.', 'symphony' ), $sds_logo_dimensions );
+					/*
+					 * Getting Started
+					 */
 					?>
-				</p>
-		<?php
-			endif;
-		?>
+					<div id="getting-started-tab-content" class="sds-theme-options-tab-content sds-theme-options-tab-content-active">
+						<div class="sds-about-page-section">
+							<h3><?php printf( __( 'Welcome to %1$s', 'symphony' ), $this->theme->get( 'Name' ) ); ?></h3>
+							<p><?php _e( 'Thanks for choosing Slocum Themes. We\'ve created this page to help guide you through setting up your website. We hope that you enjoy our themes.', 'symphony' ); ?></p>
+						</div>
 
-			<strong><?php _e( 'Current Logo:', 'symphony' ); ?></strong>
-			<div class="sds-theme-options-preview sds-theme-options-logo-preview">
-				<?php
-					if ( isset( $sds_theme_options['logo_attachment_id'] ) && $sds_theme_options['logo_attachment_id'] ) :
-						echo wp_get_attachment_image( $sds_theme_options['logo_attachment_id'], 'full' );
-					else :
-				?>
-						<div class="description"><?php _e( 'No logo selected.', 'symphony' ); ?></div>
-				<?php endif; ?>
-			</div>
+						<div class="sds-about-page-section">
+							<h3><?php _e( 'Get Started in the Customizer', 'symphony' ); ?></h3>
+							<p><?php printf( __( '%1$s utilizes the WordPress Customizer. This means that you can customize everything in one place! Visit the <a href="%2$s">Customizer</a> to get started.', 'symphony' ), $this->theme->get( 'Name' ), esc_url( wp_customize_url() ) ); ?></p>
+							<p>
+								<a href="<?php echo esc_url( wp_customize_url() ); ?>" class="button button-primary"><?php _e( 'Launch Customizer', 'symphony' ); ?></a>
+							</p>
+						</div>
 
-			<input type="hidden" id="sds_theme_options_logo" class="sds-theme-options-upload-value" name="sds_theme_options[logo_attachment_id]"  value="<?php echo ( isset( $sds_theme_options['logo_attachment_id'] ) && ! empty( $sds_theme_options['logo_attachment_id'] ) ) ? esc_attr( $sds_theme_options['logo_attachment_id'] ) : false; ?>" />
-			<input type="submit" id="sds_theme_options_logo_attach" class="button-primary sds-theme-options-upload" name="sds_theme_options_logo_attach"  value="<?php esc_attr_e( 'Choose Logo', 'symphony' ); ?>" data-media-title="Choose A Logo" data-media-button-text="Use As Logo" />
-			<?php submit_button( __( 'Remove Logo', 'symphony' ), array( 'secondary', 'button-remove-logo' ), 'sds_theme_options[remove-logo]', false, ( ! isset( $sds_theme_options['logo_attachment_id'] ) || empty( $sds_theme_options['logo_attachment_id'] ) ) ? array( 'disabled' => 'disabled', 'data-init-empty' => 'true' ) : false ); ?>
-		<?php
-		}
+						<div class="sds-about-page-section">
+							<h3><?php _e( 'General Documentation', 'symphony' ); ?></h3>
+							<p><?php printf( __( 'Be sure to have a look at our <a href="%1$s" target="_blank">General Documentation</a> for helpful guides.', 'symphony' ), esc_url( 'https://slocumthemes.com/docs/section/general/' ) ); ?></p>
+						</div>
 
-		
-		/**
-		 * This function is the callback for the show/hide tagline settings section.
-		 */
-		function sds_theme_options_hide_tagline_section() {
-		?>
-			<p><?php _e( 'Use this option to show or hide the site tagline.', 'symphony' ); ?></p>
-		<?php
-		}
+						<div class="sds-about-page-section">
+							<h3><?php _e( 'Build the Perfect WordPress Website Course', 'symphony' ); ?></h3>
+							<p><?php _e( 'We created free a 9-part course that will help you build the perfect WordPress website. We cover topics such as: security, lead generation, backups, and more.', 'symphony' ); ?></p>
+							<p>
+							<a href="<?php echo esc_url( 'https://slocumthemes.com/freecourse' ); ?>" class="button button-primary" target="_blank"><?php _e( 'Enroll in the free course', 'symphony' ); ?></a>
+						</div>
 
-		/**
-		 * This function is the callback for the show/hide tagline settings field.
-		 */
-		function sds_theme_options_hide_tagline_field() {
-			global $sds_theme_options;
-		?>
-			<div class="checkbox sds-theme-options-checkbox checkbox-show-hide-tagline" data-label-left="<?php esc_attr_e( 'Show', 'symphony' ); ?>" data-label-right="<?php esc_attr_e( 'Hide', 'symphony' ); ?>">
-				<input type="checkbox" id="sds_theme_options_hide_tagline" name="sds_theme_options[hide_tagline]" <?php ( isset( $sds_theme_options['hide_tagline'] ) ) ? checked( $sds_theme_options['hide_tagline'] ) : checked( false ); ?> />
-				<label for="sds_theme_options_hide_tagline">| | |</label>
-			</div>
-			<span class="description"><?php _e( 'When "show" is displayed, the tagline will be displayed on your site and vise-versa.', 'symphony' ); ?></span>
-		<?php
-		}
-
-		
-		/**
-		 * This function is the callback for the color schemes settings section.
-		 */
-		function sds_theme_options_color_schemes_section() {
-		?>
-			<p><?php _e( 'Select a color scheme to use on your site.', 'symphony' ); ?></p>
-		<?php
-		}
-
-		/**
-		 * This function is the callback for the color schemes settings field.
-		 */
-		function sds_theme_options_color_schemes_field() {
-			global $sds_theme_options, $wp_version;
-
-			$color_schemes = ( function_exists( 'sds_color_schemes' ) ) ? sds_color_schemes() : array();
-
-			if ( ! empty( $color_schemes ) ) :
-		?>
-			<div class="sds-theme-options-color-schemes-wrap">
-				<?php if ( version_compare( $wp_version, '3.8', '<' ) ) : // Output styles to change CSS on < 3.8 ?>
-					<style type="text/css">
-						.sds-theme-options-color-scheme input[type=radio]:checked + .sds-theme-options-color-scheme-preview:after {
-							content: '\2714';
-							font-family: inherit;
-							font-size: 20px;
-							margin-top: -5px;
-						}
-					</style>
-				<?php endif; ?>
-
-				<?php foreach( $color_schemes as $name => $atts ) :	?>
-					<div class="sds-theme-options-color-scheme sds-theme-options-color-scheme-<?php echo $name; ?>">
-						<label>
-							<?php if ( ( ! isset( $sds_theme_options['color_scheme'] ) || empty( $sds_theme_options['color_scheme'] ) ) && isset( $atts['default'] ) && $atts['default'] ) : // No color scheme selected, use default ?>
-								<input type="radio" id="sds_theme_options_color_scheme_<?php echo $name; ?>" name="sds_theme_options[color_scheme]" <?php checked( true ); ?> value="<?php echo $name; ?>" />
-							<?php else: ?>
-								<input type="radio" id="sds_theme_options_color_scheme_<?php echo $name; ?>" name="sds_theme_options[color_scheme]" <?php ( isset( $sds_theme_options['color_scheme'] ) ) ? checked( $sds_theme_options['color_scheme'], $name ) : checked( false ); ?> value="<?php echo $name; ?>" />
-							<?php endif;?>
-
-							<?php if ( isset( $atts['preview'] ) && ! empty( $atts['preview'] ) ) : ?>
-								<div class="sds-theme-options-color-scheme-preview" style="background: <?php echo $atts['preview']; ?>">&nbsp;</div>
-							<?php endif; ?>
-
-							<?php echo ( isset( $atts['label'] ) ) ? $atts['label'] : false; ?>
-						</label>
+						<?php do_action( 'sds_about_page_getting_started' ); ?>
 					</div>
-				<?php endforeach; ?>
 
-				<?php do_action( 'sds_theme_options_upgrade_cta', 'color-schemes' ); ?>
-			</div>
-		<?php
-			endif;
-		}
+					<?php
+					/*
+					 * Free vs. Pro
+					 */
+					?>
+					<div id="free-vs-pro-tab-content" class="sds-theme-options-tab-content">
+						<div class="sds-about-page-section">
+							<h3><?php _e( 'Free vs. Pro', 'symphony' ); ?></h3>
+							<p><?php printf( __( 'Use the table below to determine if the Pro version of %1$s is right for you.', 'symphony' ), $this->theme->get( 'Name' ) ); ?></p>
 
-		
-		/**
-		 * This function is the callback for the web fonts settings section.
-		 */
-		function sds_theme_options_web_fonts_section() {
-		?>
-			<p><?php _e( 'Select a Google Web Font to use on your site.', 'symphony' ); ?></p>
-		<?php
-		}
+							<table class="sds-about-page-table free-vs-pro-table">
+								<tr>
+									<th></th>
+									<th><?php echo $this->theme->get( 'Name' ); ?></th>
+									<th><?php printf( __( '%1$s Pro', 'symphony' ), $this->theme->get( 'Name' ) ); ?></th>
+								</tr>
 
-		/**
-		 * This function is the callback for the web fonts settings field.
-		 */
-		function sds_theme_options_web_fonts_field() {
-			global $sds_theme_options, $wp_version;
+								<?php
+									/*
+									 * Color Schemes
+									 */
 
-			$web_fonts = ( function_exists( 'sds_web_fonts' ) ) ? sds_web_fonts() : array();
+									// Count number of defined color schemes (ignoring "default")
+									$sds_color_schemes_count = ( function_exists( 'sds_color_schemes' ) ) ? count( sds_color_schemes() ) : 0;
 
-			if ( ! empty( $web_fonts ) ) :
-		?>
-			<div class="sds-theme-options-web-fonts-wrap">
-				<?php if ( version_compare( $wp_version, '3.8', '<' ) ) : // Output styles to change CSS on < 3.8 ?>
-					<style type="text/css">
-						.sds-theme-options-web-font input[type=radio]:checked + .sds-theme-options-web-font-selected:before {
-							content: '\2714';
-							font-family: inherit;
-							font-size: 20px;
-							margin-top: -2px;
-						}
-					</style>
-				<?php endif; ?>
+									// Free color scheme count
+									$free_color_schemes_count = apply_filters( 'sds_about_page_free_color_schemes_count', $sds_color_schemes_count );
 
-				<div class="sds-theme-options-web-font sds-theme-options-web-font-default">
-					<label>
-						<input type="radio" id="sds_theme_options_web_font_default" name="sds_theme_options[web_font]" <?php ( ! isset( $sds_theme_options['web_font'] ) || empty( $sds_theme_options['web_font'] ) || $sds_theme_options['web_font'] === 'default' ) ? checked( true ) : checked( false ); ?> value="default" />
-						<div class="sds-theme-options-web-font-selected">&nbsp;</div>
-					</label>
-					<span class="sds-theme-options-web-font-label-default"><?php _e( 'Default', 'symphony' ); ?></span>
+									// Pro color scheme count
+									$pro_color_schemes_count = apply_filters( 'sds_about_page_pro_color_schemes_count', 0 );
+								?>
+
+								<?php if ( function_exists( 'sds_color_schemes' ) || $pro_color_schemes_count > 0 ) : ?>
+									<tr>
+										<td class="sds-about-page-free-vs-pro-component">
+											<h4><?php _e( 'Color Schemes', 'symphony' ); ?></h4>
+											<p>
+												<?php
+													// Free and Pro color schemes
+													if ( $free_color_schemes_count > 0 && $pro_color_schemes_count > 0 )
+														printf( __( 'Both %1$s and %1$s Pro have color schemes.', 'symphony' ), $this->theme->get( 'Name' ) );
+													// Pro color schemes only
+													else if ( $free_color_schemes_count === 0 && $pro_color_schemes_count > 0 )
+														printf( __( '%1$s Pro has color schemes.', 'symphony' ), $this->theme->get( 'Name' ) );
+													// Free color schemes only
+													else if ( $free_color_schemes_count > 0 && $pro_color_schemes_count === 0 )
+														printf( __( '%1$s has color schemes.', 'symphony' ), $this->theme->get( 'Name' ) );
+
+													// Free vs Pro color scheme count
+													if ( $free_color_schemes_count < $pro_color_schemes_count )
+														printf( __( ' %1$s Pro offers more color schemes for you to choose from.', 'symphony' ), $this->theme->get( 'Name' ) );
+												?>
+											</p>
+										</td>
+										<td class="sds-about-page-free-vs-pro-free-component">
+											<span class="fa <?php echo ( $free_color_schemes_count > 0 ) ? 'fa-check' : 'fa-times'; ?>"></span>
+
+											<?php if ( $free_color_schemes_count > 0 ) : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php printf( _n( '%1$s Color Scheme', '%1$s Color Schemes', $free_color_schemes_count, 'symphony' ), $free_color_schemes_count ); ?></span>
+											<?php else : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php _e( 'No Color Schemes', 'symphony' ); ?></span>
+											<?php endif; ?>
+										</td>
+										<td class="sds-about-page-free-vs-pro-pro-component">
+											<span class="fa <?php echo ( $pro_color_schemes_count > 0 ) ? 'fa-check' : 'fa-times'; ?>"></span>
+
+											<?php if ( $pro_color_schemes_count > 0 ) : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php printf( _n( '%1$s Color Scheme', '%1$s Color Schemes', $pro_color_schemes_count, 'symphony' ), $pro_color_schemes_count ); ?></span>
+											<?php else : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php _e( 'No Color Schemes', 'symphony' ); ?></span>
+											<?php endif; ?>
+										</td>
+									</tr>
+								<?php endif; ?>
+
+								<?php
+									/*
+									 * Web Fonts
+									 */
+
+									// Count number of defined web fonts
+									$sds_web_fonts_count = ( function_exists( 'sds_web_fonts' ) ) ? count( sds_web_fonts() ) : 0;
+
+									// Free web font count
+									$free_web_fonts_count = apply_filters( 'sds_about_page_free_web_fonts_count', $sds_web_fonts_count );
+
+									// Pro web font count
+									$pro_web_fonts_count = apply_filters( 'sds_about_page_pro_web_fonts_count', 0 );
+								?>
+
+								<?php if ( function_exists( 'sds_web_fonts' ) || $pro_web_fonts_count > 0 ) : ?>
+									<tr>
+										<td class="sds-about-page-free-vs-pro-component">
+											<h4><?php _e( 'Web Fonts', 'symphony' ); ?></h4>
+											<p>
+												<?php
+													// Free and Pro web fonts
+													if ( $free_web_fonts_count > 0 && $pro_web_fonts_count > 0 )
+														printf( __( 'Both %1$s and %1$s Pro have web fonts.', 'symphony' ), $this->theme->get( 'Name' ) );
+													// Pro web fonts only
+													else if ( $free_web_fonts_count === 0 && $pro_web_fonts_count > 0 )
+														printf( __( '%1$s Pro has web fonts.', 'symphony' ), $this->theme->get( 'Name' ) );
+													// Free web fonts only
+													else if ( $free_web_fonts_count > 0 && $pro_web_fonts_count === 0 )
+														printf( __( '%1$s has web fonts.', 'symphony' ), $this->theme->get( 'Name' ) );
+
+													// Free vs Pro web font count
+													if ( $free_web_fonts_count < $pro_web_fonts_count )
+														printf( __( ' %1$s Pro offers more web fonts for you to choose from.', 'symphony' ), $this->theme->get( 'Name' ) );
+												?>
+											</p>
+										</td>
+										<td class="sds-about-page-free-vs-pro-free-component">
+											<span class="fa <?php echo ( $free_web_fonts_count > 0 ) ? 'fa-check' : 'fa-times'; ?>"></span>
+
+											<?php if ( $free_web_fonts_count > 0 ) : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php printf( _n( '%1$s Web Font', '%1$s Web Fonts', $free_web_fonts_count, 'symphony' ), $free_web_fonts_count ); ?></span>
+											<?php else : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php _e( 'No Web Fonts', 'symphony' ); ?></span>
+											<?php endif; ?>
+										</td>
+										<td class="sds-about-page-free-vs-pro-pro-component">
+											<span class="fa <?php echo ( $pro_web_fonts_count > 0 ) ? 'fa-check' : 'fa-times'; ?>"></span>
+
+											<?php if ( $pro_web_fonts_count > 0 ) : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php printf( _n( '%1$s Web Font', '%1$s Web Fonts', $pro_web_fonts_count, 'symphony' ), $pro_web_fonts_count ); ?></span>
+											<?php else : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php _e( 'No Web Fonts', 'symphony' ); ?></span>
+											<?php endif; ?>
+										</td>
+									</tr>
+								<?php endif; ?>
+
+								<?php
+									/*
+									 * Content Layouts
+									 */
+
+									// Count number of defined content layouts (ignoring "default")
+									$sds_content_layouts_count = ( function_exists( 'sds_content_layouts' ) ) ? ( count( sds_content_layouts() ) - 1 ) : 0;
+
+									// Free content layout count
+									$free_content_layouts_count = apply_filters( 'sds_about_page_free_content_layouts_count', $sds_content_layouts_count );
+
+									// Pro content layout count
+									$pro_content_layouts_count = apply_filters( 'sds_about_page_pro_content_layouts_count', 0 );
+								?>
+
+								<?php if ( function_exists( 'sds_content_layouts' ) || $pro_content_layouts_count > 0 ) : ?>
+									<tr>
+										<td class="sds-about-page-free-vs-pro-component">
+											<h4><?php _e( 'Content Layouts', 'symphony' ); ?></h4>
+											<p>
+												<?php
+													// Free and Pro content layouts
+													if ( $free_content_layouts_count > 0 && $pro_content_layouts_count > 0 )
+														printf( __( 'Both %1$s and %1$s Pro have content layouts.', 'symphony' ), $this->theme->get( 'Name' ) );
+													// Pro content layouts only
+													else if ( $free_content_layouts_count === 0 && $pro_content_layouts_count > 0 )
+														printf( __( '%1$s Pro has content layouts.', 'symphony' ), $this->theme->get( 'Name' ) );
+													// Free content layouts only
+													else if ( $free_content_layouts_count > 0 && $pro_content_layouts_count === 0 )
+														printf( __( '%1$s has content layouts.', 'symphony' ), $this->theme->get( 'Name' ) );
+
+													// Free vs Pro content layout count
+													if ( $free_content_layouts_count < $pro_content_layouts_count )
+														printf( __( ' %1$s Pro offers more content layouts for you to choose from.', 'symphony' ), $this->theme->get( 'Name' ) );
+												?>
+											</p>
+										</td>
+										<td class="sds-about-page-free-vs-pro-free-component">
+											<span class="fa <?php echo ( $free_content_layouts_count > 0 ) ? 'fa-check' : 'fa-times'; ?>"></span>
+
+											<?php if ( $free_content_layouts_count > 0 ) : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php printf( _n( '%1$s Content Layout', '%1$s Content Layouts', $free_content_layouts_count, 'symphony' ), $free_content_layouts_count ); ?></span>
+											<?php else : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php _e( 'No Content Layouts', 'symphony' ); ?></span>
+											<?php endif; ?>
+										</td>
+										<td class="sds-about-page-free-vs-pro-pro-component">
+											<span class="fa <?php echo ( $pro_content_layouts_count > 0 ) ? 'fa-check' : 'fa-times'; ?>"></span>
+
+											<?php if ( $pro_content_layouts_count > 0 ) : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php printf( _n( '%1$s Content Layout', '%1$s Content Layouts', $pro_content_layouts_count, 'symphony' ), $pro_content_layouts_count ); ?></span>
+											<?php else : ?>
+												<br />
+												<span class="sds-about-page-free-vs-pro-desc"><?php _e( 'No Content Layouts', 'symphony' ); ?></span>
+											<?php endif; ?>
+										</td>
+									</tr>
+								<?php endif; ?>
+
+								<?php
+									/*
+									 * Priority Support
+									 */
+								?>
+								<tr>
+									<td class="sds-about-page-free-vs-pro-component">
+										<h4><?php _e( 'Priority Support', 'symphony' ); ?></h4>
+										<p><?php printf( __( 'Get priority helpdesk support by upgrading to %1$s Pro.', 'symphony' ), $this->theme->get( 'Name' ) ); ?></p>
+									</td>
+									<td class="sds-about-page-free-vs-pro-free-component">
+										<span class="fa fa-times"></span>
+									</td>
+									<td class="sds-about-page-free-vs-pro-pro-component">
+										<span class="fa fa-check"></span>
+									</td>
+								</tr>
+
+								<?php
+									/*
+									 * Footer Copyright & Branding
+									 */
+								?>
+								<tr>
+									<td class="sds-about-page-free-vs-pro-component">
+										<h4><?php _e( 'Footer Copyright &amp; Branding', 'symphony' ); ?></h4>
+										<p><?php _e( 'Adjust footer copyright &amp branding messages in the Customizer.', 'symphony' ); ?></p>
+									</td>
+									<td class="sds-about-page-free-vs-pro-free-component">
+										<span class="fa fa-times"></span>
+									</td>
+									<td class="sds-about-page-free-vs-pro-pro-component">
+										<span class="fa fa-check"></span>
+									</td>
+								</tr>
+
+								<?php
+									/*
+									 * Custom Scripts and Styles
+									 */
+								?>
+								<tr>
+									<td class="sds-about-page-free-vs-pro-component">
+										<h4><?php _e( 'Custom Scripts and Styles', 'symphony' ); ?></h4>
+										<p><?php _e( 'Add custom scripts and custom CSS styles to your site.', 'symphony' ); ?></p>
+									</td>
+									<td class="sds-about-page-free-vs-pro-free-component">
+										<span class="fa fa-times"></span>
+									</td>
+									<td class="sds-about-page-free-vs-pro-pro-component">
+										<span class="fa fa-check"></span>
+									</td>
+								</tr>
+
+								<?php do_action( 'sds_about_page_free_vs_pro_table' ); ?>
+							</table>
+						</div>
+
+						<div class="sds-about-page-section sds-about-page-section-free-vs-pro-upgrade sds-about-page-section-center">
+							<p>
+								<a href="<?php echo esc_url( ( function_exists( 'sds_get_pro_link' ) ) ? sds_get_pro_link( 'free-vs-pro-upgrade' ) : 'https://slocumthemes.com/' ); ?>" class="button button-primary" target="_blank"><?php printf( __( 'Upgrade to %1$s Pro!', 'symphony' ), $this->theme->get( 'Name' ) ); ?></a>
+							</p>
+						</div>
+
+						<?php do_action( 'sds_about_page_free_vs_pro' ); ?>
+					</div>
+
+					<?php do_action( 'sds_about_page_content' ); // Hook for extending content ?>
 				</div>
 
-				<?php
-					foreach( $web_fonts as $name => $atts ) :
-						$css_name = strtolower( str_replace( array( '+'. ':' ), '-', $name) );
-				?>
-						<div class="sds-theme-options-web-font sds-theme-options-web-font-<?php echo $css_name; ?>" style="<?php echo ( isset( $atts['css'] ) && ! empty( $atts['css'] ) ) ? $atts['css'] : false; ?>">
-							<label>
-								<input type="radio" id="sds_theme_options_web_font_name_<?php echo $css_name; ?>" name="sds_theme_options[web_font]" <?php ( isset( $sds_theme_options['web_font'] ) ) ? checked( $sds_theme_options['web_font'], $name ) : checked( false ); ?> value="<?php echo $name; ?>" />
-								<div class="sds-theme-options-web-font-selected">&nbsp;</div>
-							</label>
-							<span class="sds-theme-options-web-font-label"><?php echo ( isset( $atts['label'] ) ) ? $atts['label'] : false; ?></span>
-							<span class="sds-theme-options-web-font-preview"><?php _e( 'Grumpy wizards make toxic brew for the evil Queen and Jack.', 'symphony' ); ?></span>
+				<div id="sds-theme-options-ads" class="sidebar">
+					<?php do_action( 'sds_theme_options_ads' ); ?>
+
+					<div class="sds-theme-options-ad">
+						<div class="slocum-themes">
+							<?php printf( __( 'Brought to you by <a href="%1$s" target="_blank">Slocum Themes</a>', 'symphony' ), 'http://slocumthemes.com/' ); ?>
 						</div>
-				<?php
-					endforeach;
-				?>
-
-				<?php do_action( 'sds_theme_options_upgrade_cta', 'web-fonts' ); ?>
-			</div>
-		<?php
-			endif;
-		}
-
-
-		/**
-		 * This function is the callback for the content layout settings section.
-		 */
-		function sds_theme_options_content_layout_section() {
-		?>
-			<p><?php _e( 'Control the layout of the content on your site here. Choose a global layout scheme to be used across your entire site or specifiy individual content type layout schemes by adjusting the options below.', 'symphony' ); ?></p>
-		<?php
-		}
-
-		/**
-		 * This function is the callback for the global content layout settings field.
-		 */
-		function sds_theme_options_content_layout_global_field() {
-			$this->content_layouts_field( 'global', 'Select a content layout that will be applied globally on your site. Select more specific content layouts below.' );
-		}
-
-		/**
-		 * This function is the callback for the front page content layout settings field.
-		 */
-		function sds_theme_options_content_layout_front_page_field() {
-			$this->content_layouts_field( 'front_page', 'Select a content layout that will be applied to the front page on your site (if selected in Settings > General).' );
-		}
-
-		/**
-		 * This function is the callback for the home (blog) page content layout settings field.
-		 */
-		function sds_theme_options_content_layout_home_field() {
-			$this->content_layouts_field( 'home', 'Select a content layout that will be applied to the blog on your site.' );
-		}
-
-		/**
-		 * This function is the callback for the single post content layout settings field.
-		 */
-		function sds_theme_options_content_layout_single_field() {
-			$this->content_layouts_field( 'single', 'Select a content layout that will be applied to single posts on your site.' );
-		}
-
-		/**
-		 * This function is the callback for the single page content layout settings field.
-		 */
-		function sds_theme_options_content_layout_page_field() {
-			$this->content_layouts_field( 'page', 'Select a content layout that will be applied to single pages on your site.' );
-		}
-
-		/**
-		 * This function is the callback for the archive content layout settings field.
-		 */
-		function sds_theme_options_content_layout_archive_field() {
-			$this->content_layouts_field( 'archive', 'Select a content layout that will be applied to archives on your site.' );
-		}
-
-		/**
-		 * This function is the callback for the category content layout settings field.
-		 */
-		function sds_theme_options_content_layout_category_field() {
-			$this->content_layouts_field( 'category', 'Select a content layout that will be applied to category archives on your site.' );
-		}
-
-		/**
-		 * This function is the callback for the tag content layout settings field.
-		 */
-		function sds_theme_options_content_layout_tag_field() {
-			$this->content_layouts_field( 'tag', 'Select a content layout that will be applied to tag archives on your site.' );
-		}
-
-		/**
-		 * This function is the callback for the 404 (error) content layout settings field.
-		 */
-		function sds_theme_options_content_layout_404_field() {
-			$this->content_layouts_field( '404', 'Select a content layout that will be applied to the 404 error page on your site.' );
-		}
-
-
-		/**
-		 * This function is the callback for the social media settings section.
-		 */
-		function sds_theme_options_social_media_section() {
-		?>
-			<p><?php _e( 'Enter your social media links here. This section is used throughout the site to display social media links to visitors. Some themes display social media links automatically, and some only display them within the Social Media widget.', 'symphony' ); ?></p>
-		<?php
-		}
-
-		/**
-		 * This function is the callback for the facebook url settings field.
-		 */
-		function sds_theme_options_social_media_facebook_url_field() {
-			$this->social_media_field( 'facebook_url' );
-		}
-
-		/**
-		 * This function is the callback for the twitter url settings field.
-		 */
-		function sds_theme_options_social_media_twitter_url_field() {
-			$this->social_media_field( 'twitter_url' );
-		}
-
-		/**
-		 * This function is the callback for the linkedin url settings field.
-		 */
-		function sds_theme_options_social_media_linkedin_url_field() {
-			$this->social_media_field( 'linkedin_url' );
-		}
-
-		/**
-		 * This function is the callback for the google_plus url settings field.
-		 */
-		function sds_theme_options_social_media_google_plus_url_field() {
-			$this->social_media_field( 'google_plus_url' );
-		}
-
-		/**
-		 * This function is the callback for the youtube url settings field.
-		 */
-		function sds_theme_options_social_media_youtube_url_field() {
-			$this->social_media_field( 'youtube_url' );
-		}
-
-		/**
-		 * This function is the callback for the vimeo url settings field.
-		 */
-		function sds_theme_options_social_media_vimeo_url_field() {
-			$this->social_media_field( 'vimeo_url' );
-		}
-
-		/**
-		 * This function is the callback for the instagram url settings field.
-		 */
-		function sds_theme_options_social_media_instagram_url_field() {
-			$this->social_media_field( 'instagram_url' );
-		}
-
-		/**
-		 * This function is the callback for the pinterest url settings field.
-		 */
-		function sds_theme_options_social_media_pinterest_url_field() {
-			$this->social_media_field( 'pinterest_url' );
-		}
-
-		/**
-		 * This function is the callback for the flickr url settings field.
-		 */
-		function sds_theme_options_social_media_flickr_url_field() {
-			$this->social_media_field( 'flickr_url' );
-		}
-
-		/**
-		 * This function is the callback for the yelp url settings field.
-		 */
-		function sds_theme_options_social_media_yelp_url_field() {
-			$this->social_media_field( 'yelp_url' );
-		}
-
-		/**
-		 * This function is the callback for the foursquare url settings field.
-		 */
-		function sds_theme_options_social_media_foursquare_url_field() {
-			$this->social_media_field( 'foursquare_url' );
-		}
-
-		/**
-		 * This function is the callback for the rss url settings field.
-		 */
-		function sds_theme_options_social_media_rss_url_field() {
-			global $sds_theme_options;
-		?>
-			<strong><?php _e( 'Use Site RSS Feed:', 'symphony' ); ?></strong>
-			<div class="checkbox sds-theme-options-checkbox checkbox-social_media-rss_url-use-site-feed" data-label-left="<?php esc_attr_e( 'Yes', 'symphony' ); ?>" data-label-right="<?php esc_attr_e( 'No', 'symphony' ); ?>">
-				<input type="checkbox" id="sds_theme_options_social_media_rss_url_use_site_feed" name="sds_theme_options[social_media][rss_url_use_site_feed]" <?php ( isset( $sds_theme_options['social_media']['rss_url_use_site_feed'] ) ) ? checked( $sds_theme_options['social_media']['rss_url_use_site_feed'] ) : checked( false ); ?> />
-				<label for="sds_theme_options_social_media_rss_url_use_site_feed">| | |</label>
-			</div>
-			<span class="description"><?php _e( 'When "yes" is displayed, the RSS feed for your site will be used.', 'symphony' ); ?></span>
-
-			<div id="sds_theme_options_social_media_rss_url_custom">
-				<strong><?php _e( 'Custom RSS Feed:', 'symphony' ); ?></strong>
-				<input type="text" id="sds_theme_options_social_media_rss_url" name="sds_theme_options[social_media][rss_url]" class="large-text" value="<?php echo ( isset( $sds_theme_options['social_media']['rss_url'] ) && ! empty( $sds_theme_options['social_media']['rss_url'] ) ) ? esc_attr( esc_url( $sds_theme_options['social_media']['rss_url'] ) ) : false; ?>" />
+					</div>
+				</div>
 			</div>
 		<?php
 		}
-
 
 		/**
 		 * This function sanitizes input from the user when saving options.
 		 */
 		function sds_theme_options_sanitize( $input ) {
 			// Reset to Defaults
+			// TODO: Allow for reset in the Customizer?
 			if ( isset( $input['reset'] ) )
 				return $this->get_sds_theme_option_defaults();
 
@@ -637,186 +504,9 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 		}
 
 
-		/**
-		 * This function handles the rendering of the options page.
-		 */
-		function sds_theme_options_page() {
-			global $_wp_admin_css_colors, $wp_version;
-
-			$user_admin_color = get_user_meta(  get_current_user_id(), 'admin_color', true );
-		?>
-			<div class="wrap about-wrap">
-				<?php if ( isset( $_wp_admin_css_colors[$user_admin_color] ) && version_compare( $wp_version, '3.8', '>=' ) ) : // Output styles to match selected admin color scheme ?>
-					<style type="text/css">
-						/* Checkboxes */
-						.sds-theme-options-checkbox:before {
-							background: <?php echo $_wp_admin_css_colors[$user_admin_color]->colors[2]; ?>;
-						}
-
-						/* Web Fonts */
-						.sds-theme-options-web-font input[type=radio]:checked + .sds-theme-options-web-font-selected:before {
-							color: <?php echo $_wp_admin_css_colors[$user_admin_color]->colors[2]; ?>;
-						}
-
-						/* Content Layouts */
-						.sds-theme-options-content-layout:hover .sds-theme-options-content-layout-preview,
-						.sds-theme-options-content-layout input[type=radio]:checked + .sds-theme-options-content-layout-preview {
-							border: 1px solid <?php echo $_wp_admin_css_colors[$user_admin_color]->colors[2]; ?>;
-						}
-
-						.sds-theme-options-content-layout:hover .sds-theme-options-content-layout-preview  .col,
-						.sds-theme-options-content-layout input[type=radio]:checked + .sds-theme-options-content-layout-preview .col {
-							background: <?php echo $_wp_admin_css_colors[$user_admin_color]->colors[2]; ?>;
-						}
-
-						.sds-theme-options-content-layout:hover .sds-theme-options-content-layout-preview  .col-sidebar,
-						.sds-theme-options-content-layout input[type=radio]:checked + .sds-theme-options-content-layout-preview .col-sidebar {
-							background: <?php echo $_wp_admin_css_colors[$user_admin_color]->colors[3]; ?>;
-						}
-					</style>
-				<?php endif; ?>
-
-				<h1><?php echo $this->theme->get( 'Name' ); ?> <?php _e( 'Theme Options', 'symphony' ); ?></h1>
-				<div class="about-text sds-about-text"><?php printf( _x( '%1$s', 'Theme options panel description', 'symphony' ), self::$options_page_description ); ?></div>
-
-				<?php do_action( 'sds_theme_options_notifications' ); ?>
-
-				<?php
-					settings_errors( 'general' ); // General Settings Errors
-					settings_errors( self::$option_name ); // Theme Options Panel Settings Errors
-				?>
-
-				<h3 class="nav-tab-wrapper sds-theme-options-nav-tab-wrapper sds-theme-options-tab-wrap">
-					<a href="#general" id="general-tab" class="nav-tab sds-theme-options-tab nav-tab-active"><?php _e( 'General', 'symphony' ); ?></a>
-					<?php if ( function_exists( 'sds_content_layouts' ) ) : ?>
-						<a href="#content-layout" id="content-layout-tab" class="nav-tab sds-theme-options-tab"><?php _e( 'Layout', 'symphony' ); ?></a>
-					<?php endif; ?>
-					<a href="#social-media" id="social-media-tab" class="nav-tab sds-theme-options-tab"><?php _e( 'Social Media', 'symphony' ); ?></a>
-					<?php do_action( 'sds_theme_options_navigation_tabs' ); // Hook for extending tabs ?>
-					<a href="#help-support" id="help-support-tab" class="nav-tab sds-theme-options-tab"><?php _e( 'Support', 'symphony' ); ?></a>
-				</h3>
-
-				<form method="post" action="options.php" enctype="multipart/form-data" id="sds-theme-options-form">
-					<?php settings_fields( self::$option_name ); ?>
-					<input type="hidden" name="sds_theme_options_tab" id="sds_theme_options_tab" value="" />
-
-					<?php
-					/*
-					 * General Settings
-					 */
-					?>
-					<div id="general-tab-content" class="sds-theme-options-tab-content sds-theme-options-tab-content-active">
-						<?php do_settings_sections( 'sds-theme-options[general]' ); ?>
-					</div>
-
-					<?php
-					/*
-					 * Content Layout Settings
-					 */
-					?>
-					<?php if ( function_exists( 'sds_content_layouts' ) ) : ?>
-						<div id="content-layout-tab-content" class="sds-theme-options-tab-content">
-							<?php do_settings_sections( 'sds-theme-options[content-layout]' ); ?>
-						</div>
-					<?php endif; ?>
-
-					<?php
-					/*
-					 * Social Media Settings
-					 */
-					?>
-					<div id="social-media-tab-content" class="sds-theme-options-tab-content">
-						<?php do_settings_sections( 'sds-theme-options[social-media]' ); ?>
-					</div>
-
-					<?php
-					/*
-					 * Help/Support
-					 */
-					?>
-					<div id="help-support-tab-content" class="sds-theme-options-tab-content">
-						<h3><?php _e( 'Help/Support', 'symphony' ); ?></h3>
-
-						<?php do_action( 'sds_theme_options_help_support_tab_content' ); ?>
-						<?php do_action( 'sds_theme_options_upgrade_cta', 'help-support' ); ?>
-					</div>
-
-					<?php do_action( 'sds_theme_options_settings' ); // Hook for extending settings ?>
-
-					<p class="submit">
-						<?php submit_button( __( 'Save Options', 'symphony' ), 'primary', 'submit', false ); ?>
-						<?php submit_button( __( 'Restore Defaults', 'symphony' ), 'secondary', 'sds_theme_options[reset]', false ); ?>
-					</p>
-				</form>
-
-				<div id="sds-theme-options-ads" class="sidebar">
-					<div class="sds-theme-options-ad">
-						<div class="yt-subscribe">
-							<a href="https://www.youtube.com/user/slocumstudio/" class="youtube-follow-button" target="_blank">Slocum Studio YouTube Channel</a>
-						</div>
-
-						<a href="https://twitter.com/slocumstudio/" class="twitter-follow-button" target="_blank">Follow @slocumstudio</a>
-
-						<br />
-						<br />
-
-						<div class="slocum-themes">
-							<?php printf( __( '<a href="%1$s" target="_blank"><strong>How to setup the perfect WordPress website</strong></a>', 'symphony' ), 'http://slocumthemes.com/build-perfect-wordpress-website/' ); ?>
-						</div>
-
-						<br />
-
-						<div class="slocum-themes">
-							<?php printf( __( 'Brought to you by <a href="%1$s" target="_blank">Slocum Themes</a>', 'symphony' ), 'http://slocumthemes.com/' ); ?>
-						</div>
-					</div>
-
-					<?php do_action( 'sds_theme_options_ads' ); ?>
-				</div>
-			</div>
-		<?php
-		}
-
-		/*
-		 * This function appends the hash for the current tab based on POST data.
-		 */
-		function wp_redirect( $location ) {
-			// Append tab "hash" to end of URL
-			if ( strpos( $location, 'sds-theme-options' ) !== false && isset( $_POST['sds_theme_options_tab'] ) && $_POST['sds_theme_options_tab'] )
-				$location .= esc_url( $_POST['sds_theme_options_tab'] );
-
-			return $location;
-		}
-
-
-
-		/**
-		 * External Functions (functions that can be used outside of this class to retrieve data)
-		 */
-
-		/**
-		 * This function returns the current option values.
-		 */
-		public static function get_sds_theme_options() {
-			global $sds_theme_options;
-
-			$sds_theme_options = wp_parse_args( get_option( self::$option_name ), SDS_Theme_Options::get_sds_theme_option_defaults() );
-
-			return $sds_theme_options;
-		}
-
-		/**
-		 * This function returns the current option name.
-		 */
-		public static function get_option_name() {
-			return self::$option_name;
-		}
-
-
-
-		/************************************************************************
-		 * Internal Functions (functions used internally throughout this class) *
-		 ************************************************************************/
+		/**********************
+		 * Internal Functions *
+		 **********************/
 
 		/**
 		 * This function returns default values for SDS Theme Options
@@ -903,50 +593,45 @@ if ( ! class_exists( 'SDS_Theme_Options' ) ) {
 		}
 
 
+		/********************
+		 * Helper Functions *
+		 ********************/
+
 		/**
-		 * This function returns the HTML output of a social media field.
+		 * This function returns the current option values.
 		 */
-		function social_media_field( $field_id ) {
+		public static function get_sds_theme_options() {
 			global $sds_theme_options;
-		?>
-			<input type="text" id="sds_theme_options_social_media_<?php echo $field_id; ?>" name="sds_theme_options[social_media][<?php echo $field_id; ?>]" class="large-text" value="<?php echo ( isset( $sds_theme_options['social_media'][$field_id] ) && ! empty( $sds_theme_options['social_media'][$field_id] ) ) ? esc_attr( esc_url( $sds_theme_options['social_media'][$field_id] ) ) : false; ?>" />
-		<?php
+
+			$sds_theme_options = wp_parse_args( get_option( self::$option_name ), SDS_Theme_Options::get_sds_theme_option_defaults() );
+
+			return $sds_theme_options;
 		}
 
 		/**
-		 * This function returns the HTML output of a content layout field.
+		 * This function returns the current option name.
 		 */
-		function content_layouts_field( $field_id, $description = false ) {
-			global $sds_theme_options;
+		public static function get_option_name() {
+			return self::$option_name;
+		}
 
-			$content_layouts = ( function_exists( 'sds_content_layouts' ) ) ? sds_content_layouts() : false;
+		/**
+		 * This function returns the directory for SDS Core without a trailing slash. A relative directory
+		 * can be returned by passing true for the $relative parameter.
+		 */
+		public static function sds_core_dir( $relative = false ) {
+			// Replace backslashes on Windows machines
+			$template_dir = str_replace( array( '\\\\', '\\' ), '/', get_template_directory() );
+			$file_dir = str_replace( array( '\\\\', '\\' ), '/', dirname( __FILE__ ) );
 
-			if ( ! empty( $content_layouts ) )
-			?>
-				<div class="sds-theme-options-content-layout-wrap">
-					<?php foreach( $content_layouts as $name => $atts ) : ?>
-						<div class="sds-theme-options-content-layout sds-theme-options-content-layout-<?php echo $name; ?>">
-							<label>
-								<?php if ( ( ! isset( $sds_theme_options['content_layouts']['global'] ) || empty( $sds_theme_options['content_layouts'][$field_id] ) ) && isset( $atts['default'] ) && $atts['default'] ) : // No content layout selected, use default ?>
-									<input type="radio" id="sds_theme_options_content_layouts_name_<?php echo $name; ?>" name="sds_theme_options[content_layouts][<?php echo $field_id; ?>]" <?php checked( true ); ?> value="<?php echo $name; ?>" />
-								<?php else: ?>
-									<input type="radio" id="sds_theme_options_content_layouts_name_<?php echo $name; ?>" name="sds_theme_options[content_layouts][<?php echo $field_id; ?>]" <?php ( isset( $sds_theme_options['content_layouts'][$field_id] ) ) ? checked( $sds_theme_options['content_layouts'][$field_id], $name ) : checked( false ); ?> value="<?php echo $name; ?>" />
-								<?php endif; ?>
+			return untrailingslashit( ( $relative ) ? str_replace( $template_dir, '', $file_dir ) : $file_dir );
+		}
 
-								<div class="sds-theme-options-content-layout-preview">
-									<?php
-									if ( isset( $atts['preview_values'] ) )
-										vprintf( $atts['preview'], $atts['preview_values'] );
-									else
-										echo $atts['preview'];
-									?>
-								</div>
-							</label>
-						</div>
-					<?php endforeach; ?>
-				</div>
-				<span class="description"><?php  printf( _x( '%1$s', 'Content layout description; describes where the content layout will be applied', 'symphony' ), $description ); ?></span>
-		<?php
+		/**
+		 * This function returns the url for SDS Core without a trailing slash.
+		 */
+		public static function sds_core_url() {
+			return untrailingslashit( get_template_directory_uri() . self::sds_core_dir( true ) );
 		}
 	}
 

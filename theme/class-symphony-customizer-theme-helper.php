@@ -570,7 +570,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'headings', 'h1', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -584,7 +584,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'headings', 'h1', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -598,7 +598,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'headings', 'h1', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -612,7 +612,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'headings', 'h2', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -626,7 +626,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'headings', 'h2', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -640,7 +640,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'headings', 'h2', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -654,7 +654,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'headings', 'h3', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -668,7 +668,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'headings', 'h3', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -682,7 +682,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'headings', 'h3', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -696,7 +696,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'headings', 'h4', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -710,7 +710,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'headings', 'h4', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -724,7 +724,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'headings', 'h4', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -738,7 +738,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'headings', 'h5', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -752,7 +752,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'headings', 'h5', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -766,7 +766,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'headings', 'h5', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -780,7 +780,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'headings', 'h6', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -794,7 +794,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'headings', 'h6', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -808,7 +808,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'headings', 'h6', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -829,7 +829,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'headings', 'h1', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else
@@ -843,7 +843,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'headings', 'h2', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else
@@ -857,7 +857,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'headings', 'h3', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else
@@ -871,7 +871,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'headings', 'h4', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else
@@ -885,7 +885,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'headings', 'h5', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else
@@ -899,7 +899,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'headings', 'h6', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else
@@ -970,7 +970,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $size, $default, 'fonts', 'widget', 'title', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['default'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['default'] ) )
 			return $font_size['default'];
 		// Global (fallback)
 		else
@@ -984,7 +984,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $min, $default, 'fonts', 'widget', 'title', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['min'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['min'] ) )
 			return $font_size['min'];
 		// Global (fallback)
 		else
@@ -998,7 +998,7 @@ final class Symphony_Theme_Helper {
 		$font_size = $this->get_theme_mod_value( $max, $default, 'fonts', 'widget', 'title', 'font_size' );
 
 		// Individual
-		if ( isset( $font_size['max'] ) )
+		if ( is_array( $font_size ) && isset( $font_size['max'] ) )
 			return $font_size['max'];
 		// Global (fallback)
 		else
@@ -1012,7 +1012,7 @@ final class Symphony_Theme_Helper {
 		$font_family = $this->get_theme_mod_value( $family, $default, 'fonts', 'widget', 'title', 'font_family' );
 
 		// Individual
-		if ( isset( $font_family['default'] ) )
+		if ( is_array( $font_family ) && isset( $font_family['default'] ) )
 			return $font_family['default'];
 		// Global (fallback)
 		else

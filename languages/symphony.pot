@@ -1,0 +1,1806 @@
+# Copyright (C) 2015 Slocum Studio
+# This file is distributed under the GPL2+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Symphony 1.0.7\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/symphony\n"
+"POT-Creation-Date: 2015-12-22 21:00:35+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: 404.php:18
+msgid "404 Error"
+msgstr ""
+
+#: 404.php:19
+msgid "We apologize but something when wrong while trying to find what you were looking for. Please use the navigation below to navigate to your destination."
+msgstr ""
+
+#: 404.php:22
+msgid "Search:"
+msgstr ""
+
+#: comments.php:21
+msgid "One comment on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s comments on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:34
+msgid "Comment navigation"
+msgstr ""
+
+#: comments.php:35
+msgid "&larr; Older Comments"
+msgstr ""
+
+#: comments.php:36
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#: customizer/class-symphony-customizer-jetpack-portfolio-control.php:65
+msgid "Jetpack Portfolio Post Type is enabled."
+msgstr ""
+
+#: customizer/class-symphony-customizer-jetpack-portfolio-control.php:80
+msgid "Select a Portfolio Post Type"
+msgstr ""
+
+#: customizer/class-symphony-customizer-jetpack-portfolio-control.php:86
+msgctxt "Possible plural value of post type singular name."
+msgid "%1$s(s)"
+msgstr ""
+
+#: customizer/class-symphony-customizer-jetpack-portfolio-control.php:95
+msgid "No custom content types found. You must create at least one custom post type to be able to select a \"Portfolio\" post type."
+msgstr ""
+
+#: functions.php:16 functions.php:18
+#: includes/customizer/class-sds-theme-options-customize-web-font-control.php:59
+msgid "Default"
+msgstr ""
+
+#: functions.php:22
+msgid "Full Width"
+msgstr ""
+
+#: functions.php:26
+msgid "Content Left"
+msgstr ""
+
+#: functions.php:30
+msgid "Content Right"
+msgstr ""
+
+#: functions.php:34
+msgid "Content, Sidebar, Sidebar"
+msgstr ""
+
+#: functions.php:38
+msgid "Sidebar, Content, Sidebar"
+msgstr ""
+
+#: functions.php:42
+msgid "Sidebar, Sidebar, Content"
+msgstr ""
+
+#: functions.php:105 functions.php:110
+msgid "Continue Reading"
+msgstr ""
+
+#: functions.php:195
+msgid "Upgrade to Symphony Pro!"
+msgstr ""
+
+#: functions.php:197
+msgid "Priority Ticketing Support"
+msgstr ""
+
+#: functions.php:198
+msgid "More Customizer Settings"
+msgstr ""
+
+#: functions.php:199
+msgid "Conductor Support"
+msgstr ""
+
+#: functions.php:200
+msgid "Easily Add Custom Scripts/Styles"
+msgstr ""
+
+#: functions.php:201
+msgid "and More!"
+msgstr ""
+
+#: functions.php:204
+msgid "Upgrade Now!"
+msgstr ""
+
+#: functions.php:210
+msgid "Introducing Conductor Plugin"
+msgstr ""
+
+#: functions.php:212
+msgid "Custom Layouts"
+msgstr ""
+
+#: functions.php:213
+msgid "Custom Content Displays"
+msgstr ""
+
+#: functions.php:214
+msgid "No Code Required!"
+msgstr ""
+
+#: functions.php:217
+msgid "Get Conductor!"
+msgstr ""
+
+#: functions.php:235 functions.php:248 functions.php:261
+msgid "Upgrade to Symphony Pro"
+msgstr ""
+
+#: functions.php:236
+msgid "and receive more color schemes!"
+msgstr ""
+
+#: functions.php:249
+msgid "to use more web fonts!"
+msgstr ""
+
+#: functions.php:262
+msgid "to receive priority ticketing support!"
+msgstr ""
+
+#: functions.php:281
+msgid "If you'd like to create a support request, please visit the <a href=\"%1$s\">Symphony Forums on WordPress.org</a>."
+msgstr ""
+
+#: functions.php:290
+msgid "<a href=\"%1$s\">%2$s by Slocum Studio</a>"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:333
+msgid "Install Required Plugins"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:334
+msgid "Install Plugins"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:335
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:336
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:337
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:342
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:347
+msgid "Sorry, but you do not have the correct permissions to install the %1$s plugin."
+msgid_plural "Sorry, but you do not have the correct permissions to install the %1$s plugins."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:352
+msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
+msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:357
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:362
+msgid "Sorry, but you do not have the correct permissions to update the %1$s plugin."
+msgid_plural "Sorry, but you do not have the correct permissions to update the %1$s plugins."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:367
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:372
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:377
+msgid "Sorry, but you do not have the correct permissions to activate the %1$s plugin."
+msgid_plural "Sorry, but you do not have the correct permissions to activate the %1$s plugins."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:382
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:387
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:392
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:397
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:398
+msgid "Return to the dashboard"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:399
+#: includes/class-tgm-plugin-activation.php:3027
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:400
+#: includes/class-tgm-plugin-activation.php:2830
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:401
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:402
+msgid "Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:403
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:404
+msgid "Dismiss this notice"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:405
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:520
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:521
+msgid "Update Required"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:635
+msgid "Set the parent_slug config variable instead."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:826
+#: includes/class-tgm-plugin-activation.php:3436
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:933
+msgid "The remote plugin package does not contain a folder with the desired slug and renaming did not work."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:933
+#: includes/class-tgm-plugin-activation.php:936
+msgid "Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:936
+msgid "The remote plugin package consists of more than one file, but the files are not packaged in a folder."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:1114
+#: includes/class-tgm-plugin-activation.php:2826
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:1879
+msgctxt "%s = version number"
+msgid "TGMPA v%s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2165
+msgid "Required"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2168
+msgid "Recommended"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2184
+msgid "WordPress Repository"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2187
+msgid "External Source"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2190
+msgid "Pre-Packaged"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2207
+msgid "Not Installed"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2211
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2213
+msgid "Active"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2219
+msgid "Required Update not Available"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2222
+msgid "Requires Update"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2225
+msgid "Update recommended"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2233
+msgctxt "%1$s = install status, %2$s = update status"
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2278
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:2281
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:2284
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:2287
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-tgm-plugin-activation.php:2369
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2377
+msgid "Installed version:"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2385
+msgid "Minimum required version:"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2397
+msgid "Available version:"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2420
+msgid "No plugins to install, update or activate. <a href=\"%1$s\">Return to the Dashboard</a>"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2434
+msgid "Plugin"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2435
+msgid "Source"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2436
+msgid "Type"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2440
+msgid "Version"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2441
+msgid "Status"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2489
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Install %2$s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2493
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Update %2$s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2498
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Activate %2$s"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2568
+msgid "Upgrade message from the plugin author:"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2601
+msgid "Install"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2607
+msgid "Update"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2610
+msgid "Activate"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2641
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2643
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2679
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2681
+msgid "No plugins are available to be updated at this time."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2786
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:2812
+msgid "No plugins are available to be activated at this time."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3026
+msgid "Plugin activation failed."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3360
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3362
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3363
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3367
+msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3368
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3368
+#: includes/class-tgm-plugin-activation.php:3374
+msgid "Show Details"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3368
+#: includes/class-tgm-plugin-activation.php:3374
+msgid "Hide Details"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3369
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3370
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3373
+msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3374
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3375
+msgid "All installations have been completed."
+msgstr ""
+
+#: includes/class-tgm-plugin-activation.php:3376
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-checkbox-control.php:48
+msgid "Show"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-checkbox-control.php:49
+msgid "Hide"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-content-layout-control.php:68
+msgctxt "Content layout description; describes where the content layout will be applied"
+msgid "%1$s"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-logo-control.php:43
+msgid "Upload a logo to to replace the site name. Recommended dimensions: %1$s."
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-logo-control.php:47
+msgid "Current Logo:"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-logo-control.php:54
+msgid "No logo selected."
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-logo-control.php:59
+msgid "Choose Logo"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-logo-control.php:60
+msgid "Remove Logo"
+msgstr ""
+
+#: includes/customizer/class-sds-theme-options-customize-web-font-control.php:72
+msgid "Grumpy wizards make toxic brew for the evil Queen and Jack."
+msgstr ""
+
+#: includes/theme-functions.php:172
+msgid "Pages"
+msgstr ""
+
+#: includes/theme-functions.php:181
+msgid "Monthly Archives"
+msgstr ""
+
+#: includes/theme-functions.php:190
+msgid "Blog Categories"
+msgstr ""
+
+#: includes/theme-functions.php:283 includes/theme-functions.php:284
+msgid "Author Archive:"
+msgstr ""
+
+#: includes/theme-functions.php:290 includes/theme-functions.php:291
+msgid "Category Archive: "
+msgstr ""
+
+#: includes/theme-functions.php:297 includes/theme-functions.php:298
+msgid "Tag Archive: "
+msgstr ""
+
+#: includes/theme-functions.php:305 includes/theme-functions.php:306
+msgid "Daily Archives:"
+msgstr ""
+
+#: includes/theme-functions.php:313 includes/theme-functions.php:314
+msgid "Monthly Archives:"
+msgstr ""
+
+#: includes/theme-functions.php:321 includes/theme-functions.php:322
+msgid "Yearly Archives:"
+msgstr ""
+
+#: includes/theme-functions.php:337
+msgid "We were not able to find any posts. Please try again."
+msgstr ""
+
+#: includes/theme-functions.php:369
+msgid "&laquo; Previous Image"
+msgstr ""
+
+#: includes/theme-functions.php:372
+msgid "Next Image &raquo;"
+msgstr ""
+
+#: includes/theme-functions.php:386
+msgid "Copyright &copy; %1$s <a href=\"%2$s\">%3$s</a>. All Rights Reserved."
+msgstr ""
+
+#: includes/theme-functions.php:389
+msgid "<a href=\"%1$s\" target=\"_blank\">%2$s by Slocum Studio</a>"
+msgstr ""
+
+#: includes/theme-functions.php:461
+msgid "This entry was posted in %1$s and tagged in %2$s."
+msgstr ""
+
+#: includes/theme-functions.php:472
+msgid "This entry was posted in %1$s."
+msgstr ""
+
+#: includes/theme-functions.php:482
+msgid "This entry was tagged in %1$s."
+msgstr ""
+
+#: includes/theme-functions.php:505
+msgid "Next &#8594;"
+msgstr ""
+
+#: includes/theme-functions.php:506
+msgid "&#8592; Previous"
+msgstr ""
+
+#: includes/theme-functions.php:535
+msgid "Pingback:"
+msgstr ""
+
+#: includes/theme-functions.php:552
+msgid "<a href=\"%1$s\"><time datetime=\"%2$s\" itemprop=\"commentTime\">%3$s</time></a>"
+msgstr ""
+
+#: includes/theme-functions.php:555
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: includes/theme-functions.php:559
+msgid "Edit"
+msgstr ""
+
+#: includes/theme-functions.php:567
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: includes/theme-functions.php:578
+msgid "Reply"
+msgstr ""
+
+#: includes/theme-functions.php:629
+msgid "Logo/Site Title & Tagline"
+msgstr ""
+
+#: includes/theme-functions.php:637
+msgid "Logo"
+msgstr ""
+
+#: includes/theme-functions.php:652
+msgid "Show or Hide Tagline"
+msgstr ""
+
+#: includes/theme-functions.php:653
+msgid "Use this option to show or hide the tagline on your site."
+msgstr ""
+
+#: includes/theme-functions.php:676 theme/class-symphony-customizer.php:379
+#: theme/class-symphony-customizer.php:1412
+msgid "Tagline"
+msgstr ""
+
+#: includes/theme-functions.php:709
+msgid "Color Scheme"
+msgstr ""
+
+#: includes/theme-functions.php:710
+msgid "Select a color scheme to use on your site."
+msgstr ""
+
+#: includes/theme-functions.php:743
+msgid "Content Color"
+msgstr ""
+
+#: includes/theme-functions.php:765
+#: theme/class-symphony-customizer-fonts.php:122
+msgid "Fonts"
+msgstr ""
+
+#: includes/theme-functions.php:785 includes/theme-options.php:243
+msgid "Web Fonts"
+msgstr ""
+
+#: includes/theme-functions.php:786
+msgid "Select a web font to use on your site."
+msgstr ""
+
+#: includes/theme-functions.php:804 includes/theme-options.php:305
+msgid "Content Layouts"
+msgstr ""
+
+#: includes/theme-functions.php:805
+msgid "Control the layout of the content on your site here. Choose a global layout scheme to be used across your entire site or specify individual content type layout schemes by adjusting the options below."
+msgstr ""
+
+#: includes/theme-functions.php:829
+msgid "Global Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:830
+msgid "Select a content layout that will be applied globally on your site. Select more specific content layouts below."
+msgstr ""
+
+#: includes/theme-functions.php:861
+msgid "Front Page Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:862
+msgid "Select a content layout that will be applied to the front page on your site (if selected in Settings &gt; Reading)."
+msgstr ""
+
+#: includes/theme-functions.php:894
+msgid "Home Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:895
+msgid "Select a content layout that will be applied to the blog on your site."
+msgstr ""
+
+#: includes/theme-functions.php:926
+msgid "Single Post Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:927
+msgid "Select a content layout that will be applied to single posts on your site."
+msgstr ""
+
+#: includes/theme-functions.php:958
+msgid "Single Page Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:959
+msgid "Select a content layout that will be applied to single pages on your site."
+msgstr ""
+
+#: includes/theme-functions.php:990
+msgid "Archive Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:991
+msgid "Select a content layout that will be applied to archives on your site."
+msgstr ""
+
+#: includes/theme-functions.php:1022
+msgid "Category Archive Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:1023
+msgid "Select a content layout that will be applied to category archives on your site."
+msgstr ""
+
+#: includes/theme-functions.php:1054
+msgid "Tag Archive Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:1055
+msgid "Select a content layout that will be applied to tag archives on your site."
+msgstr ""
+
+#: includes/theme-functions.php:1086
+msgid "404 Error Content Layout"
+msgstr ""
+
+#: includes/theme-functions.php:1087
+msgid "Select a content layout that will be applied to the 404 error page on your site. <strong>Please Note: The Customizer does not allow for previewing of 404 error pages.</strong>"
+msgstr ""
+
+#: includes/theme-functions.php:1104
+msgid "Social Media"
+msgstr ""
+
+#: includes/theme-functions.php:1105
+msgid "Enter your social media links here. This section is used throughout the site to display social media links to visitors. Some themes display social media links automatically, and some only display them within the Social Media widget."
+msgstr ""
+
+#: includes/theme-functions.php:1128
+msgid "Facebook"
+msgstr ""
+
+#: includes/theme-functions.php:1156
+msgid "Twitter"
+msgstr ""
+
+#: includes/theme-functions.php:1184
+msgid "LinkedIn"
+msgstr ""
+
+#: includes/theme-functions.php:1212
+msgid "Google+"
+msgstr ""
+
+#: includes/theme-functions.php:1240
+msgid "YouTube"
+msgstr ""
+
+#: includes/theme-functions.php:1268
+msgid "Vimeo"
+msgstr ""
+
+#: includes/theme-functions.php:1296
+msgid "Instagram"
+msgstr ""
+
+#: includes/theme-functions.php:1324
+msgid "Pinterest"
+msgstr ""
+
+#: includes/theme-functions.php:1352
+msgid "Flickr"
+msgstr ""
+
+#: includes/theme-functions.php:1380
+msgid "Foursquare"
+msgstr ""
+
+#: includes/theme-functions.php:1408
+msgid "RSS - Use Site RSS Feed"
+msgstr ""
+
+#: includes/theme-functions.php:1409
+msgid "When \"yes\" is displayed, the RSS feed for your site will be used. Otherwise, you can enter a custom RSS URL to use instead."
+msgstr ""
+
+#: includes/theme-functions.php:1416 theme/class-symphony-customizer.php:229
+msgid "Yes"
+msgstr ""
+
+#: includes/theme-functions.php:1417 theme/class-symphony-customizer.php:228
+msgid "No"
+msgstr ""
+
+#: includes/theme-functions.php:1447
+msgid "RSS - Custom RSS Feed"
+msgstr ""
+
+#: includes/theme-functions.php:1743
+msgid "Top Navigation"
+msgstr ""
+
+#: includes/theme-functions.php:1744
+msgid "Primary Navigation"
+msgstr ""
+
+#: includes/theme-functions.php:1745
+msgid "Footer Navigation"
+msgstr ""
+
+#: includes/theme-functions.php:1760
+msgid "Primary Sidebar"
+msgstr ""
+
+#: includes/theme-functions.php:1762
+msgid "This widget area is the primary widget area."
+msgstr ""
+
+#: includes/theme-functions.php:1771
+msgid "Secondary Sidebar"
+msgstr ""
+
+#: includes/theme-functions.php:1773
+msgid "This widget area is the secondary widget area."
+msgstr ""
+
+#: includes/theme-functions.php:1782
+msgid "Front Page Slider"
+msgstr ""
+
+#: includes/theme-functions.php:1784
+msgid "*This widget area is only displayed if a Front Page is selected via Settings &gt; Reading in the Dashboard.* This widget area is displayed above the content on the Front Page."
+msgstr ""
+
+#: includes/theme-functions.php:1793
+msgid "Front Page"
+msgstr ""
+
+#: includes/theme-functions.php:1795
+msgid "*This widget area is only displayed if a Front Page is selected via Settings &gt; Reading in the Dashboard.* This widget area is displayed below the Front Page Slider on the Front Page and will replace the Front Page content."
+msgstr ""
+
+#: includes/theme-functions.php:1804
+msgid "Header Call To Action"
+msgstr ""
+
+#: includes/theme-functions.php:1806
+msgid "This widget area is used to display a call to action in the header."
+msgstr ""
+
+#: includes/theme-functions.php:1815
+msgid "After Posts"
+msgstr ""
+
+#: includes/theme-functions.php:1817
+msgid "This widget area is displayed below the content on single posts only."
+msgstr ""
+
+#: includes/theme-functions.php:1826 theme/class-symphony-customizer.php:2510
+msgid "Footer"
+msgstr ""
+
+#: includes/theme-functions.php:1828
+msgid "This widget area is displayed in the footer of all pages."
+msgstr ""
+
+#: includes/theme-functions.php:1837
+msgid "Copyright Area"
+msgstr ""
+
+#: includes/theme-functions.php:1839
+msgid "This widget area is designed for small text blurbs or disclaimers at the bottom of the website."
+msgstr ""
+
+#: includes/theme-options.php:93
+msgid "About %1$s"
+msgstr ""
+
+#: includes/theme-options.php:102 includes/theme-options.php:119
+msgid "Welcome to %1$s"
+msgstr ""
+
+#: includes/theme-options.php:103
+msgid "Learn more about %1$s on this page."
+msgstr ""
+
+#: includes/theme-options.php:106
+msgid "Getting Started"
+msgstr ""
+
+#: includes/theme-options.php:107 includes/theme-options.php:153
+msgid "Free vs. Pro"
+msgstr ""
+
+#: includes/theme-options.php:120
+msgid "Thanks for choosing Slocum Themes. We've created this page to help guide you through setting up your website. We hope that you enjoy our themes."
+msgstr ""
+
+#: includes/theme-options.php:124
+msgid "Get Started in the Customizer"
+msgstr ""
+
+#: includes/theme-options.php:125
+msgid "%1$s utilizes the WordPress Customizer. This means that you can customize everything in one place! Visit the <a href=\"%2$s\">Customizer</a> to get started."
+msgstr ""
+
+#: includes/theme-options.php:127
+msgid "Launch Customizer"
+msgstr ""
+
+#: includes/theme-options.php:132
+msgid "General Documentation"
+msgstr ""
+
+#: includes/theme-options.php:133
+msgid "Be sure to have a look at our <a href=\"%1$s\" target=\"_blank\">General Documentation</a> for helpful guides."
+msgstr ""
+
+#: includes/theme-options.php:137
+msgid "Build the Perfect WordPress Website Course"
+msgstr ""
+
+#: includes/theme-options.php:138
+msgid "We created free a 9-part course that will help you build the perfect WordPress website. We cover topics such as: security, lead generation, backups, and more."
+msgstr ""
+
+#: includes/theme-options.php:140
+msgid "Enroll in the free course"
+msgstr ""
+
+#: includes/theme-options.php:154
+msgid "Use the table below to determine if the Pro version of %1$s is right for you."
+msgstr ""
+
+#: includes/theme-options.php:160
+msgid "%1$s Pro"
+msgstr ""
+
+#: includes/theme-options.php:181
+msgid "Color Schemes"
+msgstr ""
+
+#: includes/theme-options.php:186
+msgid "Both %1$s and %1$s Pro have color schemes."
+msgstr ""
+
+#: includes/theme-options.php:189
+msgid "%1$s Pro has color schemes."
+msgstr ""
+
+#: includes/theme-options.php:192
+msgid "%1$s has color schemes."
+msgstr ""
+
+#: includes/theme-options.php:196
+msgid " %1$s Pro offers more color schemes for you to choose from."
+msgstr ""
+
+#: includes/theme-options.php:205 includes/theme-options.php:216
+msgid "%1$s Color Scheme"
+msgid_plural "%1$s Color Schemes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/theme-options.php:208 includes/theme-options.php:219
+msgid "No Color Schemes"
+msgstr ""
+
+#: includes/theme-options.php:248
+msgid "Both %1$s and %1$s Pro have web fonts."
+msgstr ""
+
+#: includes/theme-options.php:251
+msgid "%1$s Pro has web fonts."
+msgstr ""
+
+#: includes/theme-options.php:254
+msgid "%1$s has web fonts."
+msgstr ""
+
+#: includes/theme-options.php:258
+msgid " %1$s Pro offers more web fonts for you to choose from."
+msgstr ""
+
+#: includes/theme-options.php:267 includes/theme-options.php:278
+msgid "%1$s Web Font"
+msgid_plural "%1$s Web Fonts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/theme-options.php:270 includes/theme-options.php:281
+msgid "No Web Fonts"
+msgstr ""
+
+#: includes/theme-options.php:310
+msgid "Both %1$s and %1$s Pro have content layouts."
+msgstr ""
+
+#: includes/theme-options.php:313
+msgid "%1$s Pro has content layouts."
+msgstr ""
+
+#: includes/theme-options.php:316
+msgid "%1$s has content layouts."
+msgstr ""
+
+#: includes/theme-options.php:320
+msgid " %1$s Pro offers more content layouts for you to choose from."
+msgstr ""
+
+#: includes/theme-options.php:329 includes/theme-options.php:340
+msgid "%1$s Content Layout"
+msgid_plural "%1$s Content Layouts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/theme-options.php:332 includes/theme-options.php:343
+msgid "No Content Layouts"
+msgstr ""
+
+#: includes/theme-options.php:356
+msgid "Priority Support"
+msgstr ""
+
+#: includes/theme-options.php:357
+msgid "Get priority helpdesk support by upgrading to %1$s Pro."
+msgstr ""
+
+#: includes/theme-options.php:374
+msgid "Footer Copyright &amp; Branding"
+msgstr ""
+
+#: includes/theme-options.php:375
+msgid "Adjust footer copyright &amp branding messages in the Customizer."
+msgstr ""
+
+#: includes/theme-options.php:392
+msgid "Custom Scripts and Styles"
+msgstr ""
+
+#: includes/theme-options.php:393
+msgid "Add custom scripts and custom CSS styles to your site."
+msgstr ""
+
+#: includes/theme-options.php:409
+msgid "Upgrade to %1$s Pro!"
+msgstr ""
+
+#: includes/theme-options.php:424
+msgid "Brought to you by <a href=\"%1$s\" target=\"_blank\">Slocum Themes</a>"
+msgstr ""
+
+#: includes/widget-social-media.php:20
+msgid "Display social media icons linking to your networks specified in Theme Options."
+msgstr ""
+
+#: includes/widget-social-media.php:21
+msgid "Social Media Widget"
+msgstr ""
+
+#: includes/widget-social-media.php:31
+msgid "Title:"
+msgstr ""
+
+#: loop-archive.php:29 loop-home.php:26 loop-search.php:28 loop-single.php:14
+#: loop.php:19
+msgid "Posted on %1$s by %2$s - %3$s"
+msgstr ""
+
+#: loop-attachment-image.php:73 loop-single.php:22 loop.php:37
+msgid "Edit Post"
+msgstr ""
+
+#: loop-page-full-width.php:19 loop-page.php:19
+msgid "Edit Page"
+msgstr ""
+
+#: loop-search.php:5
+msgid "Search results for \"%s\""
+msgstr ""
+
+#: loop-search.php:53
+msgid "No results for \"%s\""
+msgstr ""
+
+#: loop-search.php:60
+msgid "Would you like to search again?"
+msgstr ""
+
+#: post-author.php:15
+msgid "View more posts from this author"
+msgstr ""
+
+#: searchform.php:3
+msgid "Search..."
+msgstr ""
+
+#: searchform.php:4
+msgid "Search"
+msgstr ""
+
+#: sidebar-primary-nav.php:4
+msgid "Toggle Navigation"
+msgstr ""
+
+#: sidebar-primary-nav.php:16 theme/class-symphony-customizer-fonts.php:106
+#: theme/class-symphony-customizer.php:985
+#: theme/class-symphony-customizer.php:1463
+#: theme/class-symphony-customizer.php:1784
+msgid "Navigation"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:72
+msgid "Selecting multiple <a href=\"%1$s\" target=\"_blank\">Google Web Fonts</a> may impact the speed/performance of your website."
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:82
+#: theme/class-symphony-customizer-fonts.php:90
+msgid "Typography"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:98
+msgid "Site Title &amp; Tagline"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:114
+msgid "Headings &amp; Body (Content)"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:150
+msgid "Site Title Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:162
+#: theme/class-symphony-customizer-fonts.php:746
+#: theme/class-symphony-customizer-fonts.php:818
+#: theme/class-symphony-customizer.php:271
+msgctxt "title attribute for this Customizer control"
+msgid "pixels"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:190
+msgid "Site Title Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:223
+msgid "Tagline Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:260
+msgid "Tagline Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:294
+msgid "Navigation Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:331
+msgid "Navigation Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:382
+#: theme/class-symphony-customizer-fonts.php:557
+msgid "%1$s Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:418
+#: theme/class-symphony-customizer-fonts.php:592
+msgid "%1$s Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:458
+msgid "Heading Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:494
+msgid "Heading Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:516
+msgid "Heading 1"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:517
+msgid "Heading 2"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:518
+msgid "Heading 3"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:519
+msgid "Heading 4"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:520
+msgid "Heading 5"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:521
+msgid "Heading 6"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:627
+#: theme/class-symphony-customizer.php:1075
+#: theme/class-symphony-customizer.php:1553
+msgid "Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:664
+msgid "Line Height"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:701
+#: theme/class-symphony-customizer.php:1083
+#: theme/class-symphony-customizer.php:1561
+#: theme/class-symphony-customizer.php:1876
+#: theme/class-symphony-customizer.php:1884
+msgid "Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:734
+msgid "Widget Title Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:774
+msgid "Widget Title Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:806
+msgid "Widget Font Size"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:846
+msgid "Widget Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer-fonts.php:1637
+#: theme/class-symphony-customizer-fonts.php:1645
+#: theme/class-symphony-customizer-fonts.php:1668
+msgid "Choose a Font Family"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:167
+msgid "General Settings"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:199
+msgid "Site Layout"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:221
+msgid "Fixed Width"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:222
+msgid "When set to \"Yes\", the left and right side of the site will be bordered by a background. The color or image of the background can be set separately from the main body of the site. <br /><br /> When set to \"No\", the content of the body will extend to the side of the page. This is recommended for heavily mobile sites. <br /><br /> To customize these backgrounds, go to \"Background Colors & Images\"."
+msgstr ""
+
+#: theme/class-symphony-customizer.php:257
+msgid "Maximum Width"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:283
+msgid "Featured Images"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:307
+msgid "Featured Image Size"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:308
+msgid "Adjust the size of featured images on single posts and pages."
+msgstr ""
+
+#: theme/class-symphony-customizer.php:335
+msgid "Blog/Archive Featured Image Alignment"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:341
+#: theme/class-symphony-customizer.php:716
+#: theme/class-symphony-customizer.php:881
+#: theme/class-symphony-customizer.php:1244
+#: theme/class-symphony-customizer.php:1684
+#: theme/class-symphony-customizer.php:2045
+#: theme/class-symphony-customizer.php:2696
+msgid "Left"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:342
+#: theme/class-symphony-customizer.php:717
+#: theme/class-symphony-customizer.php:882
+#: theme/class-symphony-customizer.php:1245
+#: theme/class-symphony-customizer.php:1685
+#: theme/class-symphony-customizer.php:2046
+#: theme/class-symphony-customizer.php:2697
+msgid "Center"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:343
+#: theme/class-symphony-customizer.php:718
+#: theme/class-symphony-customizer.php:883
+#: theme/class-symphony-customizer.php:1246
+#: theme/class-symphony-customizer.php:1686
+#: theme/class-symphony-customizer.php:2047
+#: theme/class-symphony-customizer.php:2698
+msgid "Right"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:355
+msgid "Show or Hide Elements"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:411
+msgid "Archive Titles"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:443
+msgid "Post Meta"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:475
+msgid "Author Meta"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:493
+msgid "Symphony: Jetpack Portfolio"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:514
+msgid "Portfolio Post Type:"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:515
+msgid "Symphony has built-in support for the <a href=\"%1$s\" target=\"_blank\">Jetpack Portfolio Custom Post Type</a>. If you choose not to use Jetpack, you can select your \"Portfolio\" post type. Portfolio posts will inherit select styling on the front-end display of your website."
+msgstr ""
+
+#: theme/class-symphony-customizer.php:534
+msgid "Background Colors &amp; Images"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:535
+msgid "Adjust the background color and image on both fluid and fixed width site layouts (General Settings &gt; Site Layout)."
+msgstr ""
+
+#: theme/class-symphony-customizer.php:544
+#: theme/class-symphony-customizer.php:2337
+msgid "Body"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:597
+#: theme/class-symphony-customizer.php:763
+#: theme/class-symphony-customizer.php:2094
+#: theme/class-symphony-customizer.php:2165
+msgid "Content"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:622
+#: theme/class-symphony-customizer.php:787
+msgid "Content Background Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:649
+#: theme/class-symphony-customizer.php:814
+msgid "Content Background Image"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:676
+#: theme/class-symphony-customizer.php:841
+msgid "Content Background Repeat"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:682
+#: theme/class-symphony-customizer.php:847
+#: theme/class-symphony-customizer.php:1211
+#: theme/class-symphony-customizer.php:1651
+#: theme/class-symphony-customizer.php:2012
+#: theme/class-symphony-customizer.php:2663
+msgid "No Repeat"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:683
+#: theme/class-symphony-customizer.php:848
+#: theme/class-symphony-customizer.php:1212
+#: theme/class-symphony-customizer.php:1652
+#: theme/class-symphony-customizer.php:2013
+#: theme/class-symphony-customizer.php:2664
+msgid "Tile"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:684
+#: theme/class-symphony-customizer.php:849
+#: theme/class-symphony-customizer.php:1213
+#: theme/class-symphony-customizer.php:1653
+#: theme/class-symphony-customizer.php:2014
+#: theme/class-symphony-customizer.php:2665
+msgid "Tile Horizontally"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:685
+#: theme/class-symphony-customizer.php:850
+#: theme/class-symphony-customizer.php:1214
+#: theme/class-symphony-customizer.php:1654
+#: theme/class-symphony-customizer.php:2015
+#: theme/class-symphony-customizer.php:2666
+msgid "Tile Vertically"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:710
+#: theme/class-symphony-customizer.php:875
+msgid "Content Background Position"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:743
+#: theme/class-symphony-customizer.php:908
+msgid "Content Background Attachment"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:749
+#: theme/class-symphony-customizer.php:914
+#: theme/class-symphony-customizer.php:1276
+#: theme/class-symphony-customizer.php:1716
+#: theme/class-symphony-customizer.php:2077
+#: theme/class-symphony-customizer.php:2728
+msgid "Scroll"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:750
+#: theme/class-symphony-customizer.php:915
+#: theme/class-symphony-customizer.php:1277
+#: theme/class-symphony-customizer.php:1717
+#: theme/class-symphony-customizer.php:2078
+#: theme/class-symphony-customizer.php:2729
+msgid "Fixed"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:933
+msgid "Top Header"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:934
+msgid "This section is displayed on the front-end when a \"Top Navigation\" menu is set under Appearance &gt; Menus or a widget is placed in the \"Top Sidebar\" under Appearance &gt; Widgets."
+msgstr ""
+
+#: theme/class-symphony-customizer.php:942
+#: theme/class-symphony-customizer.php:964
+#: theme/class-symphony-customizer.php:1302
+#: theme/class-symphony-customizer.php:1324
+#: theme/class-symphony-customizer.php:1741
+#: theme/class-symphony-customizer.php:1763
+msgid "Alignment"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:970
+#: theme/class-symphony-customizer.php:1330
+#: theme/class-symphony-customizer.php:1769
+msgid "&mdash; Select &mdash;"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:971
+#: theme/class-symphony-customizer.php:1331
+#: theme/class-symphony-customizer.php:1770
+msgid "Traditional"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:972
+#: theme/class-symphony-customizer.php:1332
+#: theme/class-symphony-customizer.php:1771
+msgid "Centered"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:973
+#: theme/class-symphony-customizer.php:1333
+#: theme/class-symphony-customizer.php:1772
+msgid "Flipped"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1008
+#: theme/class-symphony-customizer.php:1486
+msgid "Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1035
+#: theme/class-symphony-customizer.php:1513
+#: theme/class-symphony-customizer.php:1836
+msgid "Sub Menu Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1062
+#: theme/class-symphony-customizer.php:1540
+#: theme/class-symphony-customizer.php:1863
+msgid "Sub Menu Background Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1130
+#: theme/class-symphony-customizer.php:1570
+#: theme/class-symphony-customizer.php:1931
+#: theme/class-symphony-customizer.php:2582
+msgid "Background"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1153
+#: theme/class-symphony-customizer.php:1593
+#: theme/class-symphony-customizer.php:1954
+#: theme/class-symphony-customizer.php:2605
+msgid "Background Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1179
+#: theme/class-symphony-customizer.php:1619
+#: theme/class-symphony-customizer.php:1980
+#: theme/class-symphony-customizer.php:2631
+msgid "Background Image"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1205
+#: theme/class-symphony-customizer.php:2006
+msgid "Background Repeat"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1238
+#: theme/class-symphony-customizer.php:2039
+msgid "Background Position"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1270
+#: theme/class-symphony-customizer.php:2071
+msgid "Background Attachment"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1294
+msgid "Main Header"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1334
+msgid "Navigation Below"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1346
+msgid "Site Title"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1384
+msgid "Site Title Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1435
+msgid "Tagline Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1645
+msgid "Header Background Repeat"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1678
+msgid "Header Background Position"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1710
+msgid "Header Background Attachment"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1733
+msgid "Secondary Header"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1785
+msgid "This section is displayed on the front-end when a \"Secondary Navigation\" menu is set under Appearance &gt; Menus or a widget is placed in the \"Secondary Sidebar\" under Appearance &gt; Widgets."
+msgstr ""
+
+#: theme/class-symphony-customizer.php:1809
+msgid "Secondary Theme Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2102
+#: theme/class-symphony-customizer.php:2414
+#: theme/class-symphony-customizer.php:2518
+msgid "Colors"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2125
+msgid "Archive Title"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2152
+msgid "Post Title"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2187
+#: theme/class-symphony-customizer.php:2568
+msgid "Link"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2214
+msgid "Button Text"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2241
+msgid "Button Background"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2255
+msgid "Headings"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2365
+msgid "More Link"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2387
+msgid "Button Label"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2406
+msgid "Widget Design"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2437
+msgid "Widget Title Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2464
+#: theme/class-symphony-customizer.php:2541
+msgid "Text Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2491
+msgid "Link Color"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2657
+msgid "Footer Background Repeat"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2690
+msgid "Footer Background Position"
+msgstr ""
+
+#: theme/class-symphony-customizer.php:2722
+msgid "Footer Background Attachment"
+msgstr ""
+
+#: theme/class-symphony.php:125
+msgid "Secondary Navigation"
+msgstr ""
+
+#: theme/class-symphony.php:384
+msgid "<div class=\"updated\"><p>Welcome to Symphony! Get started by visiting the <a href=\"%1$s\">Customizer</a>!</p></div>"
+msgstr ""
+
+#: theme/class-symphony.php:400
+msgid "Top Sidebar"
+msgstr ""
+
+#: theme/class-symphony.php:403
+msgid "This widget area is the top widget area. It is displayed if a menu (Appearance &gt; Menus) is not chosen for the Top Navigation menu."
+msgstr ""
+
+#: theme/class-symphony.php:416
+msgid "Primary Navigation Sidebar"
+msgstr ""
+
+#: theme/class-symphony.php:419
+msgid "This widget area is the primary navigation widget area. It is displayed if a menu (Appearance &gt; Menus) is not chosen for the Primary Navigation menu."
+msgstr ""
+
+#: theme/class-symphony.php:432
+msgid "Secondary Header Sidebar"
+msgstr ""
+
+#: theme/class-symphony.php:435
+msgid "*This widget area is only shown if a \"Secondary Navigation\" menu is not set in Appearance > Menus.* This widget area is the secondary widget area. Specifically formatted for \"Custom Menu\" widgets (for use as a secondary navigation area across all pages)."
+msgstr ""
+
+#: theme/class-symphony.php:465
+msgid "Layout Settings"
+msgstr ""
+
+#: theme/class-symphony.php:480
+msgid "Post"
+msgstr ""
+
+#: theme/class-symphony.php:484
+msgid "Looking to configure a unique layout for this %1$s? %2$s."
+msgstr ""
+#. Theme Name of the plugin/theme
+msgid "Symphony"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "https://slocumthemes.com/wordpress-themes/symphony-free/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A clean and simple WordPress starter theme. Use the Customizer to control the layout, fonts, background colors, widget areas and more. Build any website you can imagine with this easy to use theme. Support for WooCommerce, bbPress, Yoast, Gravity forms and more. Use Symphony and Conductor Plugin to build WordPress websites without code. Now supports live front-end text widget editing via Note. More info - http://wordpress.org/plugins/note/."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Slocum Studio"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://slocumthemes.com/"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Full Width"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Landing Page"
+msgstr ""

@@ -873,6 +873,7 @@ final class Symphony_Customizer_Fonts {
 				$selector = sanitize_title( $font_family );
 
 				$css = '.symphony-select2-result.' . $selector .' .select2-result-label {' . "\n";
+					$css .= ' max-height: 26px;';
 					$css .= ' background-image: url(';
 					$background_image = apply_filters( 'symphony_customize_select2_google_font_background_image', get_template_directory_uri() . '/customizer/images/' . $selector . '.png' );
 					$background_images[] = $background_image; // Store the background image reference for pre-load
@@ -889,6 +890,9 @@ final class Symphony_Customizer_Fonts {
 				$selector = sanitize_title( $font_family );
 
 				$css = '.symphony-select2-result.' . $selector .' .select2-result-label {' . "\n";
+				$css .= ' width: 100%;';
+				$css .= ' max-height: 26px;';
+				$css .= ' padding-left: 2px;';
 				$css .= ' font-family: \'' . $font_family .'\';' . "\n";
 				$css .= '}' . "\n";
 
